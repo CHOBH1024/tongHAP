@@ -3,118 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MIRROR LINKS | 모바일 진단 센터</title>
+    <title>MIRROR INSIGHT | 스마트 진단 센터</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; color: #0f172a; }
-        .link-card { transition: all 0.2s ease; border-left: 4px solid transparent; }
-        .link-card:active { transform: scale(0.98); background-color: #f1f5f9; }
-        .gradient-bg { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); }
+        body { font-family: 'Pretendard', sans-serif; background-color: #020617; color: white; }
+        .glass-card { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; }
+        .glass-card:hover { border-color: rgba(99, 102, 241, 0.4); transform: translateY(-5px); }
+        .mirror-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+        .modal { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); transition: opacity 0.3s ease; }
+        .gradient-text { background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen pb-20">
+<body class="p-6 pb-24">
 
-    <!-- Mobile Header -->
-    <header class="gradient-bg pt-12 pb-8 px-6 text-white rounded-b-[2.5rem] shadow-xl mb-8">
-        <h1 class="text-2xl font-black tracking-tighter mb-2">MIRROR <span class="opacity-70">LINKS</span></h1>
-        <p class="text-indigo-100 text-sm font-medium">전국 공직자/목회자 상시 진단 센터</p>
+    <!-- Header -->
+    <header class="mb-10 text-center">
+        <h1 class="text-3xl font-black tracking-tighter mb-2">MIRROR <span class="gradient-text">INSIGHT</span></h1>
+        <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Smart Assessment Portal</p>
     </header>
 
-    <div class="px-6 space-y-4">
-        <!-- Special Tab -->
-        <div class="mb-8">
-            <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Special Assessment</h2>
-            <a href="ministry_test.html" class="link-card bg-white p-5 rounded-3xl shadow-sm border-l-indigo-600 flex items-center justify-between group">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600">
-                        <i data-lucide="award" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-slate-800">목회자 공직자 유형 검사</h3>
-                        <p class="text-[10px] text-slate-500">핵심 리더십 및 스타일 분석</p>
-                    </div>
+    <!-- Special Highlight -->
+    <div class="mb-10">
+        <h2 class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4 ml-2">Special Assessment</h2>
+        <a href="ministry_test.html" class="glass-card p-6 rounded-[2.5rem] flex items-center justify-between group overflow-hidden relative">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
+            <div class="flex items-center gap-5">
+                <div class="w-14 h-14 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-900/40">
+                    <i data-lucide="award" class="w-7 h-7"></i>
                 </div>
-                <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300"></i>
-            </a>
+                <div>
+                    <h3 class="text-lg font-black">목회자 공직자 유형 검사</h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Ministry Leadership Type</p>
+                </div>
+            </div>
+            <i data-lucide="arrow-right" class="w-5 h-5 text-slate-600 group-hover:text-white group-hover:translate-x-2 transition-all"></i>
+        </a>
+    </div>
+
+    <!-- 8 Mirror Grid -->
+    <h2 class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4 ml-2">8 Mirror Modules</h2>
+    <div class="mirror-grid mb-12">
+        <div onclick="openModal('I')" class="glass-card p-5 rounded-[2rem] text-center cursor-pointer group">
+            <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-400 mx-auto mb-4 group-hover:bg-blue-500 group-hover:text-white transition-all">
+                <span class="font-black text-lg">I</span>
+            </div>
+            <h3 class="text-xs font-black leading-tight">소명 및 가치</h3>
         </div>
-
-        <!-- Mirror Insight Links -->
-        <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Mirror Insight Modules</h2>
-        
-        <div class="space-y-3">
-            <a href="mirror_engine.html?type=I" class="link-card bg-white p-5 rounded-2xl shadow-sm border-l-blue-500 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500 font-black text-xs">I</div>
-                    <span class="font-bold text-sm">소명 및 내면 가치 진단</span>
-                </div>
-                <i data-lucide="external-link" class="w-4 h-4 text-slate-300"></i>
-            </a>
-
-            <a href="mirror_engine.html?type=L" class="link-card bg-white p-5 rounded-2xl shadow-sm border-l-amber-500 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center text-amber-500 font-black text-xs">L</div>
-                    <span class="font-bold text-sm">리더십 및 강연/설교 진단</span>
-                </div>
-                <i data-lucide="external-link" class="w-4 h-4 text-slate-300"></i>
-            </a>
-
-            <a href="mirror_engine.html?type=A" class="link-card bg-white p-5 rounded-2xl shadow-sm border-l-teal-500 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 bg-teal-50 rounded-xl flex items-center justify-center text-teal-500 font-black text-xs">A</div>
-                    <span class="font-bold text-sm">진정성 및 자기 일치도 진단</span>
-                </div>
-                <i data-lucide="external-link" class="w-4 h-4 text-slate-300"></i>
-            </a>
-
-            <a href="mirror_engine.html?type=S" class="link-card bg-white p-5 rounded-2xl shadow-sm border-l-rose-500 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center text-rose-500 font-black text-xs">S</div>
-                    <span class="font-bold text-sm">사회적 감수성 진단</span>
-                </div>
-                <i data-lucide="external-link" class="w-4 h-4 text-slate-300"></i>
-            </a>
-
-            <a href="mirror_engine.html?type=G" class="link-card bg-white p-5 rounded-2xl shadow-sm border-l-violet-500 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 bg-violet-50 rounded-xl flex items-center justify-center text-violet-500 font-black text-xs">G</div>
-                    <span class="font-bold text-sm">세대 공감 및 소통 진단</span>
-                </div>
-                <i data-lucide="external-link" class="w-4 h-4 text-slate-300"></i>
-            </a>
-
-            <a href="mirror_engine.html?type=C" class="link-card bg-white p-5 rounded-2xl shadow-sm border-l-indigo-500 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-500 font-black text-xs">C</div>
-                    <span class="font-bold text-sm">상담자/전문가 역량 진단</span>
-                </div>
-                <i data-lucide="external-link" class="w-4 h-4 text-slate-300"></i>
-            </a>
-
-            <a href="mirror_engine.html?type=P" class="link-card bg-white p-5 rounded-2xl shadow-sm border-l-orange-500 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center text-orange-500 font-black text-xs">P</div>
-                    <span class="font-bold text-sm">개인 역량 및 매력도 진단</span>
-                </div>
-                <i data-lucide="external-link" class="w-4 h-4 text-slate-300"></i>
-            </a>
-
-            <a href="mirror_engine.html?type=V" class="link-card bg-white p-5 rounded-2xl shadow-sm border-l-emerald-500 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-500 font-black text-xs">V</div>
-                    <span class="font-bold text-sm">취향 및 라이프스타일 진단</span>
-                </div>
-                <i data-lucide="external-link" class="w-4 h-4 text-slate-300"></i>
-            </a>
+        <div onclick="openModal('L')" class="glass-card p-5 rounded-[2rem] text-center cursor-pointer group">
+            <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-400 mx-auto mb-4 group-hover:bg-amber-500 group-hover:text-white transition-all">
+                <span class="font-black text-lg">L</span>
+            </div>
+            <h3 class="text-xs font-black leading-tight">리더십 및 강연</h3>
+        </div>
+        <div onclick="openModal('A')" class="glass-card p-5 rounded-[2rem] text-center cursor-pointer group">
+            <div class="w-12 h-12 bg-teal-500/10 rounded-xl flex items-center justify-center text-teal-400 mx-auto mb-4 group-hover:bg-teal-500 group-hover:text-white transition-all">
+                <span class="font-black text-lg">A</span>
+            </div>
+            <h3 class="text-xs font-black leading-tight">진정성 및 일치</h3>
+        </div>
+        <div onclick="openModal('S')" class="glass-card p-5 rounded-[2rem] text-center cursor-pointer group">
+            <div class="w-12 h-12 bg-rose-500/10 rounded-xl flex items-center justify-center text-rose-400 mx-auto mb-4 group-hover:bg-rose-500 group-hover:text-white transition-all">
+                <span class="font-black text-lg">S</span>
+            </div>
+            <h3 class="text-xs font-black leading-tight">사회적 감수성</h3>
+        </div>
+        <div onclick="openModal('G')" class="glass-card p-5 rounded-[2rem] text-center cursor-pointer group">
+            <div class="w-12 h-12 bg-violet-500/10 rounded-xl flex items-center justify-center text-violet-400 mx-auto mb-4 group-hover:bg-violet-500 group-hover:text-white transition-all">
+                <span class="font-black text-lg">G</span>
+            </div>
+            <h3 class="text-xs font-black leading-tight">세대 공감</h3>
+        </div>
+        <div onclick="openModal('C')" class="glass-card p-5 rounded-[2rem] text-center cursor-pointer group">
+            <div class="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-400 mx-auto mb-4 group-hover:bg-indigo-500 group-hover:text-white transition-all">
+                <span class="font-black text-lg">C</span>
+            </div>
+            <h3 class="text-xs font-black leading-tight">상담 역량</h3>
+        </div>
+        <div onclick="openModal('P')" class="glass-card p-5 rounded-[2rem] text-center cursor-pointer group">
+            <div class="w-12 h-12 bg-orange-500/10 rounded-xl flex items-center justify-center text-orange-400 mx-auto mb-4 group-hover:bg-orange-500 group-hover:text-white transition-all">
+                <span class="font-black text-lg">P</span>
+            </div>
+            <h3 class="text-xs font-black leading-tight">개인 매력도</h3>
+        </div>
+        <div onclick="openModal('V')" class="glass-card p-5 rounded-[2rem] text-center cursor-pointer group">
+            <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center text-emerald-400 mx-auto mb-4 group-hover:bg-emerald-500 group-hover:text-white transition-all">
+                <span class="font-black text-lg">V</span>
+            </div>
+            <h3 class="text-xs font-black leading-tight">라이프스타일</h3>
         </div>
     </div>
 
     <!-- Footer -->
-    <div class="fixed bottom-0 w-full bg-white/80 backdrop-blur-md py-4 text-center text-[9px] font-black text-slate-400 uppercase tracking-widest border-t border-slate-100">
-        신한국 총무국 전략 시스템 v6.2
+    <footer class="text-center opacity-30 mt-20">
+        <p class="text-[9px] font-black uppercase tracking-[0.3em]">Strategic Admin Core v6.2</p>
+    </footer>
+
+    <!-- Info Modal -->
+    <div id="infoModal" class="modal fixed inset-0 z-[100] hidden flex flex-col items-center justify-center p-8 opacity-0">
+        <div class="w-full max-w-md glass-card p-10 rounded-[3.5rem] relative">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-500 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <div id="modalIcon" class="w-16 h-16 rounded-2xl flex items-center justify-center mb-8 text-2xl font-black">?</div>
+            <h3 id="modalTitle" class="text-2xl font-black mb-2">Module Title</h3>
+            <p id="modalSub" class="text-slate-400 text-sm mb-8">Sub-description</p>
+            
+            <div class="space-y-4 mb-10">
+                <h4 class="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Key Diagnostic Insights</h4>
+                <ul id="modalBenefits" class="text-sm text-slate-300 space-y-3">
+                    <!-- Benefits injected -->
+                </ul>
+            </div>
+
+            <a id="modalLink" href="#" class="block w-full py-5 bg-white text-slate-900 text-center font-black rounded-2xl hover:bg-slate-200 transition-all shadow-xl">진단 시작하기</a>
+        </div>
     </div>
 
-    <script>lucide.createIcons();</script>
+    <script>
+        lucide.createIcons();
+        const data = {
+            'I': { 
+                title: 'I-Mirror (Vocation)', 
+                sub: '소명 및 내면 가치 진단', 
+                color: '#3b82f6',
+                benefits: [
+                    '내면의 핵심 소명 및 정체성 확인',
+                    '개인적 가치와 조직 목표의 일치도 점검',
+                    '직무 몰입도 향상 포인트 발견',
+                    '영적 정체성 확립 및 확신 강화',
+                    '장기적 커리어 비전 설정 지원'
+                ]
+            },
+            'L': { 
+                title: 'L-Mirror (Leadership)', 
+                sub: '리더십 및 강연/설교 진단', 
+                color: '#f59e0b',
+                benefits: [
+                    '현재 리더십의 영향력 온도 측정',
+                    '상황별 소통 스타일의 장단점 분석',
+                    '대중 연설(설교) 전달력 객관화',
+                    '팀원 동기부여 및 임파워먼트 역량 점검',
+                    '위기 상황에서의 리더십 발휘도 확인'
+                ]
+            },
+            'A': { 
+                title: 'A-Mirror (Authenticity)', 
+                sub: '진정성 및 자기 일치도 진단', 
+                color: '#14b8a6',
+                benefits: [
+                    '공적 자아와 사적 자아의 일치도 측정',
+                    '위선적 요소의 자기 발견 및 정화',
+                    '정서적 정직성 및 취약성 수용력 점검',
+                    '타인에게 비치는 진정성 지수 확인',
+                    '심리적 안전감 확보 및 자존감 향상'
+                ]
+            },
+            'S': { 
+                title: 'S-Mirror (Social)', 
+                sub: '사회적 감수성 진단', 
+                color: '#f43f5e',
+                benefits: [
+                    '현대 사회 가치관 변화에 대한 적응도',
+                    '인권, 성평등, 공정성에 대한 인식 수준',
+                    '사회적 약자에 대한 공감 및 실천 지수',
+                    '조직 내 윤리적 의사결정 능력 점검',
+                    '세상을 향한 선한 영향력 지표 확인'
+                ]
+            },
+            'G': { 
+                title: 'G-Mirror (Generation)', 
+                sub: '세대 공감 및 소통 진단', 
+                color: '#8b5cf6',
+                benefits: [
+                    'MZ세대 등 타 세대와의 소통 역량 진단',
+                    '무의식적 꼰대 지수(경계 침범) 점검',
+                    '세대 간 갈등 중재 및 화합 능력 확인',
+                    '유연하고 개방적인 조직 문화 형성 기여도',
+                    '소통의 기술적 보완점 및 피드백 제공'
+                ]
+            },
+            'C': { 
+                title: 'C-Mirror (Counseling)', 
+                sub: '상담자/전문가 역량 진단', 
+                color: '#6366f1',
+                benefits: [
+                    '경청의 깊이와 공감적 반응 능력 측정',
+                    '위기에 처한 대상자 심리 케어 역량 점검',
+                    '상담자로서의 정서적 소진(번아웃) 체크',
+                    '전문적 조언과 감정적 지지의 균형 점검',
+                    '타인의 성장을 도모하는 조력자 지표 확인'
+                ]
+            },
+            'P': { 
+                title: 'P-Mirror (Personal)', 
+                sub: '개인 역량 및 매력도 진단', 
+                color: '#f97316',
+                benefits: [
+                    '업무 실행력과 마감 엄수도 정밀 분석',
+                    '대인 관계에서의 매력도와 호감 지수 측정',
+                    '문제 해결을 위한 지능적 일머리 분석',
+                    '타인 설득 및 협상 능력 점검',
+                    '자기 관리 능력 및 성장 잠재력 확인'
+                ]
+            },
+            'V': { 
+                title: 'V-Mirror (Lifestyle)', 
+                sub: '취향 및 라이프스타일 진단', 
+                color: '#10b981',
+                benefits: [
+                    '일과 삶의 균형(워라밸) 상태 진단',
+                    '스트레스 해소를 위한 진짜 취향 발견',
+                    '영혼의 에너지를 채우는 활동 확인',
+                    '라이프스타일의 생산성과 질적 수준 점검',
+                    '일상의 행복 지수 및 활력 에너지 측정'
+                ]
+            }
+        };
+
+        function openModal(type) {
+            const m = data[type];
+            document.getElementById('modalTitle').innerText = m.title;
+            document.getElementById('modalSub').innerText = m.sub;
+            document.getElementById('modalIcon').innerText = type;
+            document.getElementById('modalIcon').style.backgroundColor = m.color + '22';
+            document.getElementById('modalIcon').style.color = m.color;
+            document.getElementById('modalLink').href = 'mirror_engine.html?type=' + type;
+            
+            const benefitsList = document.getElementById('modalBenefits');
+            benefitsList.innerHTML = m.benefits.map(b => `<li><i data-lucide="check-circle-2" class="w-4 h-4 inline mr-2 text-indigo-400"></i>${b}</li>`).join('');
+            
+            const modal = document.getElementById('infoModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.add('opacity-100'), 10);
+            lucide.createIcons();
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('infoModal');
+            modal.classList.remove('opacity-100');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+    </script>
 </body>
 </html>
