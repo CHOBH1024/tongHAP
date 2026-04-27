@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Pretendard', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
@@ -76,6 +77,11 @@
                         </p>
                     </div>
                     <div class="p-6 bg-white/5 rounded-3xl border border-white/5">
+                        <h4 class="text-[10px] font-black uppercase text-rose-400 tracking-widest mb-3">Consistency Analysis (일관성 분석)</h4>
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="text-3xl font-black text-rose-500" id="consistency-score">--%</div>
+                            <p id="consistency-msg" class="text-[11px] text-slate-400 leading-tight">분석 중...</p>
+                        </div>
                         <h4 class="text-[10px] font-black uppercase text-indigo-400 tracking-widest mb-3">AI Recommendations</h4>
                         <ul class="text-xs text-slate-300 space-y-2">
                             <li>• 정기적인 팀원 1:1 면담을 통한 소통 강화</li>
@@ -86,9 +92,10 @@
                 </div>
             </div>
             
-            <div class="mt-12 pt-12 border-t border-white/5 flex justify-center gap-4">
-                <button onclick="location.reload()" class="px-8 py-4 bg-white/5 hover:bg-white/10 rounded-2xl text-xs font-bold transition-all">다시 검사하기</button>
-                <button onclick="window.location.href='mirror_insight_portal.html'" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-500 rounded-2xl text-xs font-black transition-all">포털로 돌아가기</button>
+            <div class="mt-12 pt-12 border-t border-white/5 flex flex-wrap justify-center gap-4">
+                <button onclick="restart()" class="px-8 py-4 bg-white/5 hover:bg-white/10 rounded-2xl text-xs font-bold transition-all">다시 검사하기</button>
+                <button onclick="downloadPDF()" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-500 rounded-2xl text-xs font-black transition-all shadow-xl shadow-indigo-900/20">PDF 결과서 다운로드</button>
+                <button onclick="window.location.href='mirror_insight_portal.html'" class="px-8 py-4 bg-slate-800 hover:bg-slate-700 rounded-2xl text-xs font-bold transition-all">포털로 돌아가기</button>
             </div>
         </div>
     </div>
@@ -145,8 +152,7 @@
             }
         }
 
-        let currentIdx = 0;
-        let answers = new Array(questions.length).fill(null);
+        let isLocked = false;
 
         function renderQuestion() {
             document.getElementById('question-text').innerText = questions[currentIdx];
@@ -173,11 +179,26 @@
             document.getElementById('next-btn').style.opacity = answers[currentIdx] !== null ? '1' : '0';
             document.getElementById('next-btn').style.pointerEvents = answers[currentIdx] !== null ? 'auto' : 'none';
             document.getElementById('next-btn').innerText = currentIdx === questions.length - 1 ? '결과 보기' : '다음 질문';
+            
+            isLocked = false;
         }
 
         function selectOption(val) {
+            if (isLocked) return;
+            isLocked = true;
+
             answers[currentIdx] = val;
             renderQuestion();
+
+            // Auto-next after 1s delay to prevent misclicks
+            setTimeout(() => {
+                if (currentIdx < questions.length - 1) {
+                    currentIdx++;
+                    renderQuestion();
+                } else {
+                    showResults();
+                }
+            }, 1000);
         }
 
         function nextQuestion() {
@@ -200,6 +221,18 @@
             document.getElementById('survey-container').classList.add('hidden');
             document.getElementById('result-container').classList.remove('hidden');
             
+            // Consistency Check
+            let variance = 0;
+            const avg = answers.reduce((a, b) => a + b, 0) / answers.length;
+            answers.forEach(v => variance += Math.abs(v - avg));
+            const consistency = Math.max(0, 100 - (variance / answers.length * 25));
+            
+            document.getElementById('consistency-score').innerText = Math.round(consistency) + '%';
+            let msg = "매우 일관된 답변입니다.";
+            if (consistency < 75) msg = "일부 상충되는 답변이 있으나 정상 범위입니다.";
+            if (consistency < 55) msg = "답변의 모순이 발견되었습니다. 좀 더 객관적인 자가 진단이 필요합니다.";
+            document.getElementById('consistency-msg').innerText = msg;
+
             // Random result data for demo
             const labels = ['전략성', '공감능력', '성실성', '창의성', '리더십'];
             const data = labels.map(() => 60 + Math.random() * 40);
@@ -232,6 +265,22 @@
                     plugins: { legend: { display: false } }
                 }
             });
+        }
+
+        function downloadPDF() {
+            const element = document.getElementById('result-container');
+            const opt = {
+                margin: 10,
+                filename: `Mirror_Insight_${mirrorType}_Report.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, backgroundColor: '#020617' },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        function restart() {
+            location.reload();
         }
 
         renderQuestion();
