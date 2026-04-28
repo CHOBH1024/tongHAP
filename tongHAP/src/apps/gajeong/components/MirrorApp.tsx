@@ -12,10 +12,20 @@ import {
   Heart,
   ShieldCheck,
   ChevronRight,
-  ArrowRight
+  ArrowRight,
+  Download,
+  RotateCcw
 } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  Radar, 
+  RadarChart, 
+  PolarGrid, 
+  PolarAngleAxis, 
+  PolarRadiusAxis, 
+  ResponsiveContainer 
+} from 'recharts';
 
 export interface Question {
   c: number; // category (1-5 for part 1, 6 for part 2)
@@ -119,7 +129,13 @@ export const MirrorApp: React.FC<MirrorAppProps> = ({
     const dilAvg = part2Questions.length > 0 ? dilSum / part2Questions.length : 3;
     const isUnreliable = p1Len > 0 && maxConsecutive >= (p1Len * 0.4);
 
-    return { finalScores, totalAvg, dilAvg, vHits, isUnreliable, maxConsecutive };
+    const chartData = dimensions.map((dim, i) => ({
+      subject: dim,
+      A: finalScores[i],
+      fullMark: 100,
+    }));
+
+    return { finalScores, totalAvg, dilAvg, vHits, isUnreliable, maxConsecutive, chartData };
   };
 
   const downloadReport = async () => {
@@ -132,51 +148,56 @@ export const MirrorApp: React.FC<MirrorAppProps> = ({
   };
 
   const currentQ = activeQuestions[currentIndex];
+  const results = screen === 'results' ? calculateResults() : null;
 
   return (
-    <div className={`transition-all duration-700 ${viewMode === 'mobile' ? 'max-w-[414px] mx-auto border-[12px] border-toss-gray-900 rounded-[48px] h-[840px] overflow-y-auto bg-toss-gray-100 shadow-2xl relative' : 'w-full'}`}>
+    <div className={`transition-all duration-700 ${viewMode === 'mobile' ? 'max-w-[414px] mx-auto border-[12px] border-brand-900 rounded-[48px] h-[840px] overflow-y-auto bg-brand-50 shadow-2xl relative' : 'w-full'}`}>
       
       {/* Device Toggle */}
-      <div className="flex justify-end items-center mb-8 px-2">
-        <div className="flex bg-toss-gray-200 rounded-2xl p-1">
-          <button onClick={() => setViewMode('pc')} className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 ${viewMode === 'pc' ? 'bg-white text-toss-blue shadow-sm' : 'text-toss-gray-500'}`}>
+      <div className="flex justify-end items-center mb-6 px-2 sticky top-4 z-50">
+        <div className="flex bg-white/50 backdrop-blur-md rounded-2xl p-1 shadow-sm border border-white/50">
+          <button onClick={() => setViewMode('pc')} className={`px-4 py-2 rounded-xl text-xs font-black flex items-center gap-2 transition-all ${viewMode === 'pc' ? 'bg-white text-brand-500 shadow-sm' : 'text-slate-400'}`}>
             <Monitor size={14} /> PC
           </button>
-          <button onClick={() => setViewMode('mobile')} className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 ${viewMode === 'mobile' ? 'bg-white text-toss-blue shadow-sm' : 'text-toss-gray-500'}`}>
-            <Smartphone size={14} /> 모바일
+          <button onClick={() => setViewMode('mobile')} className={`px-4 py-2 rounded-xl text-xs font-black flex items-center gap-2 transition-all ${viewMode === 'mobile' ? 'bg-white text-brand-500 shadow-sm' : 'text-slate-400'}`}>
+            <Smartphone size={14} /> MOBILE
           </button>
         </div>
       </div>
 
-      <div className="bg-[#f2f4f6] min-h-full p-2 md:p-4">
+      <div className="bg-[#f2f4f6] min-h-full p-2 md:p-6">
         <AnimatePresence mode="wait">
           {screen === 'intro' && (
             <motion.div key="intro" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-12 py-12 px-6">
               <div className="text-center space-y-4">
-                <div className="w-20 h-20 bg-white rounded-[28px] shadow-sm flex items-center justify-center mx-auto mb-8 text-toss-blue">
-                  {icon}
-                </div>
-                <span className="text-toss-blue font-bold tracking-widest text-xs uppercase">{subtitle}</span>
-                <h1 className="text-4xl font-black tracking-tight text-toss-gray-900 leading-tight">{name} 진단</h1>
-                <p className="text-toss-gray-600 text-lg leading-relaxed whitespace-pre-line max-w-sm mx-auto">{description}</p>
+                <motion.div 
+                  initial={{ scale: 0.8 }}
+                  animate={{ scale: 1 }}
+                  className="w-24 h-24 bg-white rounded-[32px] shadow-premium flex items-center justify-center mx-auto mb-8 text-brand-500"
+                >
+                  {React.cloneElement(icon as React.ReactElement, { size: 40 })}
+                </motion.div>
+                <span className="text-brand-500 font-black tracking-[0.3em] text-xs uppercase">{subtitle}</span>
+                <h1 className="text-4xl md:text-5xl font-black tracking-tight text-brand-900 leading-tight">{name} 진단</h1>
+                <p className="text-slate-500 text-lg leading-relaxed whitespace-pre-line max-w-sm mx-auto font-medium">{description}</p>
               </div>
 
-              <div className="toss-card border-none space-y-6">
-                <h3 className="font-bold flex items-center gap-2 text-toss-gray-800"><BookOpen size={18} /> 진단 포인트</h3>
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-toss-blue-light text-toss-blue flex items-center justify-center shrink-0">1</div>
-                    <p className="text-sm text-toss-gray-600 leading-relaxed font-medium">나의 5대 핵심 역량을 정밀하게 분석합니다.</p>
+              <div className="glass-card space-y-8">
+                <h3 className="font-black flex items-center gap-2 text-brand-900 text-xl"><BookOpen size={24} className="text-brand-500" /> 진단 가이드</h3>
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-brand-50 text-brand-500 flex items-center justify-center shrink-0 font-black">01</div>
+                    <p className="text-sm text-slate-600 leading-relaxed font-bold pt-2">개인의 5대 핵심 역량을 정밀하게 분석하여 가시화합니다.</p>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-toss-blue-light text-toss-blue flex items-center justify-center shrink-0">2</div>
-                    <p className="text-sm text-toss-gray-600 leading-relaxed font-medium">실제 현장에서 마주할 수 있는 20가지 딜레마를 통해 나의 사역 스타일을 발견합니다.</p>
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-brand-50 text-brand-500 flex items-center justify-center shrink-0 font-black">02</div>
+                    <p className="text-sm text-slate-600 leading-relaxed font-bold pt-2">현장 사역의 딜레마 상황을 통해 실제적인 대처 스타일을 파악합니다.</p>
                   </div>
                 </div>
               </div>
 
-              <button onClick={() => setScreen('mode')} className="toss-button-primary w-full py-5 text-xl">
-                시작해볼까요?
+              <button onClick={() => setScreen('mode')} className="premium-btn-primary w-full py-6 text-xl justify-center group">
+                진단 시작하기 <ArrowRight className="group-hover:translate-x-2 transition-transform" />
               </button>
             </motion.div>
           )}
@@ -184,79 +205,68 @@ export const MirrorApp: React.FC<MirrorAppProps> = ({
           {screen === 'mode' && (
             <motion.div key="mode" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-8 py-12 px-6">
               <div className="text-center space-y-2 mb-10">
-                <h2 className="text-3xl font-black tracking-tight">얼마나 깊이 있게<br/>알아볼까요?</h2>
-                <p className="text-toss-gray-500 font-medium">성찰하고 싶은 깊이를 선택해주세요.</p>
+                <h2 className="text-4xl font-black tracking-tight text-brand-900 leading-tight">진단 모드를<br/>선택해주세요</h2>
+                <p className="text-slate-500 font-bold text-lg">성찰하고 싶은 깊이를 결정합니다.</p>
               </div>
 
-              <div className="grid gap-4">
-                <button onClick={() => selectMode(30)} className="toss-card border-none text-left flex items-center justify-between group">
-                  <div className="flex items-center gap-5">
-                    <div className="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                      <Zap size={24} />
+              <div className="grid gap-6">
+                {[
+                  { m: 30, t: "초고속 진단", d: "30문항 · 약 3분", c: "bg-emerald-50", ic: <Zap size={24} className="text-emerald-500" />, p: false },
+                  { m: 70, t: "핵심 역량 진단", d: "70문항 · 약 8분", c: "bg-brand-50", ic: <Check size={24} className="text-brand-500" />, p: false },
+                  { m: 120, t: "심층 정밀 분석", d: "120문항 · 약 15분", c: "bg-brand-500", ic: <Layers size={24} className="text-white" />, p: true }
+                ].map((mode) => (
+                  <button 
+                    key={mode.m} 
+                    onClick={() => selectMode(mode.m as any)} 
+                    className={`glass-card !p-6 text-left flex items-center justify-between group border-none ${mode.p ? '!bg-brand-900 !text-white' : ''}`}
+                  >
+                    <div className="flex items-center gap-6">
+                      <div className={`w-14 h-14 ${mode.c} rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform shadow-sm`}>
+                        {mode.ic}
+                      </div>
+                      <div>
+                        <h3 className={`text-xl font-black ${mode.p ? 'text-white' : 'text-brand-900'}`}>{mode.t}</h3>
+                        <p className={`text-sm font-bold ${mode.p ? 'text-white/60' : 'text-slate-400'}`}>{mode.d}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-toss-gray-800">초고속 진단</h3>
-                      <p className="text-xs text-toss-gray-400 font-medium">30문항 · 약 3분</p>
-                    </div>
-                  </div>
-                  <ChevronRight size={20} className="text-toss-gray-300"/>
-                </button>
-
-                <button onClick={() => selectMode(70)} className="toss-card border-none text-left flex items-center justify-between group">
-                  <div className="flex items-center gap-5">
-                    <div className="w-12 h-12 bg-toss-blue-light text-toss-blue rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                      <Check size={24} />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-toss-gray-800">핵심 진단</h3>
-                      <p className="text-xs text-toss-gray-400 font-medium">70문항 · 약 8분</p>
-                    </div>
-                  </div>
-                  <ChevronRight size={20} className="text-toss-gray-300"/>
-                </button>
-
-                <button onClick={() => selectMode(120)} className="w-full rounded-[24px] p-6 text-left flex items-center justify-between group bg-toss-blue text-white shadow-lg shadow-toss-blue/20 hover:bg-toss-blue/90 transition-all">
-                  <div className="flex items-center gap-5">
-                    <div className="w-12 h-12 bg-white/20 text-white rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                      <Layers size={24} />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold">심층 정밀 분석</h3>
-                      <p className="text-xs text-white/60 font-medium">120문항 · 약 15분</p>
-                    </div>
-                  </div>
-                  <ChevronRight size={20} className="text-white/40"/>
-                </button>
+                    <ChevronRight size={24} className={mode.p ? 'text-white/20' : 'text-slate-300'}/>
+                  </button>
+                ))}
               </div>
             </motion.div>
           )}
 
           {screen === 'survey' && currentQ && (
             <motion.div key="survey" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-12 py-12 px-6 max-w-2xl mx-auto">
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <div className="flex justify-between items-end">
-                  <span className="text-[10px] font-black text-toss-blue uppercase tracking-widest">
+                  <span className="text-[10px] font-black text-brand-500 uppercase tracking-[0.3em] bg-brand-50 px-3 py-1 rounded-full">
                     Part {currentQ.c < 6 ? 1 : 2}
                   </span>
-                  <span className="text-xs font-bold text-toss-gray-400">
-                    {currentIndex + 1} / {activeQuestions.length}
+                  <span className="text-sm font-black text-slate-400">
+                    {currentIndex + 1} <span className="text-xs text-slate-300">/</span> {activeQuestions.length}
                   </span>
                 </div>
-                <div className="h-1.5 w-full bg-toss-gray-200 rounded-full overflow-hidden">
+                <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden shadow-inner">
                   <motion.div 
                     initial={{ width: 0 }}
                     animate={{ width: `${((currentIndex + 1) / activeQuestions.length) * 100}%` }}
-                    className="h-full bg-toss-blue" 
+                    className="h-full bg-gradient-to-r from-brand-500 to-indigo-600 shadow-[0_0_10px_rgba(49,130,246,0.5)]" 
                   />
                 </div>
               </div>
 
               {currentQ.c < 6 ? (
                 <div className="space-y-12 py-8">
-                  <h2 className="text-2xl md:text-3xl font-bold text-toss-gray-900 leading-snug min-h-[3.5em] flex items-center">
+                  <motion.h2 
+                    key={currentIndex}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="text-3xl md:text-4xl font-black text-brand-900 leading-tight min-h-[4em] flex items-center"
+                  >
                     {currentQ.q}
-                  </h2>
-                  <div className="flex flex-col gap-3">
+                  </motion.h2>
+                  <div className="grid gap-3">
                     {[
                       { v: 5, t: "매우 그렇다" },
                       { v: 4, t: "그렇다" },
@@ -267,7 +277,7 @@ export const MirrorApp: React.FC<MirrorAppProps> = ({
                       <button 
                         key={opt.v} 
                         onClick={() => handleAnswer(opt.v)} 
-                        className={`toss-card border-none text-left font-bold transition-all ${answers[currentIndex] === opt.v ? 'bg-toss-blue text-white' : 'hover:bg-toss-gray-50'}`}
+                        className={`glass-card !p-6 text-left font-black text-lg transition-all border-2 ${answers[currentIndex] === opt.v ? 'border-brand-500 bg-brand-50 text-brand-500' : 'border-transparent hover:bg-white hover:shadow-premium'}`}
                       >
                         {opt.t}
                       </button>
@@ -275,26 +285,27 @@ export const MirrorApp: React.FC<MirrorAppProps> = ({
                   </div>
                 </div>
               ) : (
-                <div className="space-y-10 py-8">
-                  <div className="text-center space-y-4">
-                    <h3 className="text-lg font-bold text-toss-blue">딜레마 선택</h3>
-                    <p className="text-sm text-toss-gray-500 leading-relaxed font-medium">두 가지 가치 중 본인과 더 가까운 것을 골라주세요.</p>
+                <div className="space-y-12 py-8">
+                  <div className="text-center space-y-4 bg-brand-900 p-8 rounded-[2rem] text-white overflow-hidden relative">
+                    <div className="absolute top-0 right-0 p-4 opacity-10 rotate-12 scale-150"><Zap size={100} /></div>
+                    <h3 className="text-xl font-black tracking-tight relative z-10">사역 딜레마 선택</h3>
+                    <p className="text-sm text-white/60 font-bold relative z-10">두 가치 중 본인과 더 가까운 대처 방식을 선택하세요.</p>
                   </div>
-                  <div className="grid gap-6">
-                    <button onClick={() => handleAnswer(1)} className="toss-card border-none text-left p-8 space-y-3 group hover:border-toss-blue transition-all">
-                      <div className="text-toss-blue font-black text-xs uppercase tracking-widest">Option A</div>
-                      <h4 className="text-xl font-bold text-toss-gray-900">{currentQ.left}</h4>
-                      <p className="text-sm text-toss-gray-500 leading-relaxed font-medium">{currentQ.descL}</p>
+                  <div className="grid gap-8">
+                    <button onClick={() => handleAnswer(1)} className="glass-card !p-10 text-left space-y-4 group hover:border-brand-500 border-2 border-transparent transition-all">
+                      <div className="text-brand-500 font-black text-xs uppercase tracking-[0.2em]">Strategy A</div>
+                      <h4 className="text-2xl font-black text-brand-900">{currentQ.left}</h4>
+                      <p className="text-slate-500 font-bold leading-relaxed">{currentQ.descL}</p>
                     </button>
-                    <div className="flex items-center justify-center gap-4 text-toss-gray-300 font-black italic">
-                      <div className="h-px flex-1 bg-toss-gray-200"></div>
-                      <span>VS</span>
-                      <div className="h-px flex-1 bg-toss-gray-200"></div>
+                    <div className="flex items-center justify-center gap-6 text-slate-200 font-black italic text-xl">
+                      <div className="h-px flex-1 bg-slate-200"></div>
+                      <span className="text-slate-300">VS</span>
+                      <div className="h-px flex-1 bg-slate-200"></div>
                     </div>
-                    <button onClick={() => handleAnswer(5)} className="toss-card border-none text-left p-8 space-y-3 group hover:border-toss-blue transition-all">
-                      <div className="text-toss-blue font-black text-xs uppercase tracking-widest">Option B</div>
-                      <h4 className="text-xl font-bold text-toss-gray-900">{currentQ.right}</h4>
-                      <p className="text-sm text-toss-gray-500 leading-relaxed font-medium">{currentQ.descR}</p>
+                    <button onClick={() => handleAnswer(5)} className="glass-card !p-10 text-left space-y-4 group hover:border-brand-500 border-2 border-transparent transition-all">
+                      <div className="text-brand-500 font-black text-xs uppercase tracking-[0.2em]">Strategy B</div>
+                      <h4 className="text-2xl font-black text-brand-900">{currentQ.right}</h4>
+                      <p className="text-slate-500 font-bold leading-relaxed">{currentQ.descR}</p>
                     </button>
                   </div>
                 </div>
@@ -302,106 +313,102 @@ export const MirrorApp: React.FC<MirrorAppProps> = ({
             </motion.div>
           )}
 
-          {screen === 'results' && (
-            <motion.div key="results" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-12 px-2 md:px-6 space-y-10 max-w-4xl mx-auto">
-              <div ref={captureRef} className="bg-[#f2f4f6] p-4 md:p-8 space-y-8 rounded-[40px]">
-                {/* Header */}
-                <div className="toss-card border-none flex flex-col md:flex-row justify-between items-center gap-8 relative overflow-hidden">
-                  <div className="relative z-10 space-y-2">
-                    <div className="flex items-center gap-2 text-toss-blue mb-2">
-                      <div className="w-10 h-10 bg-toss-blue-light rounded-xl flex items-center justify-center">{icon}</div>
-                      <span className="font-black text-sm uppercase tracking-widest">{name} 리포트</span>
+          {screen === 'results' && results && (
+            <motion.div key="results" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-12 px-2 md:px-6 space-y-10 max-w-5xl mx-auto">
+              <div ref={captureRef} className="space-y-8">
+                {/* Result Header */}
+                <div className="glass-card !p-12 flex flex-col md:flex-row justify-between items-center gap-10 bg-white relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brand-500 via-indigo-500 to-purple-500" />
+                  <div className="relative z-10 space-y-4 text-center md:text-left">
+                    <div className="flex items-center justify-center md:justify-start gap-3 text-brand-500 mb-2">
+                      <div className="w-14 h-14 bg-brand-50 rounded-2xl flex items-center justify-center shadow-sm">{icon}</div>
+                      <span className="font-black text-sm uppercase tracking-[0.3em]">{name} ANALYSIS</span>
                     </div>
-                    <h2 className="text-4xl font-black tracking-tight">{personaLogic(calculateResults().totalAvg).status}</h2>
-                    <p className="text-toss-gray-500 font-medium">{personaLogic(calculateResults().totalAvg).desc}</p>
+                    <h2 className="text-5xl md:text-6xl font-black tracking-tighter text-brand-900">
+                      {personaLogic(results.totalAvg).status}
+                    </h2>
+                    <p className="text-slate-500 text-xl font-bold max-w-lg">{personaLogic(results.totalAvg).desc}</p>
                   </div>
-                  <div className="relative z-10 text-center md:text-right">
-                    <div className="text-6xl font-black text-toss-blue mb-1">{Math.round(calculateResults().totalAvg)}<span className="text-lg text-toss-gray-400">점</span></div>
-                    <div className="text-[10px] font-black text-toss-gray-400 uppercase tracking-widest">Total Insight Score</div>
+                  <div className="relative z-10 text-center md:text-right bg-brand-50 p-10 rounded-[3rem] border border-brand-100 min-w-[200px]">
+                    <div className="text-7xl font-black text-brand-500 mb-1">{Math.round(results.totalAvg)}<span className="text-xl text-slate-400 ml-1">pts</span></div>
+                    <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Insight Score</div>
                   </div>
                 </div>
 
-                {calculateResults().vHits >= (_mode === 30 ? 1 : _mode === 70 ? 2 : 3) && (
-                  <div className="p-6 bg-rose-50 border-l-4 border-rose-500 rounded-r-3xl flex gap-4">
-                    <AlertTriangle className="text-rose-600 shrink-0" />
-                    <div>
-                      <h4 className="font-bold text-rose-900 text-sm">자기 미화 편향(L-Scale) 감지</h4>
-                      <p className="text-rose-800 text-xs leading-relaxed font-medium">자신을 완벽하게 포장하려는 경향이 감지되었습니다. 정직한 직면이 성장의 시작입니다.</p>
+                <div className="grid lg:grid-cols-5 gap-8">
+                  {/* Radar Chart (using Recharts) */}
+                  <div className="lg:col-span-3 glass-card !p-10 flex flex-col items-center justify-center bg-white min-h-[500px]">
+                    <h4 className="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-12">Capacity Balance Map</h4>
+                    <div className="w-full h-[400px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={results.chartData}>
+                          <PolarGrid stroke="#e5e8eb" strokeDasharray="3 3" />
+                          <PolarAngleAxis dataKey="subject" tick={{ fill: '#8b95a1', fontSize: 13, fontWeight: 900 }} />
+                          <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
+                          <Radar
+                            name="Capacity"
+                            dataKey="A"
+                            stroke="#3182f6"
+                            strokeWidth={4}
+                            fill="#3182f6"
+                            fillOpacity={0.15}
+                            animationDuration={1500}
+                          />
+                        </RadarChart>
+                      </ResponsiveContainer>
                     </div>
                   </div>
-                )}
 
-                {calculateResults().isUnreliable && (
-                  <div className="p-6 bg-amber-50 border-l-4 border-amber-500 rounded-r-3xl flex gap-4">
-                    <AlertTriangle className="text-amber-600 shrink-0" />
-                    <div>
-                      <h4 className="font-bold text-amber-900 text-sm">응답 신뢰도 경고</h4>
-                      <p className="text-amber-800 text-xs leading-relaxed font-medium">연속적인 동일 응답({calculateResults().maxConsecutive}회)이 감지되어 진단 결과의 통계적 타당성이 낮을 수 있습니다.</p>
-                    </div>
-                  </div>
-                )}
-
-                <div className="grid md:grid-cols-2 gap-8">
-                  {/* Radar Chart */}
-                  <div className="toss-card border-none flex flex-col items-center justify-center p-8 bg-white h-full min-h-[400px]">
-                    <h4 className="text-sm font-black text-toss-gray-400 uppercase tracking-widest mb-8">역량 밸런스</h4>
-                    <svg width="100%" height="100%" viewBox="0 0 400 400" className="w-full max-w-[320px]">
-                      {[1, 2, 3, 4, 5].map(i => {
-                        const r = (140 / 5) * i;
-                        const pts = [0, 1, 2, 3, 4].map(j => {
-                          const a = (Math.PI * 2 / 5) * j - Math.PI / 2;
-                          return `${200 + r * Math.cos(a)},${200 + r * Math.sin(a)}`;
-                        }).join(' ');
-                        return <polygon key={i} points={pts} fill="none" stroke="#f2f4f6" strokeWidth="1" />;
-                      })}
-                      {dimensions.map((dim, i) => {
-                        const a = (Math.PI * 2 / 5) * i - Math.PI / 2;
-                        const lx = 200 + (140 + 35) * Math.cos(a);
-                        const ly = 200 + (140 + 35) * Math.sin(a);
-                        return <text key={dim} x={lx} y={ly} textAnchor="middle" dominantBaseline="middle" fontSize="11" fontWeight="bold" fill="#8b95a1">{dim}</text>;
-                      })}
-                      {(() => {
-                        const res = calculateResults();
-                        const pts = res.finalScores.map((s, i) => {
-                          const a = (Math.PI * 2 / 5) * i - Math.PI / 2;
-                          const r = (s / 100) * 140;
-                          return `${200 + r * Math.cos(a)},${200 + r * Math.sin(a)}`;
-                        }).join(' ');
-                        return (
-                          <>
-                            <polygon points={pts} fill="rgba(0, 100, 255, 0.15)" stroke="#0064ff" strokeWidth="3" strokeLinejoin="round" />
-                            {res.finalScores.map((s, i) => {
-                              const a = (Math.PI * 2 / 5) * i - Math.PI / 2;
-                              const r = (s / 100) * 140;
-                              return <circle key={i} cx={200 + r * Math.cos(a)} cy={200 + r * Math.sin(a)} r="4" fill="#0064ff" stroke="white" strokeWidth="2" />;
-                            })}
-                          </>
-                        );
-                      })()}
-                    </svg>
-                  </div>
-
-                  {/* Persona Details */}
-                  <div className="space-y-6">
-                    <div className="rounded-[24px] p-6 bg-toss-blue text-white space-y-4 shadow-lg shadow-toss-blue/10">
-                      <div className="flex items-center gap-2">
-                        <Trophy size={18} className="text-white/80" />
-                        <h4 className="font-bold text-sm">성찰 스타일</h4>
-                      </div>
-                      <h3 className="text-xl font-black leading-tight">{styleLogic(calculateResults().dilAvg).header}</h3>
-                      <p className="text-sm text-white/80 leading-relaxed font-medium">{styleLogic(calculateResults().dilAvg).body}</p>
-                    </div>
-
-                    <div className="toss-card border-none space-y-6">
-                      <h4 className="text-xs font-black text-toss-gray-400 uppercase tracking-widest">세부 점수</h4>
-                      {dimensions.map((dim, i) => (
-                        <div key={dim} className="space-y-2">
-                          <div className="flex justify-between text-sm font-bold">
-                            <span className="text-toss-gray-700">{dim}</span>
-                            <span className="text-toss-blue">{calculateResults().finalScores[i]}점</span>
+                  {/* Right Details */}
+                  <div className="lg:col-span-2 space-y-8">
+                    {/* Unreliable Alerts */}
+                    {(results.vHits >= (_mode === 30 ? 1 : _mode === 70 ? 2 : 3) || results.isUnreliable) && (
+                      <div className="space-y-4">
+                        {results.vHits >= (_mode === 30 ? 1 : _mode === 70 ? 2 : 3) && (
+                          <div className="p-6 bg-rose-50 border border-rose-100 rounded-[2rem] flex gap-4">
+                            <AlertTriangle className="text-rose-500 shrink-0" size={24} />
+                            <div>
+                              <h4 className="font-black text-rose-900 text-sm mb-1">편향 감지 (L-Scale)</h4>
+                              <p className="text-rose-800 text-xs font-bold leading-relaxed">자기 미화적 성향이 감지되었습니다. 결과 해석 시 객관적 성찰이 필요합니다.</p>
+                            </div>
                           </div>
-                          <div className="h-1.5 w-full bg-toss-gray-100 rounded-full overflow-hidden">
-                            <motion.div initial={{ width: 0 }} animate={{ width: `${calculateResults().finalScores[i]}%` }} className="h-full bg-toss-blue" />
+                        )}
+                        {results.isUnreliable && (
+                          <div className="p-6 bg-amber-50 border border-amber-100 rounded-[2rem] flex gap-4">
+                            <AlertTriangle className="text-amber-500 shrink-0" size={24} />
+                            <div>
+                              <h4 className="font-black text-amber-900 text-sm mb-1">응답 신뢰도 주의</h4>
+                              <p className="text-amber-800 text-xs font-bold leading-relaxed">동일 패턴 응답이 감지되어 분석의 타당성이 낮을 수 있습니다.</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    <div className="glass-card !bg-brand-500 !text-white !p-8 shadow-xl shadow-brand-500/20">
+                      <div className="flex items-center gap-3 mb-6">
+                        <Trophy size={24} className="text-white/60" />
+                        <h4 className="font-black text-xs uppercase tracking-widest">Spritual Style</h4>
+                      </div>
+                      <h3 className="text-2xl font-black mb-4 leading-tight">{styleLogic(results.dilAvg).header}</h3>
+                      <p className="text-sm text-white/70 font-bold leading-relaxed">{styleLogic(results.dilAvg).body}</p>
+                    </div>
+
+                    <div className="glass-card !p-8 space-y-6 bg-white">
+                      <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Detailed Metrics</h4>
+                      {dimensions.map((dim, i) => (
+                        <div key={dim} className="space-y-3">
+                          <div className="flex justify-between items-end">
+                            <span className="text-sm font-black text-brand-900">{dim}</span>
+                            <span className="text-sm font-black text-brand-500">{results.finalScores[i]}%</span>
+                          </div>
+                          <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                            <motion.div 
+                              initial={{ width: 0 }} 
+                              animate={{ width: `${results.finalScores[i]}%` }} 
+                              transition={{ duration: 1, delay: i * 0.1 }}
+                              className="h-full bg-brand-500" 
+                            />
                           </div>
                         </div>
                       ))}
@@ -409,42 +416,52 @@ export const MirrorApp: React.FC<MirrorAppProps> = ({
                   </div>
                 </div>
 
-                {/* Growth & Ministry Roadmap */}
-                <div className="toss-card border-none space-y-8 mt-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center"><Star size={20}/></div>
-                    <h3 className="text-2xl font-black">성장과 사역을 위한 로드맵</h3>
+                {/* Advice Section */}
+                <div className="glass-card !p-12 space-y-12 bg-white">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-[1.5rem] flex items-center justify-center shadow-sm">
+                      <Star size={28}/>
+                    </div>
+                    <div>
+                      <h3 className="text-3xl font-black text-brand-900 tracking-tight">성장 로드맵</h3>
+                      <p className="text-slate-400 font-bold">진단 데이터를 기반으로 한 개인별 맞춤 가이드</p>
+                    </div>
                   </div>
                   
                   <div className="grid md:grid-cols-2 gap-8">
-                    <div className="p-6 bg-rose-50 rounded-3xl space-y-4">
-                      <div className="flex items-center gap-3 text-rose-600">
-                        <Heart size={20} />
-                        <h4 className="font-black">나의 성장을 위한 조언</h4>
+                    <div className="p-8 bg-rose-50/50 rounded-[2.5rem] border border-rose-100 space-y-6">
+                      <div className="flex items-center gap-3 text-rose-500">
+                        <Heart size={24} />
+                        <h4 className="font-black text-lg uppercase tracking-tight">Personal Advice</h4>
                       </div>
-                      <p className="text-sm text-rose-900 leading-relaxed font-medium italic">
-                        "{adviceLogic(calculateResults().finalScores).personal}"
+                      <p className="text-lg text-rose-900 leading-relaxed font-bold italic">
+                        "{adviceLogic(results.finalScores).personal}"
                       </p>
                     </div>
 
-                    <div className="p-6 bg-blue-50 rounded-3xl space-y-4">
-                      <div className="flex items-center gap-3 text-toss-blue">
-                        <ShieldCheck size={20} />
-                        <h4 className="font-black">공직 사역 가이드</h4>
+                    <div className="p-8 bg-blue-50/50 rounded-[2.5rem] border border-blue-100 space-y-6">
+                      <div className="flex items-center gap-3 text-brand-500">
+                        <ShieldCheck size={24} />
+                        <h4 className="font-black text-lg uppercase tracking-tight">Ministry Guide</h4>
                       </div>
-                      <p className="text-sm text-toss-gray-800 leading-relaxed font-medium italic">
-                        "{adviceLogic(calculateResults().finalScores).ministry}"
+                      <p className="text-lg text-brand-900 leading-relaxed font-bold italic">
+                        "{adviceLogic(results.finalScores).ministry}"
                       </p>
                     </div>
                   </div>
 
-                  <div className="space-y-4">
-                    <h4 className="font-black text-toss-gray-800 flex items-center gap-2"><ArrowRight size={18} className="text-toss-blue"/> 지금 바로 실천할 수 있는 3단계</h4>
-                    <div className="grid gap-3">
-                      {adviceLogic(calculateResults().finalScores).actions.map((act, i) => (
-                        <div key={i} className="flex items-center gap-4 p-4 bg-toss-gray-50 rounded-2xl group border border-transparent hover:border-toss-blue/10 transition-all">
-                          <div className="w-8 h-8 rounded-full bg-white text-toss-blue shadow-sm flex items-center justify-center text-xs font-black">{i+1}</div>
-                          <span className="text-sm font-bold text-toss-gray-700">{act}</span>
+                  <div className="space-y-8">
+                    <h4 className="font-black text-brand-900 text-xl flex items-center gap-3">
+                      <div className="w-2 h-8 bg-brand-500 rounded-full" />
+                      실천 과제 (Action Plan)
+                    </h4>
+                    <div className="grid md:grid-cols-3 gap-4">
+                      {adviceLogic(results.finalScores).actions.map((act, i) => (
+                        <div key={i} className="flex flex-col gap-4 p-8 bg-slate-50 rounded-[2rem] border border-transparent hover:border-brand-500/20 transition-all group">
+                          <div className="w-10 h-10 rounded-full bg-white text-brand-500 shadow-sm flex items-center justify-center text-sm font-black group-hover:scale-110 transition-transform">
+                            {i+1}
+                          </div>
+                          <span className="text-lg font-black text-slate-700 leading-tight">{act}</span>
                         </div>
                       ))}
                     </div>
@@ -452,9 +469,14 @@ export const MirrorApp: React.FC<MirrorAppProps> = ({
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <button onClick={() => setScreen('intro')} className="toss-button-ghost py-4 font-black">다시 하기</button>
-                <button onClick={downloadReport} className="toss-button-primary py-4 font-black">리포트 저장하기</button>
+              {/* Action Buttons */}
+              <div className="flex flex-col md:flex-row gap-4">
+                <button onClick={() => setScreen('intro')} className="premium-btn-secondary flex-1 justify-center py-5 font-black text-lg">
+                  <RotateCcw size={20} /> 처음으로 돌아가기
+                </button>
+                <button onClick={downloadReport} className="premium-btn-primary flex-1 justify-center py-5 font-black text-lg">
+                  <Download size={20} /> 분석 리포트 저장 (PNG)
+                </button>
               </div>
             </motion.div>
           )}

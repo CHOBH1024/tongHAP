@@ -358,62 +358,67 @@ export function GajeongApp() {
   const renderContent = () => {
     switch(activeTab) {
       case 'home': return (
-        <motion.section key="home" initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} className="py-12 space-y-12">
+        <motion.section key="home" initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} className="py-12 space-y-16">
           <div className="space-y-6">
-            <h1 className="text-4xl md:text-5xl font-black leading-tight tracking-tight">
+            <motion.h1 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="text-5xl md:text-7xl font-black leading-tight tracking-tight text-brand-900"
+            >
               안녕하세요,<br/>
               나를 알아가는<br/>
-              <span className="text-toss-blue">성찰의 시간</span>을 가져볼까요?
-            </h1>
-            <p className="text-toss-gray-600 text-lg leading-relaxed max-w-lg">
-              GAJEONG 플랫폼은 전문적인 진단과 워크숍 도구를 통해 개인의 성장과 현장의 혁신을 돕습니다.
+              <span className="gradient-text">성찰의 시간</span>
+            </motion.h1>
+            <p className="text-slate-500 text-xl leading-relaxed max-w-2xl font-medium">
+              GAJEONG 플랫폼은 전문적인 진단과 워크숍 도구를 통해 <br className="hidden md:block" />
+              개인의 성장과 현장의 혁신을 돕는 통합 사역 지원 솔루션입니다.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div onClick={()=>setActiveTab('mirror-hub')} className="toss-card cursor-pointer flex flex-col justify-between h-64 border-none shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div onClick={()=>setActiveTab('mirror-hub')} className="glass-card cursor-pointer flex flex-col justify-between h-80 group">
               <div>
-                <div className="w-12 h-12 bg-toss-blue-light text-toss-blue rounded-2xl flex items-center justify-center mb-6">
-                  <LayoutGrid size={24}/>
+                <div className="w-16 h-16 bg-brand-50 text-brand-500 rounded-3xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-sm">
+                  <LayoutGrid size={32}/>
                 </div>
-                <h3 className="text-2xl font-bold mb-2">미러 허브</h3>
-                <p className="text-toss-gray-500">12가지 전문 진단으로<br/>나의 상태를 확인해보세요.</p>
+                <h3 className="text-3xl font-black mb-4">미러 허브</h3>
+                <p className="text-slate-500 text-lg leading-relaxed font-medium">12가지 전문 진단 모듈을 통해<br/>자신의 현재 상태를 다각도로 분석하세요.</p>
               </div>
-              <div className="text-toss-blue font-bold flex items-center gap-1 text-sm">
-                진단 시작하기 <ChevronRight size={16}/>
+              <div className="text-brand-500 font-black flex items-center gap-2 text-lg group-hover:gap-4 transition-all">
+                진단 시작하기 <ChevronRight size={24}/>
               </div>
             </div>
             
-            <div onClick={()=>setActiveTab('workshop-plan')} className="toss-card cursor-pointer flex flex-col justify-between h-64 border-none shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+            <div onClick={()=>setActiveTab('workshop-plan')} className="glass-card cursor-pointer flex flex-col justify-between h-80 group">
               <div>
-                <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-6">
-                  <ClipboardList size={24}/>
+                <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-3xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-sm">
+                  <ClipboardList size={32}/>
                 </div>
-                <h3 className="text-2xl font-bold mb-2">워크숍 마스터 플랜</h3>
-                <p className="text-toss-gray-500">성공적인 현장 워크숍을 위한<br/>모든 기획 도구가 모여있어요.</p>
+                <h3 className="text-3xl font-black mb-4">워크숍 마스터 플랜</h3>
+                <p className="text-slate-500 text-lg leading-relaxed font-medium">성공적인 현장 워크숍을 위한<br/>모든 기획 및 관리 도구를 제공합니다.</p>
               </div>
-              <div className="text-emerald-600 font-bold flex items-center gap-1 text-sm">
-                기획 도구 보기 <ChevronRight size={16}/>
+              <div className="text-emerald-600 font-black flex items-center gap-2 text-lg group-hover:gap-4 transition-all">
+                도구 확인하기 <ChevronRight size={24}/>
               </div>
             </div>
           </div>
 
-          <div className="toss-card border-none shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-            <h3 className="text-xl font-bold mb-6">추천 학습</h3>
-            <div className="space-y-4">
+          <div className="glass-card p-10">
+            <h3 className="text-2xl font-black mb-10 flex items-center gap-3">
+              <Sparkles className="text-brand-500" /> 추천 학습 & 서비스
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
-                { label: '교리 학습 퀘스트', icon: <BookOpen className="text-purple-500"/>, action: () => setActiveTab('doctrine') },
-                { label: '최신 행정 규정 확인', icon: <ShieldCheck className="text-blue-500"/>, action: () => setActiveTab('regulations') },
-                { label: '선배 공직자 멘토링', icon: <Users className="text-orange-500"/>, action: () => setActiveTab('mentoring') }
+                { label: '교리 학습 퀘스트', desc: '체계적인 원리 학습', icon: <BookOpen size={24} className="text-purple-500"/>, action: () => setActiveTab('doctrine'), bg: 'bg-purple-50' },
+                { label: '최신 행정 규정', desc: '공직 실무 가이드', icon: <ShieldCheck size={24} className="text-blue-500"/>, action: () => setActiveTab('regulations'), bg: 'bg-blue-50' },
+                { label: '전문 멘토링', desc: '선배 공직자의 지혜', icon: <Users size={24} className="text-orange-500"/>, action: () => setActiveTab('mentoring'), bg: 'bg-orange-50' }
               ].map((item, idx) => (
-                <div key={idx} onClick={item.action} className="flex items-center justify-between p-4 hover:bg-toss-gray-50 rounded-2xl cursor-pointer transition-colors group">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center">
-                      {item.icon}
-                    </div>
-                    <span className="font-bold text-toss-gray-800">{item.label}</span>
+                <div key={idx} onClick={item.action} className="p-6 hover:bg-white rounded-3xl cursor-pointer transition-all border border-transparent hover:border-white/50 hover:shadow-premium group">
+                  <div className={`w-14 h-14 ${item.bg} rounded-2xl mb-6 flex items-center justify-center group-hover:rotate-6 transition-transform`}>
+                    {item.icon}
                   </div>
-                  <ChevronRight size={18} className="text-toss-gray-300 group-hover:text-toss-gray-900 transition-colors"/>
+                  <h4 className="font-black text-xl text-brand-900 mb-1">{item.label}</h4>
+                  <p className="text-slate-400 font-bold text-sm">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -423,21 +428,27 @@ export function GajeongApp() {
       case 'mirror-hub':
         if(activeModuleId) return renderMirrorModule();
         return (
-          <motion.section key="hub" initial={{opacity:0}} animate={{opacity:1}} className="py-8 space-y-10">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-black tracking-tight">미러 허브</h2>
-              <p className="text-toss-gray-500 font-medium">나의 가치를 비춰보는 12개의 거울 — 30 / 70 / 120문항 선택</p>
+          <motion.section key="hub" initial={{opacity:0}} animate={{opacity:1}} className="py-8 space-y-12">
+            <div className="space-y-4">
+              <h2 className="text-4xl font-black tracking-tight text-brand-900">미러 허브</h2>
+              <p className="text-slate-500 text-xl font-medium leading-relaxed">
+                나의 가치를 비춰보는 12개의 전문 거울 — 정밀 진단을 통해 당신의 잠재력을 발견하세요.
+              </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {modules.map(m=>(
-                <div key={m.id} onClick={()=>setActiveModuleId(m.id)} className="toss-card border-none shadow-[0_8px_30px_rgb(0,0,0,0.04)] cursor-pointer group">
-                  <div className="w-12 h-12 rounded-2xl mb-6 flex items-center justify-center text-white" style={{backgroundColor:m.color}}>{m.icon}</div>
-                  <h3 className="text-xl font-black mb-1">{m.name}</h3>
-                  <p className="text-xs text-toss-gray-400 mb-3 uppercase tracking-widest">{m.subtitle}</p>
-                  <p className="text-sm text-toss-gray-600 mb-8 leading-relaxed">{m.description}</p>
-                  <div className="flex items-center gap-1 text-sm font-bold text-toss-blue group-hover:gap-2 transition-all">
-                    지금 진단하기 <ChevronRight size={16}/>
+                <div key={m.id} onClick={()=>setActiveModuleId(m.id)} className="glass-card cursor-pointer group flex flex-col justify-between">
+                  <div>
+                    <div className="w-16 h-16 rounded-3xl mb-8 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-500" style={{backgroundColor:m.color, boxShadow: `0 10px 20px ${m.color}33`}}>
+                      {React.cloneElement(m.icon as React.ReactElement, { size: 32 })}
+                    </div>
+                    <h3 className="text-2xl font-black mb-2 text-brand-900">{m.name}</h3>
+                    <p className="text-xs text-brand-500 font-black mb-4 uppercase tracking-[0.2em]">{m.subtitle}</p>
+                    <p className="text-slate-500 font-medium leading-relaxed mb-10">{m.description}</p>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm font-black text-brand-500 group-hover:gap-4 transition-all uppercase tracking-wider">
+                    지금 진단하기 <ArrowRight size={20}/>
                   </div>
                 </div>
               ))}
@@ -460,35 +471,53 @@ export function GajeongApp() {
     <div className="min-h-screen flex flex-col bg-[#f2f4f6]">
       <LoadingScreen />
       
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md px-6 py-4">
+      <nav className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-white/20 px-6 py-5">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={()=>{setActiveTab('home');setActiveModuleId(null);}}>
-            <div className="w-8 h-8 bg-toss-blue rounded-lg flex items-center justify-center shadow-lg shadow-toss-blue/20">
-              <Sparkles className="text-white" size={18}/>
+          <div className="flex items-center gap-3 cursor-pointer group" onClick={()=>{setActiveTab('home');setActiveModuleId(null);}}>
+            <div className="w-10 h-10 bg-brand-500 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:rotate-12 transition-transform">
+              <Sparkles className="text-white" size={22}/>
             </div>
-            <span className="text-xl font-black tracking-tight text-toss-gray-900">GAJEONG</span>
+            <span className="text-2xl font-black tracking-tighter text-brand-900">GAJEONG</span>
           </div>
           
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1 bg-brand-50/50 p-1.5 rounded-2xl border border-brand-100">
             {navItems.map(item=>(
-              <button key={item.id} onClick={()=>{setActiveTab(item.id as Tab);setActiveModuleId(null);}} className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${activeTab===item.id?'bg-toss-gray-100 text-toss-blue':'text-toss-gray-500 hover:text-toss-gray-900'}`}>
+              <button 
+                key={item.id} 
+                onClick={()=>{setActiveTab(item.id as Tab);setActiveModuleId(null);}} 
+                className={`px-5 py-2.5 rounded-xl text-sm font-black transition-all ${activeTab===item.id?'bg-white text-brand-500 shadow-sm':'text-slate-500 hover:text-brand-900'}`}
+              >
                 {item.label}
               </button>
             ))}
           </div>
           
-          <button className="lg:hidden text-toss-gray-900" onClick={()=>setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X size={24}/> : <Menu size={24}/>}
-          </button>
+          <div className="flex items-center gap-4">
+            <button className="hidden md:flex premium-btn-primary !py-2.5 !px-6 !text-sm">
+              로그인
+            </button>
+            <button className="lg:hidden text-brand-900 p-2 hover:bg-brand-50 rounded-xl transition-colors" onClick={()=>setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? <X size={28}/> : <Menu size={28}/>}
+            </button>
+          </div>
         </div>
         
         <AnimatePresence>
           {isMenuOpen && (
-            <motion.div initial={{opacity:0, height:0}} animate={{opacity:1, height:'auto'}} exit={{opacity:0, height:0}} className="lg:hidden overflow-hidden border-t border-toss-gray-100 mt-4 pt-4">
-              <div className="grid grid-cols-2 gap-2">
+            <motion.div 
+              initial={{opacity:0, y:-20}} 
+              animate={{opacity:1, y:0}} 
+              exit={{opacity:0, y:-20}} 
+              className="lg:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-xl border-b border-brand-100 p-6 shadow-2xl"
+            >
+              <div className="grid grid-cols-2 gap-4">
                 {navItems.map(item=>(
-                  <button key={item.id} onClick={()=>{setActiveTab(item.id as Tab);setActiveModuleId(null);setIsMenuOpen(false);}} className="px-4 py-3 rounded-xl text-left flex items-center gap-2 text-sm font-bold text-toss-gray-600 hover:bg-toss-gray-100 active:bg-toss-gray-200">
-                    {item.label}
+                  <button 
+                    key={item.id} 
+                    onClick={()=>{setActiveTab(item.id as Tab);setActiveModuleId(null);setIsMenuOpen(false);}} 
+                    className={`flex items-center gap-3 p-4 rounded-2xl text-sm font-black transition-all ${activeTab===item.id?'bg-brand-500 text-white shadow-lg shadow-brand-500/20':'bg-brand-50 text-slate-600'}`}
+                  >
+                    {item.icon} {item.label}
                   </button>
                 ))}
               </div>
@@ -503,16 +532,27 @@ export function GajeongApp() {
         </AnimatePresence>
       </main>
 
-      <footer className="py-16 px-6 text-toss-gray-400">
-        <div className="max-w-7xl mx-auto text-center space-y-4">
-          <div className="flex justify-center items-center gap-2 font-black text-toss-gray-600">
-            <Sparkles size={16}/> GAJEONG
+      <footer className="py-20 px-6 border-t border-brand-100 bg-white/50 mt-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-10">
+            <div className="space-y-4 text-center md:text-left">
+              <div className="flex justify-center md:justify-start items-center gap-2 text-2xl font-black text-brand-900">
+                <Sparkles className="text-brand-500" size={24}/> GAJEONG
+              </div>
+              <p className="text-slate-400 font-medium max-w-xs leading-relaxed">
+                전문적인 진단과 데이터 분석을 통한 <br/>통합 사역 지원 플랫폼입니다.
+              </p>
+            </div>
+            
+            <div className="flex flex-wrap justify-center gap-10 text-sm font-black uppercase tracking-[0.2em] text-slate-400">
+              <a href="#" className="hover:text-brand-500 transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-brand-500 transition-colors">Terms of Service</a>
+              <a href="#" className="hover:text-brand-500 transition-colors">Documentation</a>
+              <a href="#" className="hover:text-brand-500 transition-colors">Support</a>
+            </div>
           </div>
-          <p className="text-xs font-medium">© 2026 Gajeong. All rights reserved.</p>
-          <div className="flex justify-center gap-4 text-[10px] font-bold uppercase tracking-widest">
-            <span>Privacy</span>
-            <span>Terms</span>
-            <span>Contact</span>
+          <div className="mt-20 pt-10 border-t border-slate-100 text-center text-xs font-black text-slate-300 tracking-widest">
+            © 2026 GAJEONG INNOVATION PLATFORM. ALL RIGHTS RESERVED.
           </div>
         </div>
       </footer>
@@ -520,4 +560,4 @@ export function GajeongApp() {
   );
 }
 
-export default App;
+export default GajeongApp;

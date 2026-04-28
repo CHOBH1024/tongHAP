@@ -3,6 +3,7 @@ import { Icon } from '@/components/diagnosis/Icon';
 import { SectionTitle } from '@/components/diagnosis/SectionTitle';
 import { externalTests, detailData, archetypes } from '@/lib/data';
 import { Inputs, Big5Level, EQTrait, Archetype } from '@/lib/types';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface DiagnosisViewProps {
     inputs: Inputs;
@@ -17,16 +18,19 @@ interface DiagnosisModalProps {
     onClose: () => void;
 }
 
-// Progress Bar Component
+// Premium Progress Bar
 const ProgressBar = ({ progress }: { progress: number }) => (
-    <div className="w-full bg-stone-200 rounded-full h-2.5 mb-8 overflow-hidden">
-        <div 
-            className="bg-blue-900 h-2.5 rounded-full transition-all duration-500 ease-out" 
-            style={{ width: `${progress}%` }}
-        ></div>
-        <div className="flex justify-between text-sm text-stone-500 mt-2 font-bold px-1">
-            <span>진단 시작</span>
-            <span>{Math.round(progress)}% 완료</span>
+    <div className="w-full mb-12">
+        <div className="flex justify-between items-end mb-3 px-1">
+            <span className="text-xs font-black text-brand-500 uppercase tracking-[0.2em]">Diagnostic Progress</span>
+            <span className="text-2xl font-black text-brand-900">{Math.round(progress)}%</span>
+        </div>
+        <div className="w-full bg-slate-200 rounded-full h-3 overflow-hidden shadow-inner">
+            <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: `${progress}%` }}
+                className="h-full bg-gradient-to-r from-brand-500 to-emerald-500 shadow-[0_0_15px_rgba(49,130,246,0.4)]" 
+            />
         </div>
     </div>
 );
@@ -91,7 +95,6 @@ const DiagnosisModal: React.FC<DiagnosisModalProps> = ({ type, inputs, setInputs
     const isVia = type === 'via';
     const isEQ = type === 'eq';
 
-    // Prevent background scrolling when modal is open
     useEffect(() => {
         document.body.style.overflow = 'hidden';
         return () => {
@@ -132,13 +135,6 @@ const DiagnosisModal: React.FC<DiagnosisModalProps> = ({ type, inputs, setInputs
         }));
     };
 
-    const handleEQChange = (trait: EQTrait, value: Big5Level) => {
-        setInputs(prev => ({
-            ...prev,
-            eq: { ...prev.eq, [trait]: value }
-        }));
-    };
-
     const handleBackdropClick = (e: React.MouseEvent) => {
         if (e.target === e.currentTarget) {
             onClose();
@@ -147,53 +143,64 @@ const DiagnosisModal: React.FC<DiagnosisModalProps> = ({ type, inputs, setInputs
 
     return (
         <div 
-            className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-300"
+            className="fixed inset-0 bg-brand-900/40 backdrop-blur-xl z-[100] flex items-center justify-center p-4"
             onClick={handleBackdropClick}
         >
-            <div className="bg-white w-full max-w-4xl max-h-[85vh] overflow-y-auto rounded-2xl shadow-2xl relative flex flex-col animate-[scaleUp_0.3s_ease-out]">
+            <motion.div 
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                className="bg-white/90 backdrop-blur-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-[3rem] shadow-2xl relative flex flex-col border border-white/50"
+            >
                 {/* Modal Header */}
-                <div className="sticky top-0 bg-white/95 backdrop-blur z-10 px-8 py-6 border-b border-stone-100 flex justify-between items-center">
-                    <h3 className="text-2xl font-serif font-bold text-blue-900 capitalize flex items-center gap-3">
-                        <Icon name={isBig5 ? "Brain" : isVia ? "Sparkles" : isEQ ? "Heart" : type === 'enneagram' ? "Fingerprint" : "Anchor"} className="text-amber-600" />
-                        {isBig5 ? "Big 5 성격 프로파일링" : isVia ? "VIA 강점 선택 (5개)" : isEQ ? "EQ 감성지능 프로파일링" : type === 'enneagram' ? "에니어그램 유형 선택" : "커리어 앵커 선택"}
-                    </h3>
-                    <button onClick={onClose} className="p-2 hover:bg-stone-100 rounded-full text-stone-400 hover:text-blue-900 transition-colors">
-                        <Icon name="X" size={24} />
+                <div className="px-10 py-8 border-b border-brand-100 flex justify-between items-center bg-white/50">
+                    <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 bg-brand-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-brand-500/20">
+                            <Icon name={isBig5 ? "Brain" : isVia ? "Sparkles" : isEQ ? "Heart" : type === 'enneagram' ? "Fingerprint" : "Anchor"} size={28} />
+                        </div>
+                        <div>
+                            <h3 className="text-2xl font-black text-brand-900">
+                                {isBig5 ? "Big 5 성격 프로파일링" : isVia ? "VIA 강점 선택 (5개)" : isEQ ? "EQ 감성지능 프로파일링" : type === 'enneagram' ? "에니어그램 유형 선택" : "커리어 앵커 선택"}
+                            </h3>
+                            <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">Diagnostic Input Engine</p>
+                        </div>
+                    </div>
+                    <button onClick={onClose} className="p-3 hover:bg-brand-50 rounded-2xl text-slate-400 hover:text-brand-500 transition-all">
+                        <Icon name="X" size={28} />
                     </button>
                 </div>
 
                 {/* Modal Content */}
-                <div className="p-8 md:p-10">
+                <div className="flex-1 overflow-y-auto p-10 space-y-8">
                     {isBig5 ? (
-                        <div className="space-y-8">
-                            <div className="bg-blue-50 p-4 rounded-lg text-base text-blue-800 mb-6 flex gap-3">
-                                <Icon name="Zap" size={20} className="shrink-0"/>
+                        <div className="space-y-10">
+                            <div className="bg-brand-50 p-6 rounded-[2rem] border border-brand-100 flex gap-4">
+                                <Icon name="Zap" size={24} className="text-brand-500 shrink-0"/>
                                 <div>
-                                    <span className="font-bold block mb-1">결과 해석 방법 (bigfive-test.com 기준)</span>
-                                    각 특성의 백분위 점수를 아래 기준으로 변환하여 선택하세요.
-                                    <div className="flex gap-3 mt-2 flex-wrap">
-                                        <span className="bg-blue-900 text-white px-2 py-0.5 rounded text-sm font-bold">60% 이상 → 높음</span>
-                                        <span className="bg-stone-400 text-white px-2 py-0.5 rounded text-sm font-bold">40~60% → 보통</span>
-                                        <span className="bg-stone-600 text-white px-2 py-0.5 rounded text-sm font-bold">40% 미만 → 낮음</span>
+                                    <span className="font-black text-brand-900 block mb-1">결과 해석 가이드 (bigfive-test.com)</span>
+                                    <p className="text-sm text-slate-500 font-bold">검사 결과의 백분위 점수를 아래 기준에 맞춰 선택해주세요.</p>
+                                    <div className="flex gap-3 mt-4">
+                                        <span className="bg-brand-500 text-white px-3 py-1 rounded-full text-xs font-black">60%+ 높음</span>
+                                        <span className="bg-slate-300 text-white px-3 py-1 rounded-full text-xs font-black">40-60% 보통</span>
+                                        <span className="bg-slate-500 text-white px-3 py-1 rounded-full text-xs font-black">40% 미만 낮음</span>
                                     </div>
                                 </div>
                             </div>
                             {Object.entries(detailData.big5).map(([key, info]) => (
-                                <div key={key} className="bg-stone-50 p-6 rounded-xl border border-stone-200 hover:border-blue-200 transition-colors">
-                                    <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4 gap-4">
+                                <div key={key} className="glass-card !p-8 border-none bg-white">
+                                    <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-6">
                                         <div>
-                                            <h4 className="text-lg font-bold text-slate-900 font-serif">{info.name}</h4>
-                                            <p className="text-sm text-stone-500 mt-1">{info.desc}</p>
+                                            <h4 className="text-2xl font-black text-brand-900">{info.name}</h4>
+                                            <p className="text-sm text-slate-400 font-bold mt-1">{info.desc}</p>
                                         </div>
-                                        <div className="flex bg-white rounded-lg p-1 border border-stone-200 shadow-sm shrink-0">
+                                        <div className="flex bg-slate-100 rounded-2xl p-1.5 border border-slate-200 shrink-0">
                                             {(['Low', 'Mid', 'High'] as Big5Level[]).map(level => (
                                                 <button 
                                                     key={level} 
                                                     onClick={() => handleBig5Change(key, level)}
-                                                    className={`px-5 py-2 rounded-md text-base font-bold transition-all ${
-                                                        inputs.big5[key] === level 
-                                                            ? (level==='High'?'bg-blue-900 text-white shadow':level==='Low'?'bg-stone-500 text-white shadow':'bg-stone-400 text-white shadow') 
-                                                            : 'text-stone-500 hover:bg-stone-100'
+                                                    className={`px-6 py-2.5 rounded-xl text-sm font-black transition-all ${
+                                                        inputs.big5[key as keyof typeof inputs.big5] === level 
+                                                            ? 'bg-white text-brand-500 shadow-sm' 
+                                                            : 'text-slate-400 hover:text-slate-600'
                                                     }`}
                                                 >
                                                     {level === 'High' ? '높음' : level === 'Mid' ? '보통' : '낮음'}
@@ -201,37 +208,42 @@ const DiagnosisModal: React.FC<DiagnosisModalProps> = ({ type, inputs, setInputs
                                             ))}
                                         </div>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-4 text-sm mt-3">
-                                        <div className={`p-3 rounded transition-colors ${inputs.big5[key] === 'High' ? 'bg-blue-100 text-blue-900 ring-1 ring-blue-300' : 'bg-white text-stone-400 border border-stone-100'}`}>
-                                            <span className="font-bold mr-1">High:</span> {info.high}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className={`p-5 rounded-2xl transition-all border ${inputs.big5[key as keyof typeof inputs.big5] === 'High' ? 'bg-brand-50 border-brand-200 text-brand-900 shadow-sm' : 'bg-slate-50 border-transparent text-slate-400'}`}>
+                                            <span className="font-black text-xs uppercase block mb-1">High Profile</span> {info.high}
                                         </div>
-                                        <div className={`p-3 rounded transition-colors ${inputs.big5[key] === 'Low' ? 'bg-stone-200 text-stone-800 ring-1 ring-stone-400' : 'bg-white text-stone-400 border border-stone-100'}`}>
-                                            <span className="font-bold mr-1">Low:</span> {info.low}
+                                        <div className={`p-5 rounded-2xl transition-all border ${inputs.big5[key as keyof typeof inputs.big5] === 'Low' ? 'bg-slate-200 border-slate-300 text-slate-800' : 'bg-slate-50 border-transparent text-slate-400'}`}>
+                                            <span className="font-black text-xs uppercase block mb-1">Low Profile</span> {info.low}
                                         </div>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     ) : isVia ? (
-                        <div className="space-y-6">
-                            <div className="bg-amber-50 p-4 rounded-lg text-sm text-amber-800 flex gap-2 mb-2">
-                                <Icon name="Sparkles" size={16} className="shrink-0 mt-0.5"/>
-                                <span><span className="font-bold">결과 해석:</span> viacharacter.org 검사 결과 상위 5개 강점을 아래에서 찾아 선택하세요.</span>
+                        <div className="space-y-8">
+                            <div className="bg-emerald-50 p-6 rounded-[2rem] border border-emerald-100 flex gap-4">
+                                <Icon name="Sparkles" size={24} className="text-emerald-500 shrink-0"/>
+                                <p className="text-sm text-emerald-800 font-bold leading-relaxed">
+                                    <span className="font-black block text-emerald-900 mb-1">Signature Strengths (viacharacter.org)</span>
+                                    상위 5개 강점을 선택해주세요. 당신의 성품을 대변하는 핵심 역량입니다.
+                                </p>
                             </div>
-                            <div className="flex items-center justify-between gap-4">
-                                <input
-                                    type="text"
-                                    placeholder="강점 검색..."
-                                    value={viaSearch}
-                                    onChange={e => setViaSearch(e.target.value)}
-                                    className="flex-grow px-4 py-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:border-blue-400"
-                                />
-                                <span className="text-base font-bold text-stone-500 shrink-0">
-                                    <span className="text-blue-900 text-xl">{inputs.via.length}</span> / 5
-                                    {inputs.via.length === 5 && <span className="text-sm font-bold text-green-600 bg-green-50 px-2 py-1 rounded ml-2">완료</span>}
-                                </span>
+                            <div className="flex items-center gap-6 sticky top-0 bg-white/80 backdrop-blur-md p-4 rounded-3xl z-10 border border-slate-100">
+                                <div className="flex-1 relative">
+                                    <Icon name="Search" className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18}/>
+                                    <input
+                                        type="text"
+                                        placeholder="강점 검색..."
+                                        value={viaSearch}
+                                        onChange={e => setViaSearch(e.target.value)}
+                                        className="w-full pl-12 pr-6 py-4 bg-slate-100 border-none rounded-2xl text-base font-bold focus:ring-2 focus:ring-emerald-500/20"
+                                    />
+                                </div>
+                                <div className="bg-emerald-500 text-white px-6 py-4 rounded-2xl font-black flex items-center gap-3 shadow-lg shadow-emerald-500/20">
+                                    <span className="text-2xl">{inputs.via.length}</span> <span className="opacity-40">/</span> <span>5</span>
+                                </div>
                             </div>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 {viaList.filter(v => v.includes(viaSearch)).map(v => {
                                     const isSelected = inputs.via.includes(v);
                                     const isDisabled = !isSelected && inputs.via.length >= 5;
@@ -245,12 +257,12 @@ const DiagnosisModal: React.FC<DiagnosisModalProps> = ({ type, inputs, setInputs
                                                     : inputs.via.length < 5 ? [...inputs.via, v] : inputs.via;
                                                 setInputs({...inputs, via: newVia});
                                             }} 
-                                            className={`px-3 py-3 rounded-lg text-base font-bold transition-all border ${
+                                            className={`p-4 rounded-2xl text-sm font-black transition-all border-2 text-center h-20 flex items-center justify-center ${
                                                 isSelected 
-                                                    ? 'bg-amber-600 border-amber-600 text-white shadow-md transform scale-105' 
+                                                    ? 'bg-emerald-500 border-emerald-500 text-white shadow-lg scale-105' 
                                                     : isDisabled
-                                                        ? 'bg-stone-50 border-stone-100 text-stone-300 cursor-not-allowed'
-                                                        : 'bg-white border-stone-200 text-slate-600 hover:bg-blue-50 hover:border-blue-200'
+                                                        ? 'bg-slate-50 border-slate-100 text-slate-200 cursor-not-allowed opacity-50'
+                                                        : 'bg-white border-slate-200 text-slate-500 hover:border-emerald-300 hover:bg-emerald-50'
                                             }`}
                                         >
                                             {v}
@@ -260,53 +272,49 @@ const DiagnosisModal: React.FC<DiagnosisModalProps> = ({ type, inputs, setInputs
                             </div>
                         </div>
                     ) : isEQ ? (
-                        <div className="space-y-8">
-                            {/* 진행도 */}
+                        <div className="space-y-10">
                             {(() => {
                                 const totalAnswered = Object.values(eqAnswers).flat().filter(a => a > 0).length;
                                 return (
-                                    <div>
-                                        <div className="flex justify-between text-sm font-bold mb-1">
-                                            <span className="text-rose-700">진행도</span>
-                                            <span className="text-rose-900">{totalAnswered} / 25 문항</span>
+                                    <div className="bg-rose-50 p-8 rounded-[2.5rem] border border-rose-100 space-y-4">
+                                        <div className="flex justify-between items-end">
+                                            <div>
+                                                <h4 className="text-xl font-black text-rose-900">EQ 정밀 진단</h4>
+                                                <p className="text-sm text-rose-600 font-bold">25문항에 성실히 답변해주세요.</p>
+                                            </div>
+                                            <span className="text-2xl font-black text-rose-500">{totalAnswered} <span className="text-xs opacity-50">/ 25</span></span>
                                         </div>
-                                        <div className="h-2 bg-rose-100 rounded-full overflow-hidden">
-                                            <div className="h-full bg-rose-600 rounded-full transition-all duration-300" style={{width: `${(totalAnswered/25)*100}%`}}/>
+                                        <div className="h-2.5 bg-rose-200 rounded-full overflow-hidden">
+                                            <motion.div initial={{width:0}} animate={{width:`${(totalAnswered/25)*100}%`}} className="h-full bg-rose-500"/>
                                         </div>
                                     </div>
                                 );
                             })()}
-                            <div className="bg-rose-50 p-4 rounded-lg text-sm text-rose-800 flex gap-2">
-                                <Icon name="Heart" size={16} className="shrink-0 mt-0.5"/>
-                                <span>사역 현장에서 <span className="font-bold">실제 내 모습</span>을 기준으로 답하세요. 이상적인 모습이 아닌 평소 행동 패턴을 선택해야 정확한 진단이 됩니다.</span>
-                            </div>
                             {Object.entries(eqData).map(([key, info]) => {
                                 const questions = EQ_QUESTIONS[key] || [];
                                 const answers = eqAnswers[key] || [];
                                 const level = calcEQLevel(answers);
                                 const dimDone = answers.every(a => a > 0);
                                 return (
-                                    <div key={key} className={`rounded-2xl border-2 overflow-hidden transition-all ${dimDone ? 'border-rose-300 shadow-md' : 'border-stone-200'}`}>
-                                        <div className={`px-6 py-4 flex items-center justify-between ${dimDone ? 'bg-rose-50' : 'bg-stone-50'}`}>
+                                    <div key={key} className={`glass-card !p-0 border-none overflow-hidden transition-all ${dimDone ? 'ring-2 ring-rose-500 shadow-xl' : ''}`}>
+                                        <div className={`px-8 py-6 flex items-center justify-between ${dimDone ? 'bg-rose-500 text-white' : 'bg-slate-50'}`}>
                                             <div>
-                                                <h4 className="text-base font-bold text-slate-900 font-serif">{info.name}</h4>
-                                                <p className="text-xs text-stone-500 mt-0.5">{info.desc}</p>
+                                                <h4 className={`text-xl font-black ${dimDone ? 'text-white' : 'text-brand-900'}`}>{info.name}</h4>
+                                                <p className={`text-xs font-bold ${dimDone ? 'text-white/60' : 'text-slate-400'}`}>{info.desc}</p>
                                             </div>
-                                            <div className={`px-3 py-1 rounded-full text-sm font-black shrink-0 ${
-                                                !level ? 'bg-stone-200 text-stone-500' :
-                                                level === 'High' ? 'bg-rose-600 text-white' :
-                                                level === 'Mid' ? 'bg-amber-500 text-white' : 'bg-stone-500 text-white'
-                                            }`}>
-                                                {!level ? '미완료' : level === 'High' ? '높음' : level === 'Mid' ? '보통' : '낮음'}
-                                            </div>
+                                            {dimDone && (
+                                                <div className="bg-white text-rose-500 px-4 py-1 rounded-full text-xs font-black shadow-sm uppercase tracking-widest">
+                                                    {level === 'High' ? 'High Level' : level === 'Mid' ? 'Medium Level' : 'Low Level'}
+                                                </div>
+                                            )}
                                         </div>
-                                        <div className="p-6 space-y-4">
+                                        <div className="p-8 space-y-6">
                                             {questions.map((q, qi) => (
-                                                <div key={qi} className={`p-4 rounded-xl border ${answers[qi] > 0 ? 'bg-rose-50 border-rose-200' : 'bg-white border-stone-100'}`}>
-                                                    <p className="text-sm text-slate-700 mb-3 font-medium leading-relaxed">
-                                                        <span className="text-rose-400 font-black mr-1">Q{qi+1}.</span> {q}
+                                                <div key={qi} className="space-y-4">
+                                                    <p className="text-base text-slate-700 font-bold leading-relaxed flex gap-3">
+                                                        <span className="text-rose-500 font-black">Q{qi+1}.</span> {q}
                                                     </p>
-                                                    <div className="flex gap-2">
+                                                    <div className="flex gap-3">
                                                         {[{score:1,label:'전혀 아니다'},{score:2,label:'보통이다'},{score:3,label:'매우 그렇다'}].map(opt => (
                                                             <button
                                                                 key={opt.score}
@@ -314,12 +322,10 @@ const DiagnosisModal: React.FC<DiagnosisModalProps> = ({ type, inputs, setInputs
                                                                     const newA = [...answers]; newA[qi] = opt.score;
                                                                     setEqAnswers(prev => ({...prev, [key]: newA}));
                                                                 }}
-                                                                className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all border ${
+                                                                className={`flex-1 py-4 rounded-2xl text-sm font-black transition-all border-2 ${
                                                                     answers[qi] === opt.score
-                                                                        ? opt.score === 3 ? 'bg-rose-600 text-white border-rose-600 shadow'
-                                                                        : opt.score === 2 ? 'bg-amber-500 text-white border-amber-500 shadow'
-                                                                        : 'bg-stone-500 text-white border-stone-500 shadow'
-                                                                        : 'bg-white text-stone-600 border-stone-200 hover:bg-stone-50'
+                                                                        ? 'bg-rose-500 border-rose-500 text-white shadow-lg'
+                                                                        : 'bg-white border-slate-100 text-slate-400 hover:border-rose-200'
                                                                 }`}
                                                             >
                                                                 {opt.label}
@@ -334,38 +340,36 @@ const DiagnosisModal: React.FC<DiagnosisModalProps> = ({ type, inputs, setInputs
                             })}
                         </div>
                     ) : (
-                        <div className="space-y-3">
-                            <div className="bg-stone-50 border border-stone-200 rounded-lg px-4 py-3 text-sm text-stone-600 flex gap-2 mb-4">
-                                <Icon name="Info" size={16} className="shrink-0 mt-0.5 text-blue-500"/>
-                                {type === 'enneagram'
-                                    ? "검사 결과 가장 높은 점수의 유형을 선택하세요. 날개(Wing)가 있다면 주 유형 기준으로 선택하세요."
-                                    : "점수가 가장 높은 앵커 1개를 선택하세요. 동점이라면 '이것을 잃으면 안 된다'고 느끼는 항목을 선택하세요."}
-                            </div>
+                        <div className="space-y-4">
                             {Object.entries(type === 'enneagram' ? detailData.enneagram : detailData.anchor).map(([k, v]) => (
                                 <button
                                     key={k}
                                     onClick={() => { setInputs({...inputs, [type]: k}); onClose(); }}
-                                    className={`w-full text-left p-5 rounded-xl border-2 transition-all hover:shadow-md ${
+                                    className={`w-full text-left p-8 rounded-[2.5rem] border-2 transition-all hover:shadow-xl ${
                                         inputs[type as 'enneagram'|'anchor'] === k
-                                            ? 'border-blue-900 bg-blue-50 ring-1 ring-blue-900'
-                                            : 'border-stone-100 hover:border-blue-200 hover:bg-stone-50'
+                                            ? 'border-brand-500 bg-brand-50 shadow-brand-500/10'
+                                            : 'border-slate-100 hover:border-brand-200 bg-white'
                                     }`}
                                 >
-                                    <div className="flex justify-between items-start mb-1">
-                                        <div>
-                                            <span className={`block text-lg font-bold font-serif ${inputs[type as 'enneagram'|'anchor'] === k ? 'text-blue-900' : 'text-slate-900'}`}>
-                                                {v.label}
-                                            </span>
-                                            {type === 'enneagram' && ENNEAGRAM_KEYWORDS[k] && (
-                                                <span className="inline-block mt-1 text-xs font-bold bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">{ENNEAGRAM_KEYWORDS[k]}</span>
-                                            )}
+                                    <div className="flex justify-between items-start gap-6">
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <span className={`text-2xl font-black ${inputs[type as 'enneagram'|'anchor'] === k ? 'text-brand-900' : 'text-slate-800'}`}>
+                                                    {v.label}
+                                                </span>
+                                                {type === 'enneagram' && ENNEAGRAM_KEYWORDS[k] && (
+                                                    <span className="bg-brand-500/10 text-brand-500 px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest">{ENNEAGRAM_KEYWORDS[k]}</span>
+                                                )}
+                                            </div>
                                             {type === 'anchor' && ANCHOR_HINTS[k] && (
-                                                <span className="block mt-1 text-xs text-stone-500 italic">"{ANCHOR_HINTS[k]}"</span>
+                                                <p className="text-sm font-bold text-brand-500 italic mb-3 opacity-60">"{ANCHOR_HINTS[k]}"</p>
                                             )}
+                                            <p className="text-base text-slate-500 font-medium leading-relaxed">{v.desc}</p>
                                         </div>
-                                        {inputs[type as 'enneagram'|'anchor'] === k && <Icon name="Check" className="text-blue-900 shrink-0" size={20}/>}
+                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 border-2 transition-all ${inputs[type as 'enneagram'|'anchor'] === k ? 'bg-brand-500 border-brand-500 text-white' : 'border-slate-100 text-transparent'}`}>
+                                            <Icon name="Check" size={24}/>
+                                        </div>
                                     </div>
-                                    <span className="text-sm text-slate-600 mt-2 block">{v.desc}</span>
                                 </button>
                             ))}
                         </div>
@@ -373,15 +377,15 @@ const DiagnosisModal: React.FC<DiagnosisModalProps> = ({ type, inputs, setInputs
                 </div>
 
                 {/* Modal Footer */}
-                <div className="sticky bottom-0 bg-white/95 backdrop-blur px-8 py-6 border-t border-stone-100">
+                <div className="px-10 py-8 border-t border-brand-100 bg-white/50">
                      <button 
                         onClick={onClose}
-                        className="w-full py-4 bg-blue-900 text-white text-lg font-bold rounded-xl hover:bg-blue-800 transition-colors shadow-lg active:scale-[0.99]"
+                        className="premium-btn-primary w-full py-5 text-xl justify-center shadow-2xl"
                     >
-                        {isBig5 ? "입력 완료" : isVia ? `선택 완료 (${inputs.via.length}/5)` : isEQ ? `EQ 입력 완료` : "닫기"}
+                        {isBig5 ? "입력 데이터 반영하기" : isVia ? `선택 완료 (${inputs.via.length}/5)` : isEQ ? `EQ 분석 데이터 동기화` : "선택 취소 및 닫기"}
                     </button>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };
@@ -389,7 +393,6 @@ const DiagnosisModal: React.FC<DiagnosisModalProps> = ({ type, inputs, setInputs
 export const DiagnosisView: React.FC<DiagnosisViewProps> = ({ inputs, setInputs, onFinish }) => {
     const [activeModal, setActiveModal] = useState<'enneagram' | 'big5' | 'anchor' | 'via' | 'eq' | null>(null);
 
-    // Calculate Progress
     const isEnneagramDone = !!inputs.enneagram;
     const big5Count = Object.values(inputs.big5).filter(v => v !== '').length;
     const isBig5Done = big5Count === 5;
@@ -403,10 +406,10 @@ export const DiagnosisView: React.FC<DiagnosisViewProps> = ({ inputs, setInputs,
         if (isEnneagramDone) count += 1;
         if (isAnchorDone) count += 1;
         if (isViaDone) count += 1;
-        count += (big5Count / 5); // Big5 counts as 1 total point
-        count += (eqCount / 5);   // EQ counts as 1 total point
+        count += (big5Count / 5);
+        count += (eqCount / 5);
         return (count / 5) * 100;
-    }, [inputs]);
+    }, [inputs, isEnneagramDone, isAnchorDone, isViaDone, big5Count, eqCount]);
 
     const isReady = isEnneagramDone && isBig5Done && isAnchorDone && isViaDone && isEQDone;
 
@@ -420,53 +423,51 @@ export const DiagnosisView: React.FC<DiagnosisViewProps> = ({ inputs, setInputs,
         valuePreview?: React.ReactNode
     ) => (
         <div 
-            onClick={() => setActiveModal(type as 'enneagram' | 'big5' | 'anchor' | 'via' | 'eq')}
+            onClick={() => setActiveModal(type as any)}
             className={`
-                group relative p-6 bg-white border-2 rounded-2xl cursor-pointer transition-all duration-300
+                glass-card group relative !p-8 flex flex-col justify-between transition-all duration-500 border-2
                 ${isDone 
-                    ? 'border-blue-900 shadow-md ring-1 ring-blue-900/10' 
-                    : 'border-stone-200 hover:border-amber-400 hover:shadow-lg'
+                    ? 'border-brand-500 shadow-xl shadow-brand-500/5 bg-white' 
+                    : 'border-transparent hover:border-brand-200 bg-white/50'
                 }
             `}
         >
-            <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-4">
+            <div className="flex items-start justify-between mb-6">
+                <div className="flex items-center gap-5">
                     <div className={`
-                        w-12 h-12 rounded-2xl flex items-center justify-center transition-colors
-                        ${isDone ? 'bg-blue-900 text-white' : `bg-stone-100 ${colorClass}`}
+                        w-16 h-16 rounded-[1.5rem] flex items-center justify-center transition-all duration-500 shadow-sm
+                        ${isDone ? 'bg-brand-500 text-white scale-110 shadow-lg shadow-brand-500/20' : `bg-white ${colorClass} group-hover:scale-110 group-hover:shadow-md`}
                     `}>
-                        <Icon name={icon} size={24}/>
+                        <Icon name={icon} size={32}/>
                     </div>
                     <div>
-                        <p className="text-sm font-bold text-stone-400 uppercase tracking-wider mb-0.5">{subtitle}</p>
-                        <p className={`text-xl font-bold font-serif ${isDone ? 'text-blue-900' : 'text-slate-900'}`}>
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-1">{subtitle}</p>
+                        <h4 className={`text-2xl font-black ${isDone ? 'text-brand-900' : 'text-slate-700'}`}>
                             {title}
-                        </p>
+                        </h4>
                     </div>
                 </div>
                 <div className={`
-                    w-8 h-8 rounded-full flex items-center justify-center transition-all
-                    ${isDone ? 'bg-blue-100 text-blue-900' : 'text-stone-300 group-hover:text-amber-500'}
+                    w-10 h-10 rounded-full flex items-center justify-center transition-all border-2
+                    ${isDone ? 'bg-brand-50 text-brand-500 border-brand-500' : 'text-slate-200 border-slate-100 group-hover:border-brand-200 group-hover:text-brand-500'}
                 `}>
-                    <Icon name={isDone ? "Check" : "ChevronRight"} size={20}/>
+                    <Icon name={isDone ? "Check" : "ArrowRight"} size={20}/>
                 </div>
             </div>
             
-            {/* Value Preview Section */}
-            <div className="pl-16 min-h-[1.5rem]">
+            <div className="min-h-[2.5rem] flex items-end">
                 {isDone ? (
-                    <div className="text-base font-medium text-slate-700 animate-[fadeIn_0.5s_ease-out]">
+                    <div className="w-full">
                         {valuePreview}
                     </div>
                 ) : (
-                    <span className="text-sm text-stone-400">선택되지 않음</span>
+                    <span className="text-sm font-black text-slate-300 uppercase tracking-widest">Awaiting Input</span>
                 )}
             </div>
         </div>
     );
 
     const handleManualSelect = (archetype: Archetype) => {
-        // Construct synthetic inputs based on the archetype's traits to create a perfect match
         const syntheticInputs: Inputs = {
             enneagram: archetype.traits.enneagram[0],
             anchor: archetype.traits.anchor[0],
@@ -476,7 +477,7 @@ export const DiagnosisView: React.FC<DiagnosisViewProps> = ({ inputs, setInputs,
                 extraversion: 'Mid',
                 agreeableness: 'Mid',
                 neuroticism: 'Mid',
-                [archetype.traits.big5]: 'High'
+                [archetype.traits.big5 as keyof Inputs['big5']]: 'High'
             },
             via: archetype.traits.via.slice(0, 5),
             eq: { awareness: 'Mid', regulation: 'Mid', motivation: 'Mid', empathy: 'Mid', social: 'Mid' }
@@ -487,25 +488,31 @@ export const DiagnosisView: React.FC<DiagnosisViewProps> = ({ inputs, setInputs,
     };
 
     return (
-        <div className="max-w-4xl mx-auto px-6 py-16 fade-in">
-            <SectionTitle title="성향 프로파일링" subtitle="당신의 내면을 있는 그대로 비추어 주십시오." />
+        <div className="max-w-6xl mx-auto px-6 py-12 space-y-16">
+            <div className="text-center space-y-4">
+                <SectionTitle title="소명 성향 진단" subtitle="자신을 가장 잘 나타내는 핵심 지표들을 통합하여 분석합니다." />
+                <p className="text-slate-400 font-bold max-w-2xl mx-auto leading-relaxed">
+                    에니어그램, Big 5, 커리어 앵커, VIA 강점, 그리고 EQ 감성지능까지 - <br/>
+                    5가지 전문 다면 진단을 통해 당신의 '목회 아키타입'을 도출합니다.
+                </p>
+            </div>
             
-            {/* External Links Box */}
-            <div className="bg-white border border-stone-200 rounded-2xl p-6 mb-10 shadow-sm">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-                    <h3 className="text-base font-bold text-slate-800 flex items-center gap-2">
-                        <Icon name="ExternalLink" size={16}/> 
-                        무료 진단 링크 (참고용)
+            {/* External Support Box */}
+            <div className="glass-card !bg-brand-900 !text-white !p-10 flex flex-col md:flex-row items-center justify-between gap-10">
+                <div className="space-y-3 text-center md:text-left">
+                    <h3 className="text-2xl font-black flex items-center justify-center md:justify-start gap-3">
+                        <Icon name="ExternalLink" size={24} className="text-brand-500"/> 
+                        전문 외부 진단 지원
                     </h3>
-                    <span className="text-sm text-stone-500 bg-stone-100 px-2 py-1 rounded">
-                        *이미 진단 결과가 있다면 바로 아래에 입력하세요.
-                    </span>
+                    <p className="text-white/60 font-bold max-w-lg">
+                        아직 결과가 없으신가요? 공신력 있는 무료 진단 사이트에서 <br/>먼저 테스트를 진행한 후 결과를 입력해주세요.
+                    </p>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap justify-center gap-3 max-w-md">
                     {externalTests.map(t => (
                         <a key={t.id} href={t.url} target="_blank" rel="noopener noreferrer" 
-                           className={`px-3 py-1.5 border rounded-lg text-sm font-bold flex items-center gap-2 transition-colors hover:bg-stone-50 ${t.color.replace('text', 'border')}`}>
-                            <Icon name={t.icon} size={12}/> {t.name}
+                           className="px-5 py-3 bg-white/10 hover:bg-white/20 rounded-2xl text-sm font-black flex items-center gap-2 transition-all border border-white/10 hover:border-white/30">
+                            <Icon name={t.icon} size={16}/> {t.name}
                         </a>
                     ))}
                 </div>
@@ -513,56 +520,58 @@ export const DiagnosisView: React.FC<DiagnosisViewProps> = ({ inputs, setInputs,
 
             <ProgressBar progress={progress} />
 
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {renderCard(
                     'enneagram', 
-                    "에니어그램 (Enneagram)", 
-                    "Motivation", 
+                    "에니어그램", 
+                    "Inner Motivation", 
                     "Fingerprint", 
-                    "text-purple-600",
+                    "text-brand-500",
                     isEnneagramDone,
-                    <span className="bg-purple-50 text-purple-900 px-2 py-1 rounded-md text-sm font-bold border border-purple-100">
-                        {inputs.enneagram ? detailData.enneagram[inputs.enneagram]?.label?.split(':')[0] : ''}
-                    </span>
+                    <div className="bg-brand-50 text-brand-900 px-4 py-2 rounded-xl text-sm font-black border border-brand-100 inline-block shadow-sm">
+                        {inputs.enneagram ? detailData.enneagram[inputs.enneagram as keyof typeof detailData.enneagram]?.label?.split(':')[0] : ''}
+                    </div>
                 )}
 
                 {renderCard(
                     'big5', 
-                    "Big 5 성격검사", 
-                    "Personality", 
+                    "Big 5 성격", 
+                    "Core Personality", 
                     "Brain", 
-                    "text-green-600",
+                    "text-emerald-500",
                     isBig5Done,
-                    <div className="flex gap-1">
-                        {Object.entries(inputs.big5).map(([k, v]) => (
-                            <span key={k} title={k} className={`w-2 h-2 rounded-full ${v === 'High' ? 'bg-green-500' : v === 'Mid' ? 'bg-green-200' : 'bg-stone-200'}`}></span>
-                        ))}
-                        <span className="ml-2 text-sm text-green-700">{big5Count}/5 입력됨</span>
+                    <div className="flex items-center gap-3">
+                        <div className="flex gap-1.5">
+                            {Object.entries(inputs.big5).map(([k, v]) => (
+                                <div key={k} className={`w-3 h-3 rounded-full ${v === 'High' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : v === 'Mid' ? 'bg-emerald-200' : 'bg-slate-200'}`}></div>
+                            ))}
+                        </div>
+                        <span className="text-sm font-black text-emerald-600 uppercase tracking-widest">{big5Count}/5 Metrics</span>
                     </div>
                 )}
 
                 {renderCard(
                     'anchor', 
-                    "커리어 앵커 (Value)", 
-                    "Core Value", 
+                    "커리어 앵커", 
+                    "Work Values", 
                     "Anchor", 
-                    "text-blue-600",
+                    "text-indigo-500",
                     isAnchorDone,
-                    <span className="bg-blue-50 text-blue-900 px-2 py-1 rounded-md text-sm font-bold border border-blue-100">
-                        {inputs.anchor ? detailData.anchor[inputs.anchor]?.label : ''}
-                    </span>
+                    <div className="bg-indigo-50 text-indigo-900 px-4 py-2 rounded-xl text-sm font-black border border-indigo-100 inline-block shadow-sm">
+                        {inputs.anchor ? detailData.anchor[inputs.anchor as keyof typeof detailData.anchor]?.label : ''}
+                    </div>
                 )}
 
                 {renderCard(
                     'via',
-                    "VIA 대표 강점 (5개)",
-                    "Signature Strength",
+                    "VIA 5대 강점",
+                    "Strengths",
                     "Sparkles",
-                    "text-amber-600",
+                    "text-amber-500",
                     isViaDone,
-                    <div className="flex flex-wrap gap-1">
+                    <div className="flex flex-wrap gap-2">
                         {inputs.via.map(v => (
-                            <span key={v} className="text-xs bg-amber-50 text-amber-800 px-1.5 py-0.5 rounded border border-amber-100 font-bold">
+                            <span key={v} className="text-[10px] bg-amber-50 text-amber-800 px-2 py-1 rounded-lg border border-amber-100 font-black uppercase tracking-tighter">
                                 {v}
                             </span>
                         ))}
@@ -571,89 +580,75 @@ export const DiagnosisView: React.FC<DiagnosisViewProps> = ({ inputs, setInputs,
 
                 {renderCard(
                     'eq',
-                    "EQ 감성지능 (Goleman)",
-                    "Emotional Intelligence",
+                    "EQ 감성지능",
+                    "Emotional IQ",
                     "Heart",
-                    "text-rose-600",
+                    "text-rose-500",
                     isEQDone,
-                    <div className="flex gap-1 items-center">
-                        {Object.entries(inputs.eq).map(([k, v]) => (
-                            <span key={k} title={k} className={`w-2 h-2 rounded-full ${v === 'High' ? 'bg-rose-500' : v === 'Mid' ? 'bg-rose-200' : 'bg-stone-200'}`}></span>
-                        ))}
-                        <span className="ml-2 text-sm text-rose-700">{eqCount}/5 입력됨</span>
+                    <div className="flex items-center gap-3">
+                        <div className="flex gap-1.5">
+                            {Object.entries(inputs.eq).map(([k, v]) => (
+                                <div key={k} className={`w-3 h-3 rounded-full ${v === 'High' ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]' : v === 'Mid' ? 'bg-rose-200' : 'bg-slate-200'}`}></div>
+                            ))}
+                        </div>
+                        <span className="text-sm font-black text-rose-600 uppercase tracking-widest">{eqCount}/5 Factors</span>
                     </div>
                 )}
-            </div>
 
-            <div className="mt-12 text-center">
-                <button 
-                    onClick={() => onFinish()} 
-                    disabled={!isReady} 
+                {/* Submit Placeholder Card */}
+                <div 
+                    onClick={() => isReady && onFinish()}
                     className={`
-                        px-16 py-6 rounded-xl text-xl font-bold font-serif shadow-xl transition-all duration-300
+                        group relative !p-8 flex flex-col justify-center items-center transition-all duration-500 border-2 rounded-[2.5rem] cursor-pointer
                         ${isReady 
-                            ? 'bg-blue-900 text-white hover:bg-blue-800 transform hover:-translate-y-1 hover:shadow-2xl' 
-                            : 'bg-stone-200 text-stone-400 cursor-not-allowed grayscale'
+                            ? 'bg-brand-500 border-brand-500 text-white shadow-2xl shadow-brand-500/20 scale-105' 
+                            : 'bg-slate-50 border-dashed border-slate-200 text-slate-300'
                         }
                     `}
                 >
-                    <span className="flex items-center gap-3">
-                        소명 아키타입 분석하기
-                        {isReady && <Icon name="ArrowRight" />}
-                    </span>
-                </button>
-                {!isReady && (
-                    <p className="text-base text-stone-400 mt-4 animate-pulse">
-                        * 모든 항목을 입력해야 분석이 가능합니다. ({Math.round(progress)}%)
-                    </p>
-                )}
-            </div>
-
-            {/* Quick Select Section */}
-            <div className="mt-20 pt-12 border-t border-stone-200">
-                <div className="text-center mb-8">
-                    <span className="bg-stone-100 text-stone-500 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-4 inline-block">Quick Select</span>
-                    <h4 className="text-xl font-bold text-slate-700 font-serif">
-                        이미 자신의 유형을 알고 계신가요?
-                    </h4>
-                    <p className="text-stone-500 text-base mt-2 max-w-lg mx-auto">
-                        진단 과정을 건너뛰고 특정 유형의 분석 결과를 바로 확인할 수 있습니다.<br/>
-                        아래에서 해당 유형을 선택해주세요.
+                    <Icon name={isReady ? "Cpu" : "Lock"} size={48} className={isReady ? "mb-4 animate-pulse" : "mb-4 opacity-20"} />
+                    <h4 className="text-xl font-black mb-2">{isReady ? "분석 리포트 생성" : "분석 대기 중"}</h4>
+                    <p className="text-xs font-bold text-center opacity-60">
+                        {isReady ? "데이터 준비 완료! 지금 확인하세요." : "모든 정보를 입력하면 분석이 시작됩니다."}
                     </p>
                 </div>
+            </div>
+
+            {/* Quick Access Section */}
+            <div className="pt-20 border-t border-slate-100">
+                <div className="text-center mb-12 space-y-4">
+                    <span className="px-4 py-1.5 bg-brand-50 text-brand-500 rounded-full text-xs font-black uppercase tracking-widest">Fast Track</span>
+                    <h4 className="text-3xl font-black text-brand-900 tracking-tight">유형별 즉시 확인</h4>
+                    <p className="text-slate-400 font-bold max-w-lg mx-auto">이미 결과를 알고 계시다면 특정 유형의 리포트를 바로 조회할 수 있습니다.</p>
+                </div>
                 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-9 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-9 gap-4">
                     {archetypes.map(t => (
                         <button 
                             key={t.id}
                             onClick={() => handleManualSelect(t)}
-                            className="flex flex-col items-center p-4 rounded-2xl border-2 border-stone-100 bg-white hover:border-blue-300 hover:shadow-lg hover:-translate-y-1 transition-all group h-full"
+                            className="flex flex-col items-center p-6 rounded-3xl border border-slate-100 bg-white hover:border-brand-300 hover:shadow-2xl hover:-translate-y-2 transition-all group"
                         >
-                            <div className="w-10 h-10 bg-stone-50 rounded-full flex items-center justify-center text-stone-400 group-hover:bg-blue-900 group-hover:text-white mb-3 transition-colors shadow-sm">
-                                <Icon name={t.symbol} size={20}/>
+                            <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300 group-hover:bg-brand-500 group-hover:text-white mb-4 transition-all shadow-sm">
+                                <Icon name={t.symbol} size={24}/>
                             </div>
-                            <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-1">Type {t.id}</span>
-                            <span className="text-xs font-bold text-slate-700 w-full text-center group-hover:text-blue-900 leading-snug break-keep">{t.title}</span>
+                            <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1 group-hover:text-brand-500 transition-colors">Type {t.id}</span>
+                            <span className="text-xs font-black text-brand-900 leading-snug break-keep text-center">{t.title}</span>
                         </button>
                     ))}
                 </div>
             </div>
 
-            {activeModal && (
-                <DiagnosisModal 
-                    type={activeModal} 
-                    inputs={inputs} 
-                    setInputs={setInputs} 
-                    onClose={() => setActiveModal(null)} 
-                />
-            )}
-            
-            <style>{`
-                @keyframes scaleUp {
-                    from { transform: scale(0.95); opacity: 0; }
-                    to { transform: scale(1); opacity: 1; }
-                }
-            `}</style>
+            <AnimatePresence>
+                {activeModal && (
+                    <DiagnosisModal 
+                        type={activeModal} 
+                        inputs={inputs} 
+                        setInputs={setInputs} 
+                        onClose={() => setActiveModal(null)} 
+                    />
+                )}
+            </AnimatePresence>
         </div>
     );
 };
