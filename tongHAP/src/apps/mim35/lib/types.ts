@@ -1,0 +1,412 @@
+
+export type Big5Trait = 'openness' | 'conscientiousness' | 'extraversion' | 'agreeableness' | 'neuroticism';
+export type Big5Level = 'High' | 'Mid' | 'Low';
+export type EQTrait = 'awareness' | 'regulation' | 'motivation' | 'empathy' | 'social';
+
+export interface Big5State {
+    [key: string]: Big5Level | '';
+}
+
+export interface EQState {
+    awareness: Big5Level | '';
+    regulation: Big5Level | '';
+    motivation: Big5Level | '';
+    empathy: Big5Level | '';
+    social: Big5Level | '';
+}
+
+export interface HeartBalance {
+    parent: number; // 부모의 심정 (0-100)
+    teacher: number; // 스승의 심정 (0-100)
+    owner: number; // 주인의 심정 (0-100)
+    advice: string;
+}
+
+export interface BurnoutDefense {
+    type: string;
+    description: string;
+    historicalExample: string;
+}
+
+export interface CoupleSynergy {
+    matchType: string;
+    description: string;
+    weeklyReading: string;
+    communicationTip: string;
+}
+
+export interface GenerationBridge {
+    mzPerception: string;
+    advice: string;
+    icebreaker: string;
+}
+
+export interface MulticulturalGuide {
+    approachStyle: string;
+    tips: string[];
+}
+
+export interface ManagementStyle {
+    organizationManagement: string; // 조직관리 방식
+    teamBuilding: string; // 조직구성 방식
+    selectionAndConcentration: string; // 선택과 집중 (우선순위 설정)
+}
+
+export interface ResilienceAndPsychology {
+    psychologicalTrait: string; // 심리학적 특성
+    resilienceLevel: string; // 회복탄력성
+    recoveryMethod: string; // 극복 방법
+}
+
+export interface WordApproach {
+    strengths: string; // 말씀을 대할 때 장점
+    cautions: string; // 말씀을 대할 때 주의점
+}
+
+export interface LeadershipAndMentoring {
+    mentoringStyle: string; // 지도 및 멘토링 방식
+    feedbackStyle: string; // 피드백 제공 방식
+}
+
+export interface Inputs {
+    enneagram: string;
+    big5: Big5State;
+    anchor: string;
+    via: string[];
+    eq: EQState;
+}
+
+export interface ArchetypeDNA {
+    how: string;
+    what: string;
+    why: string;
+}
+
+export interface ArchetypePartner {
+    role: string;
+    reason: string;
+}
+
+export interface GrowthDetail {
+    title: string;
+    description: string;
+    actionItems: string[];
+}
+
+export interface GrowthGuide {
+    discipline: GrowthDetail;
+    skill: GrowthDetail;
+    leadership: GrowthDetail;
+    relationship: GrowthDetail;
+    model: {
+        name: string;
+        desc: string;
+        lesson: string;
+    };
+    checklist: string[];
+    education: string;
+}
+
+export interface RoleModel {
+    name: string;
+    epithet: string;
+    description: string;
+    connection: string;
+    bibleVerse: string;
+    leadershipStyle: string;
+    lesson: string;
+}
+
+/** 
+ * \uc560\ub2c8\uc5b4\uadf8\ub7a8 \uae30\ubc18\uc758 9\ub300 \ubaa9\ud68c\uc790 \uc720\ud615(\ub300\uc720\ud615).
+ * \uac01 \ub300\uc720\ud615\uc740 \uac80\uc0ac \uacb0\uacfc\uc5d0 \ub530\ub77c 3\uac00\uc9c0 \uc138\ubd80 \ubcc0\uc774(\uc18c\uc720\ud615)\ub85c \ubd84\ud654\ub41c\ub2e4.
+ * - Variation A: \uac15\uc810 \uc2ec\ud654\ud615 (\ud575\uc2ec \uc5ed\ub7c9\uc774 \uadf9\ub300\ud654\ub41c \uc0c1\ud0dc)
+ * - Variation B: \uc704\uae30 \uad00\ub9ac\ud615 (\ub098\uc758 \ubca0\ub4dc\ub77c\uc784 \uae30\uc624\uac00 \uc2a4\ud2b8\ub808\uc2a4\ub97c \uc720\ubc1c\ud558\ub294 \uc0c1\ud0dc)
+ * - Variation C: \uad00\uacc4 \uc9c0\ud5a5\ud615 (\uc2ec\uc815\uc801 \uc720\ub300\uc640 \uc18c\ud1b5\uc5d0 \uc624\uc9c0\ud558\ub294 \uc0c1\ud0dc)
+ */
+export interface ArchetypeSubType {
+    title: string;
+    catchphrase: string;
+    description: string;
+    keyFocus: string;
+    symbol: string;
+    strength: string;
+    risk: string;
+    // \uc18c\uc720\ud615 \uad6c\uc870 (Variation A/B/C)
+    variationKey: 'strength' | 'crisis' | 'relational';
+}
+
+/**
+ * 9\ub300 \ub300\uc720\ud615 \uc548\uc5d0\uc11c \uac80\uc0ac \uc218\uce58\ub85c \ub3c4\ucd9c\ub418\ub294
+ * 3\uac00\uc9c0 \uc138\ubd80 \ubcc0\uc774(Sub-variation) \uad6c\uc870.
+ * \uac01 Variation\uc740 \ubaa9\ud68c \ud604\uc7a5\uc5d0\uc11c\uc758 \uad6c\uccb4\uc801\uc778 \ud589\ub3d9 \ud328\ud134\uc774 \ub2e4\ub974\ub2e4.
+ */
+export interface PastorSubVariation {
+    variationKey: 'strength' | 'crisis' | 'relational';
+    label: string;               // \uc608: "\uac15\uc810 \uc2ec\ud654\ud615", "\uc704\uae30 \uad00\ub9ac\ud615", "\uad00\uacc4 \uc9c0\ud5a5\ud615"
+    triggerCondition: string;    // \uc5b4\ub5a4 \uac80\uc0ac \uc218\uce58\uc77c \ub54c \uc774 Variation\uc774 \ud65c\uc131\ud654\ub418\ub294\uc9c0
+    ministryFocus: string;       // \uc774 \uc0c1\ud0dc\uc77c \ub54c \uc9d1\uc911\ud574\uc57c \ud560 \uc12d\ub9ac \ud588\uc2ec
+    wordApproachTip: string;     // \ub9d0\uc500(\ud6c8\ub3c5)\uc744 \ub300\ud560 \ub54c \uc774 \uc0c1\ud0dc\uc5d0\uc11c \ud2b9\ud788 \uc8fc\uc758\ud560 \uc810
+    managementTip: string;       // \uc870\uc9c1 \uad00\ub9ac \ubc0f \uc778\uc0ac\ubc30\uce58 \uc2dc \uace0\ub824\ud560 \uc810
+    resilienceTip: string;       // \ud68c\ubcf5\ud0c4\ub825\uc131: \uc774 \uc0c1\ud0dc\uc5d0\uc11c \uc5b4\ub5bb\uac8c \ubc88\uc544\uc6c3\uc744 \uc608\ubc29\ud560\uc9c0
+    prayerKey: string;           // \uc774 \uc0c1\ud0dc\uc5d0 \uc801\ud569\ud55c \uae30\ub3c4 \ud0a4\uc6cc\ub4dc
+    warningSign: string;         // \uc704\ud5d8 \uc2e0\ud638: \uc774\ub7f0 \ud328\ud134\uc774 \ub098\ud0c0\ub098\uba74 \uc8fc\uc758
+}
+
+export interface SimulationData {
+    deskAtmosphere: string;
+    dailyRoutine: string;
+    meetingStyle: string;
+    reportingStyle: string;
+    communicationStyle: string;
+    crisisReaction: string;
+    energySource: string;
+    stressTrigger: string;
+    decisionProcess: string;
+    emailTone: string;
+}
+
+export interface WeeklyPlan {
+    mon: string;
+    tue: string;
+    wed: string;
+    thu: string;
+    fri: string;
+    sat: string;
+    sun: string;
+}
+
+export interface ConflictScenario {
+    situation: string;
+    wrongResponse: string;
+    rightResponse: string;
+    principle: string;
+}
+
+export interface PracticalTip {
+    category: string;
+    title: string;
+    description: string;
+    doList: string[];
+    dontList: string[];
+}
+
+export interface PrayerGuide {
+    morningPrayer: string;
+    noonPrayer: string;
+    eveningReflection: string;
+    specialPrayer: string;
+    weeklyFocus: string[];
+}
+
+export interface PlacementPrinciple {
+    title: string;
+    description: string;
+    basis: string; // 근거 (회의록, 규정 등)
+}
+
+export interface OnboardingStep {
+    phase: string;
+    period: string;
+    tasks: string[];
+    mentor: string;
+}
+
+export interface DISCProfile {
+    primaryType: string;
+    description: string;
+    fitReason: string;
+}
+
+export interface SalaryStructure {
+    grade: string;
+    centralSupport: boolean;
+    note: string;
+}
+
+export interface OrganizationExpectation {
+    role: string;
+    expectations: string[];
+    idealPartner: string;
+}
+
+export interface HRPlacementGuide {
+    shortTerm: string;
+    midTerm: string;
+    longTerm: string;
+    watchOut: string;
+}
+
+export interface DeploymentFit {
+    hqScore: number;
+    fieldScore: number;
+    idealDepartments: string[];
+    reasoning: string;
+    warningPlacements: string[];
+    placementPrinciples: PlacementPrinciple[];
+    discProfile: DISCProfile;
+    onboardingSteps: OnboardingStep[];
+    salaryStructure: SalaryStructure;
+    centralHiringNote: string;
+    hrRecommendation: string;
+    organizationExpectation: OrganizationExpectation;
+    hrPlacementGuide: HRPlacementGuide;
+}
+
+export interface KPITemplate {
+    quantitative: { name: string; weight: number; description: string }[];
+    providential: { name: string; weight: number; description: string }[];
+    growth: { name: string; weight: number; description: string }[];
+    evaluationTip: string;
+}
+
+export interface CareerRoadmapStage {
+    stage: string;
+    period: string;
+    focus: string;
+    tasks: string[];
+    risk: string;
+}
+
+export interface CareerRoadmap {
+    stages: CareerRoadmapStage[];
+    retirementVision: string;
+}
+
+export interface Archetype {
+    id: number;
+    title: string;
+    engTitle: string;
+    subtitle: string;
+    verse: string;
+    traits: {
+        big5: Big5Trait;
+        enneagram: string[];
+        anchor: string[];
+        via: string[];
+    };
+    summary: string;
+    details: {
+        guide: string;
+        synergy: { good: string; bad: string };
+        caution: string;
+        development: string;
+    };
+    recommendations: {
+        hq: string[];
+        field: string[];
+    };
+    growthGuide: GrowthGuide;
+    roleModel: RoleModel;
+    roles: string[];
+    subTypes: ArchetypeSubType[];
+    pastorSubVariations: PastorSubVariation[]; // 9\ub300 \uc720\ud615 x 3\uac00\uc9c0 \ubcc0\uc774 = 27\uac00\uc9c0 \uc138\ubc00 \ud504\ub85c\ud544
+    symbol: string;
+    score?: number;
+    dna: ArchetypeDNA;
+    synergyDesc: string;
+    partners: {
+        best: ArchetypePartner;
+        caution: ArchetypePartner;
+    };
+    prediction: string;
+    activities: string[];
+    simulation: SimulationData;
+    weeklyPlan: WeeklyPlan;
+    conflictScenarios: ConflictScenario[];
+    practicalTips: PracticalTip[];
+    prayerGuide: PrayerGuide;
+    mottoQuotes: string[];
+    deploymentFit: DeploymentFit;
+    kpiTemplate: KPITemplate;
+    careerRoadmap: CareerRoadmap;
+    heartBalance: HeartBalance;
+    burnoutDefense: BurnoutDefense;
+    coupleSynergy: CoupleSynergy;
+    generationBridge: GenerationBridge;
+    multiculturalGuide: MulticulturalGuide;
+    managementStyle: ManagementStyle;
+    resilienceAndPsychology: ResilienceAndPsychology;
+    wordApproach: WordApproach;
+    leadershipAndMentoring: LeadershipAndMentoring;
+}
+
+export interface SavedTeam {
+    id: string;
+    name: string;
+    myArchetypeId: number;
+    partnerIds: number[];
+    createdAt: number;
+}
+
+export interface SavedAnalysis {
+    id: string;
+    name: string;
+    inputs: Inputs;
+    resultTitle: string;
+    createdAt: number;
+}
+
+export interface ExternalTest {
+    id: string;
+    name: string;
+    desc: string;
+    detail: string;
+    url: string;
+    icon: string;
+    color: string;
+    measurement: string;
+    understanding: string;
+    utilization: string;
+}
+
+export interface ManagementProfile {
+    archetypeId: number;
+    mintzberg: { roles: string[]; description: string };
+    belbin: { roles: string[]; description: string };
+    quinn: { roles: string[]; quadrant: string; description: string };
+    mcclelland: { dominantNeed: string; description: string };
+    historicalModel: { name: string; period: string; description: string; connection: string };
+}
+
+export interface RecommendedTest {
+    id: string;
+    name: string;
+    desc: string;
+    url: string;
+    icon: string;
+    color: string;
+    tag: string;
+}
+
+export interface BenefitItem {
+    icon: string;
+    title: string;
+    desc: string;
+}
+
+export interface DetailInfo {
+    label?: string;
+    name?: string;
+    desc: string;
+    advice?: string;
+    high?: string;
+    low?: string;
+    fit?: string;
+}
+
+export interface EQTraitInfo {
+    name: string;
+    desc: string;
+    high: string;
+    low: string;
+    fit: string;
+}
+
+export interface DetailData {
+    enneagram: Record<string, DetailInfo>;
+    big5: Record<string, DetailInfo>;
+    anchor: Record<string, DetailInfo>;
+    via: { desc: string; list?: string[] };
+    eq: Record<string, EQTraitInfo>;
+}

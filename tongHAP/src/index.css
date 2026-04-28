@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  --color-toss-blue: #3182f6;
+  --color-toss-blue-light: #e8f3ff;
+  --color-toss-gray-50: #f9fafb;
+  --color-toss-gray-100: #f2f4f6;
+  --color-toss-gray-200: #e5e8eb;
+  --color-toss-gray-300: #d1d6db;
+  --color-toss-gray-400: #b0b8c1;
+  --color-toss-gray-500: #8b95a1;
+  --color-toss-gray-600: #6b7684;
+  --color-toss-gray-700: #4e5968;
+  --color-toss-gray-800: #333d4b;
+  --color-toss-gray-900: #191f28;
+}
+
+@layer base {
+  body {
+    @apply bg-toss-gray-100 text-toss-gray-900 font-sans antialiased;
+  }
+}
+
+@layer components {
+  .toss-card {
+    @apply bg-white rounded-3xl p-8 transition-all duration-300;
+  }
+  .toss-card:hover {
+    @apply transform -translate-y-1 shadow-xl;
+  }
+  .toss-btn-primary {
+    @apply bg-toss-blue text-white px-6 py-3 rounded-2xl font-bold hover:bg-blue-600 transition-colors inline-flex items-center gap-2;
+  }
+}
