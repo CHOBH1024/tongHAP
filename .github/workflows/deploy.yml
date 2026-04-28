@@ -1,0 +1,50 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: 'tongHAP/package.json'
+
+      - name: Install dependencies
+        run: |
+          cd tongHAP
+          npm install
+
+      - name: Build
+        run: |
+          cd tongHAP
+          npm run build
+
+      - name: Prepare Deployment Folder
+        run: |
+          # The React app is built in tongHAP/dist
+          # We want the static files from the root to be available too
+          # We'll copy everything from the root (excluding subdirectories) to the dist folder
+          # if they don't already exist there.
+          cp *.html tongHAP/dist/ || true
+          cp questions_db.json tongHAP/dist/ || true
+          cp -r GeneralAffairs_Master tongHAP/dist/ || true
+          cp -r organized_result tongHAP/dist/ || true
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: tongHAP/dist
+          branch: gh-pages
