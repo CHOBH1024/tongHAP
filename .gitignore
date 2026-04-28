@@ -5,7 +5,13 @@ serveo.txt
 .DS_Store
 node_modules
 data/
-*.json
+# *.json
+data/*.json
+questions_db.json
+adaptive_thresholds_log.json
+# ... add others if needed, but for now let's just unignore important ones
+!package.json
+!tsconfig*.json
 *.ps1
 *.vbs
 *.docx
