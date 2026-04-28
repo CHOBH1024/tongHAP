@@ -3,7 +3,7 @@ import React from 'react';
 import { 
     Sparkles, Fingerprint, Anchor, Brain, Castle, HeartHandshake, Scroll, Scale, 
     Flame, BookOpen, Wheat, Compass, Feather, Target, Users, User, Briefcase, 
-    ThumbsUp, ThumbsDown, AlertTriangle, Sprout, Map, Church, ArrowRight, 
+    ThumbsUp, ThumbsDown, AlertTriangle, Sprout, Map, Church, ArrowRight, ArrowLeft, 
     ExternalLink, ArrowUpRight, ChevronRight, X, Dna, Activity, Zap, Crown, Check,
     Save, Trash2, History, Dumbbell, GraduationCap, ListChecks, Lightbulb, UserCheck,
     Network, Link, ZoomIn, CheckCircle, XCircle, UserPlus, Copy, MessageCircle, Gavel, Flag,
@@ -14,7 +14,7 @@ import {
 const iconMap: Record<string, React.FC<LucideProps>> = {
     Sparkles, Fingerprint, Anchor, Brain, Castle, HeartHandshake, Scroll, Scale,
     Flame, BookOpen, Wheat, Compass, Feather, Target, Users, User, Briefcase,
-    ThumbsUp, ThumbsDown, AlertTriangle, Sprout, Map, Church, ArrowRight,
+    ThumbsUp, ThumbsDown, AlertTriangle, Sprout, Map, Church, ArrowRight, ArrowLeft,
     ExternalLink, ArrowUpRight, ChevronRight, X, Dna, Activity, Zap, Crown, Check,
     Save, Trash2, History, Dumbbell, GraduationCap, ListChecks, Lightbulb, UserCheck,
     Network, Link, ZoomIn, CheckCircle, XCircle, UserPlus, Copy, MessageCircle, Gavel, Flag,

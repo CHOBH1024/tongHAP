@@ -95,12 +95,161 @@ export const surveys: SurveyConfig[] = [
     ],
     getResultContent: generateDetailedResult
   },
-  { id: 'leadership', name: 'L-Mirror', title: '리더십 진단', subtitle: '말과 태도가 조직에 미치는 온도를 측정합니다.', color: 'amber', icon: 'mic', categories: ['비전제시', '공감소통', '포용력', '피드백 수용', '선한 영향력'], questions: [], getResultContent: generateDetailedResult },
-  { id: 'authenticity', name: 'A-Mirror', title: '진정성 진단', subtitle: '무대 위와 무대 아래의 괴리감을 측정합니다.', color: 'teal', icon: 'scan-face', categories: ['투명성', '자기일치도', '취약성인정', '자기인식', '감정조절'], questions: [], getResultContent: generateDetailedResult },
-  { id: 'social', name: 'S-Mirror', title: '사회적 감수성 진단', subtitle: '현대 사회 속 나의 윤리적 좌표를 점검합니다.', color: 'emerald', icon: 'compass', categories: ['다양성존중', '인권감수성', '환경의식', '공정성', '사회적연대'], questions: [], getResultContent: generateDetailedResult },
-  { id: 'generation', name: 'G-Mirror', title: '세대 공감 진단', subtitle: '무의식적으로 범하는 물리적/정서적 경계 침범.', color: 'violet', icon: 'users', categories: ['수평적태도', '언어습관', '경계존중', '개방성', '공감능력'], questions: [], getResultContent: generateDetailedResult },
-  { id: 'counseling', name: 'C-Mirror', title: '상담자 역량 진단', subtitle: '경청의 깊이와 위기 대처, 감정적 소진을 진단.', color: 'indigo', icon: 'headphones', categories: ['적극적경청', '분석력', '중립성', '위기대처', '소진예방'], questions: [], getResultContent: generateDetailedResult },
-  { id: 'personal', name: 'P-Mirror', title: '개인 역량 및 매력도 진단', subtitle: '내가 얼마나 호감 가고 일 잘하는 사람인지 해부.', color: 'rose', icon: 'sparkles', categories: ['문제해결력', '실행력', '대인관계', '센스/눈치', '인간적매력'], questions: [], getResultContent: generateDetailedResult },
-  { id: 'lifestyle', name: 'V-Mirror', title: '취향 및 라이프스타일 진단', subtitle: '내 영혼의 배터리를 채워 줄 진짜 주파수.', color: 'lime', icon: 'coffee', categories: ['미적감각', '휴식의질', '취미몰입', '트렌드민감성', '독창성'], questions: [], getResultContent: generateDetailedResult },
-  { id: 'faith', name: 'F-Mirror', title: '신앙 및 영성 진단', subtitle: '내면 깊은 곳의 영적 성숙도를 측정합니다.', color: 'sky', icon: 'star', categories: ['내면영성', '삶의실천', '공동체의식', '관용과수용', '이타적헌신'], questions: [], getResultContent: generateDetailedResult },
+  {
+    id: 'leadership',
+    name: 'L-Mirror',
+    title: '리더십 진단',
+    subtitle: '말과 태도가 조직에 미치는 온도를 측정합니다.',
+    color: 'amber',
+    icon: 'mic',
+    categories: ['비전제시', '공감소통', '포용력', '피드백 수용', '선한 영향력'],
+    questions: [
+        {c:1,t:'L',q:'나는 팀이 나아가야 할 방향을 명확하게 제시할 수 있다.'},
+        {c:1,t:'R',q:'비전보다는 당장의 실적과 성과가 더 중요하다고 느낀다.'},
+        {c:2,t:'L',q:'나는 팀원의 실수를 질책하기보다 학습의 기회로 전환시킨다.'},
+        {c:2,t:'R',q:'팀원 간 갈등이 생기면 직접 개입하기보다 방치하는 편이다.'},
+        {c:3,t:'L',q:'비판적인 피드백도 상대방의 자존심을 지키며 건설적으로 전달한다.'},
+        {c:3,t:'R',q:'내 말이 잘 전달되지 않으면 상대방의 이해력 탓이라 생각한다.'},
+        {c:4,t:'L',q:'나의 약점이나 실수를 솔직하게 인정하여 신뢰를 구축한다.'},
+        {c:4,t:'R',q:'권한 위임보다 모든 것을 내가 직접 통제하려 한다.'},
+        {c:5,t:'L',q:'리더십의 궁극적 목적은 섬김이며 권력은 수단임을 인식한다.'},
+        {c:6,t:'V',q:'어느 쪽에 더 동의하십니까?', left:'카리스마', right:'서번트', descL:'강력한 결단력으로 이끌어야 한다', descR:'낮은 곳에서 섬기며 세워줘야 한다'},
+        {c:6,t:'V',q:'어느 쪽에 더 동의하십니까?', left:'성과', right:'관계', descL:'결과로 평가받아야 한다', descR:'사람을 챙기면 성과는 따라온다'}
+    ],
+    getResultContent: generateDetailedResult
+  },
+  {
+    id: 'authenticity',
+    name: 'A-Mirror',
+    title: '진정성 진단',
+    subtitle: '무대 위와 무대 아래의 괴리감을 측정합니다.',
+    color: 'teal',
+    icon: 'scan-face',
+    categories: ['투명성', '자기일치도', '취약성인정', '자기인식', '감정조절'],
+    questions: [
+        {c:1,t:'L',q:'나는 나의 감정과 생각을 솔직하게 표현하는 편이다.'},
+        {c:1,t:'R',q:'상황에 따라 나의 본래 모습과 다른 가면을 쓸 때가 많다.'},
+        {c:2,t:'L',q:'내가 믿는 가치관과 실제 행동이 일치한다.'},
+        {c:2,t:'R',q:'다른 사람들의 시선을 의식해 내 신념을 굽히곤 한다.'},
+        {c:3,t:'L',q:'나의 부족한 점을 타인에게 드러내는 것이 부끄럽지 않다.'},
+        {c:3,t:'R',q:'완벽해 보이기 위해 나의 취약점을 감추려 노력한다.'},
+        {c:4,t:'L',q:'내가 왜 그렇게 행동했는지 스스로의 동기를 잘 파악한다.'},
+        {c:5,t:'L',q:'스트레스 상황에서도 내 감정의 주인이 되어 반응한다.'},
+        {c:6,t:'V',q:'어느 쪽에 더 동의하십니까?', left:'솔직함', right:'신중함', descL:'있는 그대로를 다 보여줘야 한다', descR:'전략적으로 조절해서 보여줘야 한다'}
+    ],
+    getResultContent: generateDetailedResult
+  },
+  {
+    id: 'social',
+    name: 'S-Mirror',
+    title: '사회적 감수성 진단',
+    subtitle: '현대 사회 속 나의 윤리적 좌표를 점검합니다.',
+    color: 'emerald',
+    icon: 'compass',
+    categories: ['다양성존중', '인권감수성', '환경의식', '공정성', '사회적연대'],
+    questions: [
+        {c:1,t:'L',q:'나와 다른 문화나 가치관을 가진 사람들을 편견 없이 대한다.'},
+        {c:1,t:'R',q:'나와 다른 생각을 가진 사람을 보면 배타적인 감정이 먼저 든다.'},
+        {c:2,t:'L',q:'일상 속에서 인권이 침해되는 상황을 예민하게 포착한다.'},
+        {c:3,t:'L',q:'나의 소비 습관이 환경에 미칠 영향을 고려한다.'},
+        {c:4,t:'L',q:'사회적 약자를 위한 배려가 차별이 아닌 공정의 시작이라 믿는다.'},
+        {c:5,t:'L',q:'지역 사회의 문제에 관심을 갖고 내가 할 수 있는 일을 찾는다.'},
+        {c:6,t:'V',q:'어느 쪽에 더 동의하십니까?', left:'성장', right:'분배', descL:'경제적 성장이 우선이다', descR:'사회적 분배와 복지가 우선이다'}
+    ],
+    getResultContent: generateDetailedResult
+  },
+  {
+    id: 'generation',
+    name: 'G-Mirror',
+    title: '세대 공감 진단',
+    subtitle: '무의식적으로 범하는 물리적/정서적 경계 침범.',
+    color: 'violet',
+    icon: 'users',
+    categories: ['수평적태도', '언어습관', '경계존중', '개방성', '공감능력'],
+    questions: [
+        {c:1,t:'L',q:'다른 세대의 가치관이 나와 다르더라도 그 나름의 이유가 있음을 인정한다.'},
+        {c:1,t:'R',q:'젊은 세대(또는 기성세대)와 일하면 답답하고 비효율적이라 느낀다.'},
+        {c:2,t:'L',q:'상대방의 세대에 맞춰 소통 방식(메신저 등)을 유연하게 전환한다.'},
+        {c:2,t:'R',q:'업무 지시는 반드시 대면이나 전화로 해야 한다고 고집한다.'},
+        {c:3,t:'L',q:'개인적인 질문을 하기 전에 상대방이 불편해할지 먼저 고려한다.'},
+        {c:3,t:'R',q:'친해지기 위해 사적인 영역(결혼, 연애 등)을 묻는 것이 당연하다 생각한다.'},
+        {c:4,t:'L',q:'새로운 유행이나 디지털 도구를 배우는 것이 즐겁다.'},
+        {c:5,t:'L',q:'다른 세대가 처한 경제적/사회적 어려움에 진심으로 공감한다.'},
+        {c:6,t:'V',q:'어느 쪽에 더 동의하십니까?', left:'경험', right:'감각', descL:'경험에서 오는 지혜가 중요하다', descR:'새로운 시대의 감각이 중요하다'}
+    ],
+    getResultContent: generateDetailedResult
+  },
+  {
+    id: 'counseling',
+    name: 'C-Mirror',
+    title: '상담자 역량 진단',
+    subtitle: '경청의 깊이와 위기 대처, 감정적 소진을 진단.',
+    color: 'indigo',
+    icon: 'headphones',
+    categories: ['적극적경청', '분석력', '중립성', '위기대처', '소진예방'],
+    questions: [
+        {c:1,t:'L',q:'상대방이 말을 마칠 때까지 중간에 끊지 않고 경청한다.'},
+        {c:1,t:'R',q:'상대방의 고민을 들으면서 속으로는 해결책을 생각하느라 집중하지 못한다.'},
+        {c:2,t:'L',q:'드러난 문제 뒤에 숨겨진 감정과 욕구를 파악할 수 있다.'},
+        {c:3,t:'L',q:'상담 중 나의 가치관을 주입하지 않고 중립을 유지한다.'},
+        {c:4,t:'L',q:'내담자의 돌발 행동이나 위기 상황에도 차분하게 대응한다.'},
+        {c:5,t:'L',q:'상담 후 나의 감정을 분리하고 정화하는 나만의 방법이 있다.'},
+        {c:6,t:'V',q:'어느 쪽에 더 동의하십니까?', left:'공감', right:'조언', descL:'충분히 공감해주는 것이 우선이다', descR:'실질적인 해결책을 주는 것이 우선이다'}
+    ],
+    getResultContent: generateDetailedResult
+  },
+  {
+    id: 'personal',
+    name: 'P-Mirror',
+    title: '개인 역량 및 매력도 진단',
+    subtitle: '내가 얼마나 호감 가고 일 잘하는 사람인지 해부.',
+    color: 'rose',
+    icon: 'sparkles',
+    categories: ['문제해결력', '실행력', '대인관계', '센스/눈치', '인간적매력'],
+    questions: [
+        {c:1,t:'L',q:'어려운 문제에 직면했을 때 포기하지 않고 대안을 찾아낸다.'},
+        {c:2,t:'L',q:'결정된 사항은 미루지 않고 즉시 실행에 옮긴다.'},
+        {c:3,t:'L',q:'처음 만나는 사람과도 자연스럽게 대화를 이어갈 수 있다.'},
+        {c:4,t:'L',q:'분위기를 파악하고 상황에 적절한 말과 행동을 한다.'},
+        {c:5,t:'L',q:'사람들은 나를 유머러스하거나 매력적인 사람으로 평가한다.'},
+        {c:6,t:'V',q:'어느 쪽에 더 동의하십니까?', left:'실력', right:'태도', descL:'일은 실력으로 보여줘야 한다', descR:'태도가 실력보다 중요하다'}
+    ],
+    getResultContent: generateDetailedResult
+  },
+  {
+    id: 'lifestyle',
+    name: 'V-Mirror',
+    title: '취향 및 라이프스타일 진단',
+    subtitle: '내 영혼의 배터리를 채워 줄 진짜 주파수.',
+    color: 'lime',
+    icon: 'coffee',
+    categories: ['미적감각', '휴식의질', '취미몰입', '트렌드민감성', '독창성'],
+    questions: [
+        {c:1,t:'L',q:'나는 공간의 분위기나 시각적인 아름다움을 중요하게 생각한다.'},
+        {c:2,t:'L',q:'나에게 맞는 진정한 휴식 방법을 잘 알고 실천한다.'},
+        {c:3,t:'L',q:'시간 가는 줄 모르고 몰입하는 나만의 취미가 있다.'},
+        {c:4,t:'L',q:'최신 트렌드를 파악하고 새로운 라이프스타일을 시도한다.'},
+        {c:5,t:'L',q:'남들과 다른 나만의 개성과 독창성을 추구한다.'},
+        {c:6,t:'V',q:'어느 쪽에 더 동의하십니까?', left:'자연', right:'도시', descL:'조용한 자연 속에서 힐링한다', descR:'화려한 도시의 에너지에서 힐링한다'}
+    ],
+    getResultContent: generateDetailedResult
+  },
+  {
+    id: 'faith',
+    name: 'F-Mirror',
+    title: '신앙 및 영성 진단',
+    subtitle: '내면 깊은 곳의 영적 성숙도를 측정합니다.',
+    color: 'sky',
+    icon: 'star',
+    categories: ['내면영성', '삶의실천', '공동체의식', '관용과수용', '이타적헌신'],
+    questions: [
+        {c:1,t:'L',q:'보이지 않는 절대자의 존재와 사랑을 확신한다.'},
+        {c:2,t:'L',q:'나의 신앙적 고백이 일상의 구체적인 행동으로 나타난다.'},
+        {c:3,t:'L',q:'공동체의 고통을 나의 고통처럼 느끼고 함께 기도한다.'},
+        {c:4,t:'L',q:'나와 신념이 다른 종교인이나 무신론자도 포용할 수 있다.'},
+        {c:5,t:'L',q:'대가 없는 희생과 헌신에서 진정한 기쁨을 느낀다.'},
+        {c:6,t:'V',q:'어느 쪽에 더 동의하십니까?', left:'순종', right:'성찰', descL:'주어진 뜻에 순종하는 것이 핵심이다', descR:'끊임없이 질문하고 성찰하는 것이 핵심이다'}
+    ],
+    getResultContent: generateDetailedResult
+  },
 ];
