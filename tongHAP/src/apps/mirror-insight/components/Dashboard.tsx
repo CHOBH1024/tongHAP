@@ -1,7 +1,8 @@
-import { ShieldCheck, Mic, ScanFace, Compass, Users, Headphones, Sparkles, Coffee, Star } from 'lucide-react';
+import { ShieldCheck, Mic, ScanFace, Compass, Users, Headphones, Sparkles, Coffee, Star, ArrowLeft } from 'lucide-react';
 import { SurveyConfig } from '../types';
 import { surveys } from '../data/surveys';
 import { themeMap } from '../theme';
+import { Link } from '@tanstack/react-router';
 
 interface DashboardProps {
   onSelectSurvey: (config: SurveyConfig) => void;
@@ -21,7 +22,13 @@ const iconMap = {
 
 export const Dashboard = ({ onSelectSurvey }: DashboardProps) => {
   return (
-    <main className="pt-24 pb-16 px-6 max-w-[1400px] mx-auto text-slate-200">
+    <main className="pt-12 pb-16 px-6 max-w-[1400px] mx-auto text-slate-200">
+      <div className="mb-12">
+        <Link to="/" className="inline-flex items-center gap-2 text-slate-500 hover:text-white transition-colors font-bold group">
+          <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" /> 통합 커맨드 센터로 돌아가기
+        </Link>
+      </div>
+
       <div className="text-center mb-16">
         <h1 className="text-6xl font-black text-white mb-6 tracking-tighter">Mirror Insight System</h1>
         <p className="text-slate-400 text-xl font-light">Select a diagnostic module to begin your journey of reflection.</p>

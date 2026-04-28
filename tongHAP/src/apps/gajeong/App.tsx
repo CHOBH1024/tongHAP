@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from '@tanstack/react-router';
 import { Home, LayoutGrid, BookOpen, Info, ShieldCheck, ChevronRight, Sparkles, Menu, X, ClipboardList, BarChart3, Headphones, Users, ArrowLeft, Check, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MirrorApp } from './components/MirrorApp';
@@ -473,11 +474,16 @@ export function GajeongApp() {
       
       <nav className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-white/20 px-6 py-5">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-3 cursor-pointer group" onClick={()=>{setActiveTab('home');setActiveModuleId(null);}}>
-            <div className="w-10 h-10 bg-brand-500 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:rotate-12 transition-transform">
-              <Sparkles className="text-white" size={22}/>
+          <div className="flex items-center gap-6">
+            <Link to="/" className="hidden sm:flex items-center gap-2 text-slate-400 hover:text-brand-500 transition-colors text-sm font-black uppercase tracking-wider group">
+              <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" /> Hub
+            </Link>
+            <div className="flex items-center gap-3 cursor-pointer group" onClick={()=>{setActiveTab('home');setActiveModuleId(null);}}>
+              <div className="w-10 h-10 bg-brand-500 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:rotate-12 transition-transform">
+                <Sparkles className="text-white" size={22}/>
+              </div>
+              <span className="text-2xl font-black tracking-tighter text-brand-900">GAJEONG</span>
             </div>
-            <span className="text-2xl font-black tracking-tighter text-brand-900">GAJEONG</span>
           </div>
           
           <div className="hidden lg:flex items-center gap-1 bg-brand-50/50 p-1.5 rounded-2xl border border-brand-100">

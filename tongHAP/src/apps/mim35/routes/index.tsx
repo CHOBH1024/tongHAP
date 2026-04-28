@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Icon } from "@/components/diagnosis/Icon";
 import { HomeView } from "@/components/diagnosis/HomeView";
@@ -89,17 +89,22 @@ export function MIM35App() {
     <div className="min-h-screen flex flex-col bg-[#fcfbf9]">
       <header className="bg-white/80 backdrop-blur-2xl border-b border-brand-100 sticky top-0 z-[60] px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4 cursor-pointer group" onClick={() => setActiveTab("home")}>
-            <div className="w-12 h-12 bg-brand-500 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-brand-500/20 group-hover:rotate-12 transition-transform duration-500">
-              <Icon name="User" size={28} />
-            </div>
-            <div>
-              <h1 className="text-2xl font-black text-brand-900 leading-none tracking-tight">
-                MIM35
-              </h1>
-              <span className="text-[10px] text-brand-500 tracking-[0.3em] uppercase font-black">
-                Pastoral Archetype Engine
-              </span>
+          <div className="flex items-center gap-6">
+            <Link to="/" className="hidden sm:flex items-center gap-2 text-slate-400 hover:text-brand-500 transition-colors text-xs font-black uppercase tracking-widest group">
+              <Icon name="ArrowLeft" size={16} className="group-hover:-translate-x-1 transition-transform" /> Hub
+            </Link>
+            <div className="flex items-center gap-4 cursor-pointer group" onClick={() => setActiveTab("home")}>
+              <div className="w-12 h-12 bg-brand-500 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-brand-500/20 group-hover:rotate-12 transition-transform duration-500">
+                <Icon name="User" size={28} />
+              </div>
+              <div>
+                <h1 className="text-2xl font-black text-brand-900 leading-none tracking-tight">
+                  MIM35
+                </h1>
+                <span className="text-[10px] text-brand-500 tracking-[0.3em] uppercase font-black">
+                  Pastoral Archetype Engine
+                </span>
+              </div>
             </div>
           </div>
           
