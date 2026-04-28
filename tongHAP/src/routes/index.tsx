@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
-import { LayoutGrid, Users, Sparkles, ChevronRight, ShieldCheck } from 'lucide-react';
+import { LayoutGrid, Users, Sparkles, ChevronRight } from 'lucide-react';
 
 export const Route = createFileRoute('/')({
   component: Hub,
@@ -38,7 +38,7 @@ function Hub() {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -83,29 +83,6 @@ function Hub() {
                 진단 시작하기 <ChevronRight size={24} />
               </div>
             </Link>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-            <a
-              href="system_b_dashboard.html"
-              className="group block toss-card border-none shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-2xl transition-all h-full"
-            >
-              <div className="w-16 h-16 bg-slate-900 text-white rounded-3xl flex items-center justify-center mb-8 shadow-lg shadow-slate-900/20">
-                <ShieldCheck size={32} />
-              </div>
-              <h2 className="text-3xl font-black mb-4">전략 행정 관제</h2>
-              <p className="text-toss-gray-500 text-lg mb-8 leading-relaxed">
-                전국 통합 관제 센터, 주간 보고서 마스터 엔진 및 
-                행정 가이드 아카이브를 제공합니다.
-              </p>
-              <div className="flex items-center gap-2 text-slate-900 font-black text-lg group-hover:gap-4 transition-all">
-                관제 시스템 진입 <ChevronRight size={24} />
-              </div>
-            </a>
           </motion.div>
         </div>
 

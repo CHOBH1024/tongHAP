@@ -4,7 +4,9 @@ pinggy.txt
 serveo.txt
 .DS_Store
 node_modules
-data/
+# data/
+# Allow data directories in src
+!**/src/**/data/
 # *.json
 data/*.json
 questions_db.json
