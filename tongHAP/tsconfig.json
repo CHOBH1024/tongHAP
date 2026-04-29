@@ -16,9 +16,9 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
-      "@/*": ["./src/apps/mim35/*"],
+      "@/*": ["./src/apps/mim25/*"],
       "@gajeong/*": ["./src/apps/gajeong/*"],
-      "@mim35/*": ["./src/apps/mim35/*"]
+      "@mim35/*": ["./src/apps/mim25/*"]
     }
   },
   "include": ["src"]
