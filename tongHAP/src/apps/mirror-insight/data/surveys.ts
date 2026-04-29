@@ -50,9 +50,77 @@ function generateDetailedResult(score: number): SurveyResultContent {
       advice: '잠시 멈춰 서야 합니다. 지금의 피로는 그저 몸의 피로가 아니라 마음과 영혼의 피로입니다. 작은 책임들을 과감히 내려놓고, 아무것도 하지 않는 시간을 통해 자신을 돌보십시오. "내가 정말 좋아했던 것"이 무엇인지 아주 사소한 것부터 찾아보길 권합니다.'
     };
   }
+function generatePastoralTypeResult(averageScore: number, categoryScores: number[]): SurveyResultContent {
+  const transformationalScore = ((categoryScores[0] || 0) + (categoryScores[2] || 0)) / 2; // 비전제시 + 영감적 동기부여 (Bass & Avolio)
+  const servantScore = ((categoryScores[1] || 0) + (categoryScores[3] || 0)) / 2; // 개별적배려 + 섬김 (Greenleaf)
+
+  if (transformationalScore >= 70 && servantScore >= 70) {
+    return {
+      persona: '통합적 변혁-서번트 리더 (Integrative Servant-Transformational)',
+      headline: '비전(Bass & Avolio)과 섬김(Greenleaf)의 완벽한 조화',
+      description: '학술적으로 가장 이상적인 목회 리더십으로 꼽히는 변혁적 리더십(Transformational)과 서번트 리더십(Servant)을 동시에 발휘하는 유형입니다. 공동체에 명확한 비전을 제시하여 구성원들을 이끌면서도, 동시에 가장 낮은 곳에서 성도들의 영적, 정서적 성장을 돕는 탁월한 목회자입니다.',
+      strengths: ['조직의 비전 제시 및 강력한 동기 부여', '개별적 배려를 통한 깊은 공감 능력', '신뢰 기반의 자발적 공동체 형성'],
+      weaknesses: ['자신의 에너지가 과도하게 소진(Burnout)될 위험', '모든 요구를 수용하려다 발생하는 행정 및 의사결정의 지연'],
+      advice: '이미 학술적으로 검증된 가장 탁월한 리더십을 발휘하고 있습니다. 이제는 본인의 에너지를 지키기 위한 \'자기 돌봄(Self-Care)\'과 핵심 리더들에게 권한을 위임(Delegation)하는 시스템 구축에 집중하십시오.'
+    };
+  } else if (transformationalScore >= 70 && servantScore < 70) {
+    return {
+      persona: '카리스마적 비전 제시자 (Charismatic Visionary)',
+      headline: '변혁적 리더십에 특화된 목표 지향적 선구자',
+      description: 'Bass & Avolio의 변혁적 리더십 척도 중 지적 자극과 영감적 동기부여에 강점을 보이는 유형입니다. 교회나 조직이 정체되어 있을 때 강력한 돌파구를 마련하며, 큰 그림을 그리고 사람들을 한 방향으로 이끄는 데 탁월합니다. 다만, 목표 달성에 집중하느라 개개인의 상처나 피로감을 세심하게 살피는 서번트 역량이 다소 아쉬울 수 있습니다.',
+      strengths: ['명확한 목표 설정과 위기 돌파 능력', '대중을 사로잡는 영감적 소통', '구조 개혁 및 혁신 주도'],
+      weaknesses: ['성과 중심적 사고로 인한 구성원의 피로도 증가', '소외되거나 상처받는 약자에 대한 배려 부족 가능성'],
+      advice: '비전을 현실로 만드는 탁월한 추진력을 가졌습니다. 여기에 Greenleaf가 강조한 \'경청(Listening)\'과 \'공감(Empathy)\'의 서번트 요소를 의식적으로 더해보십시오. 속도보다 함께 가는 방향을 점검할 때 공동체는 더 건강해집니다.'
+    };
+  } else if (transformationalScore < 70 && servantScore >= 70) {
+    return {
+      persona: '관계 중심적 목양가 (Relational Shepherd)',
+      headline: '서번트 리더십에 특화된 따뜻한 영적 어버이',
+      description: 'Greenleaf의 서번트 리더십 척도 중 공감, 치유, 청지기 의식에 압도적인 강점을 보이는 유형입니다. 한 영혼을 천하보다 귀하게 여기며, 개별적인 돌봄과 치유의 목양에 탁월합니다. 성도들은 당신 곁에서 큰 위로와 평안을 얻습니다. 하지만 조직 전체를 이끌고 나아갈 거시적인 비전 제시나 혁신적인 변화를 주도하는 변혁적 역량은 보완이 필요합니다.',
+      strengths: ['탁월한 공감 능력과 깊은 정서적 지지', '상처입은 영혼을 회복시키는 치유의 목양', '권위주의를 탈피한 친근함'],
+      weaknesses: ['조직 전체의 성장이나 방향성 제시의 모호함', '단호한 결단이나 쓴소리가 필요한 상황에서의 회피 경향'],
+      advice: '당신의 따뜻함은 교회를 가족 같은 공동체로 만듭니다. 이제는 한 걸음 물러서서 Bass & Avolio가 말하는 \'지적 자극(Intellectual Stimulation)\'을 공동체에 부여해 보십시오. 성도들이 안주하지 않고 스스로 성장할 수 있는 비전을 제시하는 연습이 필요합니다.'
+    };
+  } else {
+    return {
+      persona: '행정적 관리자 (Administrative Manager)',
+      headline: '안정과 유지를 최우선으로 하는 제도적 수호자',
+      description: '목회 리더십의 두 핵심 축(변혁, 서번트)보다는 기존의 시스템을 유지하고 관리하는 거래적 리더십(Transactional Leadership)에 가까운 상태입니다. 조직의 규칙, 전통, 안정성을 지키는 데는 뛰어나지만, 구성원의 잠재력을 끌어올리거나 깊은 정서적 유대를 형성하는 데는 에너지를 덜 쓰고 있을 수 있습니다.',
+      strengths: ['시스템과 규정에 따른 안정적인 조직 운영', '예측 가능하고 일관성 있는 행정 처리', '위기 상황에서 절차적 대응 능숙'],
+      weaknesses: ['새로운 변화나 혁신에 대한 강한 저항감', '성도들과의 인격적, 영적 교감의 부족'],
+      advice: '조직의 뼈대를 튼튼하게 지키고 있습니다. 이제는 뼈대 안에 생명을 불어넣을 때입니다. 실무적인 관리에서 벗어나 구성원들의 진짜 목소리에 귀를 기울여 보십시오. 서번트 리더십의 시작은 아주 작은 \'경청\'에서 출발합니다.'
+    };
+  }
 }
 
 export const surveys: SurveyConfig[] = [
+  {
+    id: 'pastoral-type',
+    name: 'T-Mirror',
+    title: '목회자 핵심 유형 종합 진단',
+    subtitle: 'Bass & Avolio의 변혁적 리더십과 Greenleaf의 서번트 리더십 이론을 교차 분석합니다.',
+    color: 'indigo',
+    icon: 'star',
+    categories: ['비전제시(변혁)', '개별적배려(서번트)', '지적자극(변혁)', '공동체섬김(서번트)', '도덕적영향력(통합)'],
+    questions: [
+        {c:1,t:'L',q:'나는 교회가 나아가야 할 5년, 10년 뒤의 명확한 청사진을 제시한다.'},
+        {c:1,t:'R',q:'비전보다는 당장 이번 주에 해야 할 행정 처리와 설교 준비가 더 급하다.'},
+        {c:1,t:'L',q:'나의 설교나 비전 제시는 성도들에게 새로운 도전을 할 수 있는 영감을 준다.'},
+        {c:2,t:'L',q:'나는 성도 개개인의 이름과 그들의 세세한 삶의 고민을 기억하려 노력한다.'},
+        {c:2,t:'R',q:'교인 수가 늘어나면서 개별적인 심방이나 상담은 사실상 불가능하다고 생각한다.'},
+        {c:2,t:'L',q:'나를 비판하는 성도의 의견이라도 끝까지 경청하고 이해하려 노력한다.'},
+        {c:3,t:'L',q:'성도들이 과거의 전통에 얽매이지 않고 새로운 방식으로 사유하도록 도전한다.'},
+        {c:3,t:'R',q:'교회 내에서는 기존의 검증된 방식과 전통을 유지하는 것이 가장 안전하다.'},
+        {c:3,t:'L',q:'회의 시 나의 의견과 다르더라도 더 혁신적인 아이디어를 적극 수용한다.'},
+        {c:4,t:'L',q:'리더십의 본질은 군림하는 것이 아니라 성도들의 발을 씻기는 것이라 확신한다.'},
+        {c:4,t:'R',q:'교회의 영적 질서를 잡기 위해서는 목회자의 강력한 권위가 필수적이다.'},
+        {c:4,t:'L',q:'성도들이 교회의 주체로 활동할 수 있도록 기꺼이 나의 권한을 내려놓는다.'},
+        {c:5,t:'L',q:'나는 아무도 보지 않는 곳에서도 목회자로서의 윤리적 기준을 타협하지 않는다.'},
+        {c:5,t:'R',q:'목표 달성이나 교회 성장을 위해서는 약간의 편법이나 과장이 불가피할 때가 있다.'},
+        {c:6,t:'V',q:'어느 쪽에 더 동의하십니까?', left:'혁신과 비전', right:'치유와 돌봄', descL:'조직 전체를 이끄는 비전 제시가 우선이다', descR:'상처받은 영혼을 돌보는 것이 우선이다'}
+    ],
+    getResultContent: generatePastoralTypeResult
+  },
   {
     id: 'vocation',
     name: 'I-Mirror',
