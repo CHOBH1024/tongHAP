@@ -1,8 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { lazy, Suspense } from 'react';
-import '../apps/mim35/styles.css';
+import '../apps/mim25/styles.css';
 
-const MIM35App = lazy(() => import('../apps/mim35/routes/index').then(m => ({ default: m.MIM35App })));
+const MIM35App = lazy(() => import('../apps/mim25/routes/index').then(m => ({ default: m.MIM35App })));
 
 export const Route = createFileRoute('/mim25')({
   component: MIM35Page,
