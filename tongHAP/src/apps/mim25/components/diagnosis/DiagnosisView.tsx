@@ -401,17 +401,13 @@ export const DiagnosisView: React.FC<DiagnosisViewProps> = ({ inputs, setInputs,
     const eqCount = Object.values(inputs.eq).filter(v => v !== '').length;
     const isEQDone = eqCount === 5;
 
+    const completedCount = [isEnneagramDone, isBig5Done, isAnchorDone, isViaDone, isEQDone].filter(Boolean).length;
+    
     const progress = useMemo(() => {
-        let count = 0;
-        if (isEnneagramDone) count += 1;
-        if (isAnchorDone) count += 1;
-        if (isViaDone) count += 1;
-        count += (big5Count / 5);
-        count += (eqCount / 5);
-        return (count / 5) * 100;
-    }, [inputs, isEnneagramDone, isAnchorDone, isViaDone, big5Count, eqCount]);
+        return Math.min((completedCount / 2) * 100, 100);
+    }, [completedCount]);
 
-    const isReady = isEnneagramDone && isBig5Done && isAnchorDone && isViaDone && isEQDone;
+    const isReady = completedCount >= 2;
 
     const renderCard = (
         type: 'enneagram' | 'big5' | 'anchor' | 'via' | 'eq',
@@ -492,8 +488,8 @@ export const DiagnosisView: React.FC<DiagnosisViewProps> = ({ inputs, setInputs,
             <div className="text-center space-y-4">
                 <SectionTitle title="소명 성향 진단" subtitle="자신을 가장 잘 나타내는 핵심 지표들을 통합하여 분석합니다." />
                 <p className="text-slate-400 font-bold max-w-2xl mx-auto leading-relaxed">
-                    에니어그램, Big 5, 커리어 앵커, VIA 강점, 그리고 EQ 감성지능까지 - <br/>
-                    5가지 전문 다면 진단을 통해 당신의 '목회 아키타입'을 도출합니다.
+                    에니어그램, Big 5, 커리어 앵커, VIA 강점, 감성지능(EQ) 중<br/>
+                    <span className="text-brand-500 font-black">학술적 타당성이 가장 높은 2가지 이상</span>의 지표만 입력해도 분석 리포트가 생성됩니다.
                 </p>
             </div>
             
@@ -595,7 +591,6 @@ export const DiagnosisView: React.FC<DiagnosisViewProps> = ({ inputs, setInputs,
                     </div>
                 )}
 
-                {/* Submit Placeholder Card */}
                 <div 
                     onClick={() => isReady && onFinish()}
                     className={`
@@ -607,9 +602,9 @@ export const DiagnosisView: React.FC<DiagnosisViewProps> = ({ inputs, setInputs,
                     `}
                 >
                     <Icon name={isReady ? "Cpu" : "Lock"} size={48} className={isReady ? "mb-4 animate-pulse" : "mb-4 opacity-20"} />
-                    <h4 className="text-xl font-black mb-2">{isReady ? "분석 리포트 생성" : "분석 대기 중"}</h4>
+                    <h4 className="text-xl font-black mb-2">{isReady ? "분석 리포트 생성" : `분석 대기 중 (${completedCount}/2)`}</h4>
                     <p className="text-xs font-bold text-center opacity-60">
-                        {isReady ? "데이터 준비 완료! 지금 확인하세요." : "모든 정보를 입력하면 분석이 시작됩니다."}
+                        {isReady ? "최소 요건 충족! 지금 결과를 확인하세요." : "최소 2개 이상의 지표를 입력해주세요."}
                     </p>
                 </div>
             </div>

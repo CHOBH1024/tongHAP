@@ -15,10 +15,9 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src/apps/mim25"),
+      "@": path.resolve(__dirname, "./src/apps/mim35"),
       "@gajeong": path.resolve(__dirname, "./src/apps/gajeong"),
-      "@mim25": path.resolve(__dirname, "./src/apps/mim25"),
-      "@mirror": path.resolve(__dirname, "./src/apps/mirror-insight"),
+      "@mim35": path.resolve(__dirname, "./src/apps/mim35"),
     },
   },
   server: {
