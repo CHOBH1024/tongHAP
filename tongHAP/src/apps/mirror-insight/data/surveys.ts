@@ -50,6 +50,8 @@ function generateDetailedResult(score: number): SurveyResultContent {
       advice: '잠시 멈춰 서야 합니다. 지금의 피로는 그저 몸의 피로가 아니라 마음과 영혼의 피로입니다. 작은 책임들을 과감히 내려놓고, 아무것도 하지 않는 시간을 통해 자신을 돌보십시오. "내가 정말 좋아했던 것"이 무엇인지 아주 사소한 것부터 찾아보길 권합니다.'
     };
   }
+}
+
 function generatePastoralTypeResult(averageScore: number, categoryScores: number[]): SurveyResultContent {
   const transformationalScore = ((categoryScores[0] || 0) + (categoryScores[2] || 0)) / 2; // 비전제시 + 영감적 동기부여 (Bass & Avolio)
   const servantScore = ((categoryScores[1] || 0) + (categoryScores[3] || 0)) / 2; // 개별적배려 + 섬김 (Greenleaf)
