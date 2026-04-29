@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { WorkshopDashboard } from './workshop/WorkshopDashboard';
+import { WorkshopSurvey } from './workshop/WorkshopSurvey';
 import { MinistryKPI } from './components/MinistryKPI';
 import { ResourceHub } from './components/ResourceHub';
 import { Regulations } from './components/Regulations';
@@ -373,6 +374,9 @@ export function GajeongApp() {
                 ))}
                 <Link to="/mirror-insight" className="flex flex-col items-center gap-3 p-6 rounded-3xl text-[13px] font-black bg-amber-50 text-amber-600" onClick={() => setIsMenuOpen(false)}>
                   <Target size={20}/> Mirror 진단
+                </Link>
+                <Link to="/" className="flex flex-col items-center gap-3 p-6 rounded-3xl text-[13px] font-black bg-slate-900 text-white" onClick={() => setIsMenuOpen(false)}>
+                  <Home size={20}/> 통합 허브
                 </Link>
               </div>
             </motion.div>

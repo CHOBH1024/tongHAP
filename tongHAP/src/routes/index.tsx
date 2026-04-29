@@ -66,7 +66,7 @@ function UnifiedHub() {
             transition={{ delay: 0.3, duration: 0.5 }}
           >
             <Link
-              to="/mim35"
+              to="/mim25"
               className="group glass-card flex items-center justify-between !p-6 md:!p-8 hover:bg-white active:scale-[0.98]"
             >
               <div className="flex items-center gap-6">

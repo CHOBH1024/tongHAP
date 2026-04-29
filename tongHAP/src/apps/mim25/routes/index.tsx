@@ -90,7 +90,7 @@ export function MIM25App() {
       <header className="bg-white/80 backdrop-blur-2xl border-b border-brand-100 sticky top-0 z-[60] px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <Link to="/" className="hidden sm:flex items-center gap-2 text-slate-400 hover:text-brand-500 transition-colors text-xs font-black uppercase tracking-widest group">
+            <Link to="/" className="flex items-center gap-2 text-slate-400 hover:text-brand-500 transition-colors text-xs font-black uppercase tracking-widest group">
               <Icon name="ArrowLeft" size={16} className="group-hover:-translate-x-1 transition-transform" /> Hub
             </Link>
             <div className="flex items-center gap-4 cursor-pointer group" onClick={() => setActiveTab("home")}>
@@ -125,7 +125,10 @@ export function MIM25App() {
             ))}
           </nav>
 
-          <button className="hidden md:flex premium-btn-primary !py-3 !px-8 !text-xs !shadow-brand-500/20">
+          <button 
+            onClick={() => setActiveTab("diagnosis")}
+            className="hidden md:flex premium-btn-primary !py-3 !px-8 !text-xs !shadow-brand-500/20"
+          >
             Start Assessment
           </button>
         </div>
