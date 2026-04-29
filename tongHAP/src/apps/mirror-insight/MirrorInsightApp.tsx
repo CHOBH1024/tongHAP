@@ -8,11 +8,12 @@ import { Dashboard } from './components/Dashboard';
 import { SurveyIntro } from './components/SurveyIntro';
 import { SurveyEngine } from './components/SurveyEngine';
 import { SurveyResults } from './components/SurveyResults';
+import { MethodologyPage } from './components/MethodologyPage';
 import { SurveyConfig } from './types';
 import './MirrorInsight.css';
 
 // Simple state machine for routing
-type AppState = 'dashboard' | 'intro' | 'engine' | 'results';
+type AppState = 'dashboard' | 'intro' | 'engine' | 'results' | 'methodology';
 
 export default function MirrorInsightApp() {
   const [appState, setAppState] = useState<AppState>('dashboard');
@@ -48,7 +49,7 @@ export default function MirrorInsightApp() {
 
   return (
     <div className="mirror-theme min-h-screen bg-[#f2f4f6] font-sans text-brand-900 antialiased selection:bg-brand-500 selection:text-white">
-      {appState === 'dashboard' && <Dashboard onSelectSurvey={handleSelectSurvey} />}
+      {appState === 'dashboard' && <Dashboard onSelectSurvey={handleSelectSurvey} onMethodology={() => setAppState('methodology')} />}
       
       {appState === 'intro' && activeSurvey && (
         <SurveyIntro 
@@ -73,6 +74,10 @@ export default function MirrorInsightApp() {
           onRestart={handleRestart} 
           onHome={handleHome} 
         />
+      )}
+
+      {appState === 'methodology' && (
+        <MethodologyPage onBack={handleHome} />
       )}
     </div>
   );

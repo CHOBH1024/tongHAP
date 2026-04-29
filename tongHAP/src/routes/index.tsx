@@ -51,8 +51,8 @@ function UnifiedHub() {
                   <LayoutGrid size={32} />
                 </div>
                 <div>
-                  <h2 className="text-xl md:text-2xl font-black text-ffwpu-blue mb-1">GAJEONG 미러 허브</h2>
-                  <p className="text-toss-gray-500 text-sm md:text-base font-medium">12가지 진단 및 워크숍 도구</p>
+                  <h2 className="text-xl md:text-2xl font-black text-ffwpu-blue mb-1">GAJEONG 사역 허브</h2>
+                  <p className="text-toss-gray-500 text-sm md:text-base font-medium">워크숍 · 행정규정 · 교리교육 · 멘토링</p>
                 </div>
               </div>
               <ChevronRight size={24} className="text-toss-gray-200 group-hover:text-ffwpu-gold group-hover:translate-x-1 transition-all" />
@@ -98,7 +98,7 @@ function UnifiedHub() {
                 </div>
                 <div>
                   <h2 className="text-xl md:text-2xl font-black text-ffwpu-blue mb-1">Mirror Insight</h2>
-                  <p className="text-toss-gray-500 text-sm md:text-base font-medium">내면 가치 및 진정성 정밀 측정</p>
+                  <p className="text-toss-gray-500 text-sm md:text-base font-medium">9가지 전문 진단도구 · 학술 기반 분석</p>
                 </div>
               </div>
               <ChevronRight size={24} className="text-toss-gray-200 group-hover:text-ffwpu-gold group-hover:translate-x-1 transition-all" />
@@ -120,7 +120,7 @@ function UnifiedHub() {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
             <div className="space-y-1">
               <div className="text-toss-gray-500 text-[10px] font-black uppercase tracking-widest">진단 모듈</div>
-              <div className="text-2xl font-black text-ffwpu-gold">12 Units</div>
+              <div className="text-2xl font-black text-ffwpu-gold">9 Units</div>
             </div>
             <div className="space-y-1">
               <div className="text-toss-gray-500 text-[10px] font-black uppercase tracking-widest">심정 지표</div>
