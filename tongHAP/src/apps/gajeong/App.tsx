@@ -84,6 +84,55 @@ export function GajeongApp() {
             </div>
           </div>
 
+          {/* New: Daily Focus & Live Stats */}
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="md:col-span-2 bg-gradient-to-br from-[#1e1b4b] to-indigo-900 rounded-[3rem] p-10 text-white relative overflow-hidden shadow-2xl">
+              <div className="absolute top-0 right-0 p-8 opacity-10 rotate-12"><Target size={180}/></div>
+              <div className="relative z-10 space-y-6">
+                <div className="flex items-center gap-3">
+                   <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md">
+                     <Flame className="text-amber-400" size={24} />
+                   </div>
+                   <h3 className="text-xl font-black">오늘의 사역 성찰 미션</h3>
+                </div>
+                <blockquote className="text-2xl font-black italic leading-tight text-indigo-100">
+                  "식구 한 분의 이름을 정성껏 부르며,<br/>그의 내면 깊은 소리에 귀를 기울여 보십시오."
+                </blockquote>
+                <div className="flex items-center gap-4 pt-4 border-t border-white/10">
+                  <div className="px-4 py-2 bg-white/20 rounded-xl text-xs font-bold">훈독 명상 연계</div>
+                  <div className="px-4 py-2 bg-amber-500 rounded-xl text-xs font-black">미션 완료 시 +50 XP</div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-[3rem] p-8 border border-slate-100 shadow-sm space-y-6">
+              <div className="flex items-center gap-2 text-slate-400">
+                <BarChart3 size={18}/>
+                <span className="text-[10px] font-black uppercase tracking-widest">Global Statistics</span>
+              </div>
+              <div className="space-y-4">
+                {[
+                  { label: "전국 평균 사역 몰입도", value: "78%", trend: "+2.4%", up: true },
+                  { label: "디지털 행정 전환율", value: "64%", trend: "+12%", up: true },
+                  { label: "세대 간 소통 지수", value: "52%", trend: "-1.5%", up: false },
+                ].map((stat, i) => (
+                  <div key={i} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
+                    <div>
+                      <div className="text-[10px] font-black text-slate-400 uppercase">{stat.label}</div>
+                      <div className="text-xl font-black text-slate-900">{stat.value}</div>
+                    </div>
+                    <div className={`text-xs font-black ${stat.up ? 'text-emerald-500' : 'text-rose-500'}`}>
+                      {stat.trend}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <button className="w-full py-4 text-xs font-black text-indigo-600 bg-indigo-50 rounded-2xl hover:bg-indigo-100 transition-colors">
+                상세 통계 보고서 보기
+              </button>
+            </div>
+          </div>
+
           {/* Quick Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {quickStats.map((s, i) => (

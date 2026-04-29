@@ -13,14 +13,37 @@ export const SurveyEngine = ({ survey, modeLimit, onComplete }: SurveyEngineProp
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const t = themeMap[survey.color] || themeMap['blue'];
 
-  // Use up to 'modeLimit' questions by safely wrapping around if there aren't enough unique ones.
+  // 30/70/120 문항 모드에 따라 영역별로 고르게 문항을 추출합니다.
   const activeQuestions = useMemo(() => {
-    const list = [];
-    for (let i = 0; i < modeLimit; i++) {
-        list.push(survey.questions[i % Math.max(survey.questions.length, 1)]);
+    const totalNeeded = modeLimit;
+    const categoriesCount = survey.categories.length; // 보통 5개
+    const perCategory = Math.floor((totalNeeded - (totalNeeded > 70 ? 20 : 5)) / categoriesCount); // 딜레마/검증 문항 제외분
+    
+    let selected: any[] = [];
+    
+    // 1. 각 카테고리별로 정해진 수만큼 추출
+    for (let c = 1; c <= categoriesCount; c++) {
+      const catQuestions = survey.questions.filter(q => q.c === c);
+      // 부족하면 반복해서라도 채움 (전문 도구의 경우 예비 문항이 많아야 함)
+      for (let i = 0; i < perCategory; i++) {
+        selected.push(catQuestions[i % catQuestions.length]);
+      }
     }
-    return list;
-  }, [survey.questions, modeLimit]);
+    
+    // 2. 딜레마(V) 및 검증용 문항 추가
+    const dilemmaQuestions = survey.questions.filter(q => q.t === 'V');
+    const dilemmaCount = totalNeeded > 70 ? 10 : 5;
+    for (let i = 0; i < dilemmaCount; i++) {
+      selected.push(dilemmaQuestions[i % dilemmaQuestions.length]);
+    }
+    
+    // 3. 남은 슬롯은 랜덤하게 채움 (실제로는 무작위성을 섞어야 타당성이 높음)
+    while (selected.length < totalNeeded) {
+      selected.push(survey.questions[selected.length % survey.questions.length]);
+    }
+
+    return selected.slice(0, totalNeeded);
+  }, [survey.questions, modeLimit, survey.categories]);
 
   if (activeQuestions.length === 0 || !activeQuestions[0]) {
     return <div className="text-center py-24 text-slate-500 font-medium">진단 문항을 불러오는 중입니다...</div>;
