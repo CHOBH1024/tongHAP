@@ -56,43 +56,43 @@ export const SurveyResults = ({ survey, answers, onRestart, onHome }: SurveyResu
 
   return (
     <div className="max-w-5xl mx-auto py-12 px-6 min-h-screen">
-      <div className="flex justify-between items-center mb-8">
-        <button onClick={onHome} className="text-slate-400 hover:text-white flex items-center gap-2 transition-colors">
-          <ArrowLeft size={16} /> 홈으로
+      <div className="flex justify-between items-center mb-10">
+        <button onClick={onHome} className="text-slate-500 hover:text-brand-500 flex items-center gap-2 transition-colors font-bold group">
+          <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" /> 통합 홈으로
         </button>
-        <button onClick={onRestart} className="px-4 py-2 bg-slate-800 text-white rounded-full text-sm font-bold hover:bg-slate-700 transition-colors">
+        <button onClick={onRestart} className="premium-btn-secondary px-6 py-2 py-2 rounded-full text-sm">
           다시하기
         </button>
       </div>
 
-      <div className="bg-slate-900 text-slate-200 rounded-[3rem] shadow-2xl p-10 md:p-16 border border-slate-800 relative overflow-hidden">
-        <div className={`absolute top-0 left-0 w-full h-3 ${t.bg}`}></div>
+      <div className="glass-card !p-10 md:!p-16 relative overflow-hidden border-none shadow-2xl">
+        <div className={`absolute top-0 left-0 w-full h-2 ${t.bg}`}></div>
         
         <div className="text-center mb-16">
-          <span className={`${t.text} font-black text-sm tracking-widest uppercase mb-4 block`}>최종 진단 결과 (The Result)</span>
-          <h1 className="text-4xl md:text-5xl font-black text-white mb-6 word-keep">{resultData.persona}</h1>
-          <p className="text-slate-400 text-xl font-bold">{resultData.headline}</p>
+          <span className={`${t.text} font-black text-sm tracking-[0.2em] uppercase mb-4 block`}>최종 진단 결과 (The Result)</span>
+          <h1 className="text-4xl md:text-5xl font-black text-brand-900 mb-6 word-keep">{resultData.persona}</h1>
+          <p className="text-slate-500 text-xl font-bold">{resultData.headline}</p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
-          <div className="bg-slate-950 rounded-[2rem] p-6 h-[400px] flex justify-center items-center border border-slate-800">
+          <div className="bg-slate-50 rounded-[2rem] p-6 h-[400px] flex justify-center items-center border border-slate-100 shadow-inner">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
-                <PolarGrid stroke="#334155" />
-                <PolarAngleAxis dataKey="subject" tick={{ fill: '#cbd5e1', fontSize: 13, fontWeight: 'bold' }} />
+                <PolarGrid stroke="#e2e8f0" />
+                <PolarAngleAxis dataKey="subject" tick={{ fill: '#64748b', fontSize: 13, fontWeight: 'bold' }} />
                 <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-                <Radar name={survey.name} dataKey="A" stroke={strokeColor} fill={strokeColor} fillOpacity={0.3} strokeWidth={3} />
+                <Radar name={survey.name} dataKey="A" stroke={strokeColor} fill={strokeColor} fillOpacity={0.2} strokeWidth={3} />
               </RadarChart>
             </ResponsiveContainer>
           </div>
           
           <div className="space-y-4">
             {radarData.map((item, idx) => (
-              <div key={idx} className="flex justify-between items-center p-4 bg-slate-800 rounded-2xl">
-                <span className="font-bold text-slate-300">{item.subject}</span>
+              <div key={idx} className="flex justify-between items-center p-5 bg-white border border-slate-100 rounded-2xl shadow-sm">
+                <span className="font-bold text-slate-600">{item.subject}</span>
                 <div className="flex items-center gap-4">
-                  <div className="w-32 h-2 bg-slate-700 rounded-full overflow-hidden">
-                    <div className={`h-full ${t.bg}`} style={{ width: `${item.A}%` }}></div>
+                  <div className="w-32 h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div className={`h-full ${t.bg} rounded-full`} style={{ width: `${item.A}%` }}></div>
                   </div>
                   <span className={`font-black ${t.text} w-8 text-right`}>{item.A}</span>
                 </div>
@@ -103,32 +103,32 @@ export const SurveyResults = ({ survey, answers, onRestart, onHome }: SurveyResu
 
         <div className="space-y-12">
           <section>
-            <h3 className="text-2xl font-black text-white mb-6 flex items-center gap-2">
-              <span className={`w-8 h-8 rounded-full ${t.bgBg} ${t.text} flex items-center justify-center text-sm`}>1</span>
+            <h3 className="text-2xl font-black text-brand-900 mb-6 flex items-center gap-3">
+              <span className={`w-10 h-10 rounded-xl ${t.bgBg} ${t.text} flex items-center justify-center text-lg shadow-lg shadow-brand-500/10`}>1</span>
               상세 프로파일
             </h3>
-            <p className="text-slate-300 leading-relaxed text-lg whitespace-pre-line bg-slate-800 p-8 rounded-3xl">
+            <p className="text-slate-600 leading-relaxed text-lg whitespace-pre-line bg-slate-50 p-10 rounded-[2rem] border border-slate-100 font-medium">
               {resultData.description}
             </p>
           </section>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <section className="bg-emerald-950/30 p-8 rounded-3xl border border-emerald-900/50">
-              <h3 className="text-xl font-black text-emerald-400 mb-4 flex items-center gap-2">🔥 고유의 강점</h3>
-              <ul className="space-y-3">
+            <section className="bg-emerald-50 p-8 rounded-[2rem] border border-emerald-100">
+              <h3 className="text-xl font-black text-emerald-600 mb-6 flex items-center gap-2">🔥 고유의 강점</h3>
+              <ul className="space-y-4">
                 {resultData.strengths.map((s, i) => (
-                  <li key={i} className="flex gap-3 text-emerald-100 leading-relaxed text-sm">
+                  <li key={i} className="flex gap-3 text-emerald-800 leading-relaxed text-sm font-bold">
                     <span className="text-emerald-500 mt-1">✔</span> {s}
                   </li>
                 ))}
               </ul>
             </section>
 
-            <section className="bg-rose-950/30 p-8 rounded-3xl border border-rose-900/50">
-              <h3 className="text-xl font-black text-rose-400 mb-4 flex items-center gap-2">⚠️ 잠재적 약점</h3>
-              <ul className="space-y-3">
+            <section className="bg-rose-50 p-8 rounded-[2rem] border border-rose-100">
+              <h3 className="text-xl font-black text-rose-600 mb-6 flex items-center gap-2">⚠️ 잠재적 약점</h3>
+              <ul className="space-y-4">
                 {resultData.weaknesses.map((s, i) => (
-                  <li key={i} className="flex gap-3 text-rose-100 leading-relaxed text-sm">
+                  <li key={i} className="flex gap-3 text-rose-800 leading-relaxed text-sm font-bold">
                     <span className="text-rose-500 mt-1">!</span> {s}
                   </li>
                 ))}
@@ -136,11 +136,11 @@ export const SurveyResults = ({ survey, answers, onRestart, onHome }: SurveyResu
             </section>
           </div>
 
-          <section className={`${t.bgBg} ${t.border} border p-10 rounded-3xl`}>
-            <h3 className={`text-2xl font-black mb-6 ${t.text} flex items-center gap-2`}>
+          <section className={`${t.bgBg} ${t.border} border-2 p-10 rounded-[2rem] shadow-xl shadow-brand-500/5`}>
+            <h3 className={`text-2xl font-black mb-6 ${t.text} flex items-center gap-3`}>
               💡 시스템 분석 제언
             </h3>
-            <p className="text-slate-300 leading-relaxed text-lg whitespace-pre-line">
+            <p className="text-slate-700 leading-relaxed text-lg whitespace-pre-line font-medium">
               {resultData.advice}
             </p>
           </section>

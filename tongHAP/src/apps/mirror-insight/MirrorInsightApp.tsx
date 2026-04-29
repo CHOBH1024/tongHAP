@@ -47,7 +47,7 @@ export default function MirrorInsightApp() {
   };
 
   return (
-    <div className="mirror-theme min-h-screen bg-slate-950 font-sans text-slate-200 antialiased">
+    <div className="mirror-theme min-h-screen bg-[#f2f4f6] font-sans text-brand-900 antialiased selection:bg-brand-500 selection:text-white">
       {appState === 'dashboard' && <Dashboard onSelectSurvey={handleSelectSurvey} />}
       
       {appState === 'intro' && activeSurvey && (

@@ -7,200 +7,138 @@ export const Route = createFileRoute('/')({
 });
 
 function UnifiedHub() {
-  return (
-    <div className="relative min-h-screen bg-[#f2f4f6] overflow-hidden">
-      {/* Animated Background Orbs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.2, 1],
-            x: [0, 50, 0],
-            y: [0, 30, 0],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-brand-500/5 blur-[120px]" 
-        />
-        <motion.div 
-          animate={{ 
-            scale: [1.2, 1, 1.2],
-            x: [0, -40, 0],
-            y: [0, -20, 0],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-500/5 blur-[120px]" 
-        />
-      </div>
+  const logoPath = "/ffwpu_logo_premium_1777422090820.png"; // Placeholder for the actual logo in the assets/public dir
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 lg:py-32">
-        <header className="text-center space-y-8 mb-20">
+  return (
+    <div className="relative min-h-screen bg-toss-gray-100 selection:bg-ffwpu-gold/20 selection:text-ffwpu-gold">
+      <div className="max-w-3xl mx-auto px-6 py-12 md:py-24">
+        <header className="mb-12 space-y-6">
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-6 py-2 bg-white/80 backdrop-blur-md rounded-full shadow-premium text-brand-500 font-bold text-sm border border-white/50"
+            className="flex items-center gap-3 text-ffwpu-gold font-bold text-sm tracking-tight"
           >
-            <Sparkles size={16} className="animate-pulse" />
-            <span>THE NEXT GENERATION PLATFORM</span>
+            <div className="w-10 h-10 bg-white rounded-full p-1 shadow-sacred">
+               <img src={logoPath} alt="FFWPU Logo" className="w-full h-full object-contain" />
+            </div>
+            <span>세계평화통일가정연합</span>
           </motion.div>
           
-          <div className="space-y-4">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.8 }}
-              className="text-6xl md:text-8xl font-black tracking-tight text-brand-900 leading-[1.1]"
-            >
-              통합 진단 <span className="gradient-text">커맨드 센터</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-              className="text-xl md:text-2xl text-slate-500 max-w-3xl mx-auto leading-relaxed font-medium"
-            >
-              개인의 가치 발견부터 공동체의 성장까지, <br className="hidden md:block" />
-              전문적인 진단과 데이터 분석을 통한 통합 사역 지원 플랫폼입니다.
-            </motion.p>
-          </div>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.5 }}
+            className="text-4xl md:text-5xl font-black tracking-tight text-ffwpu-blue leading-tight"
+          >
+            심정과 지혜를 더하는<br />
+            <span className="gradient-text">사역 통합 플랫폼</span>
+          </motion.h1>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="space-y-6">
           {/* GAJEONG Mirror Hub Card */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
           >
             <Link
               to="/gajeong"
-              className="group glass-card h-full flex flex-col justify-between"
+              className="group glass-card flex items-center justify-between !p-6 md:!p-8 hover:bg-white active:scale-[0.98]"
             >
-              <div>
-                <div className="w-20 h-20 bg-brand-500 text-white rounded-[2rem] flex items-center justify-center mb-10 shadow-2xl shadow-brand-500/20 group-hover:scale-110 transition-transform duration-500">
-                  <LayoutGrid size={40} />
+              <div className="flex items-center gap-6">
+                <div className="w-14 h-14 md:w-16 md:h-16 bg-brand-50 text-ffwpu-gold rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <LayoutGrid size={32} />
                 </div>
-                <h2 className="text-4xl font-black mb-6 tracking-tight">GAJEONG 미러 허브</h2>
-                <p className="text-slate-500 text-lg mb-10 leading-relaxed font-medium">
-                  나를 알아가는 12가지 전문 진단, 워크숍 마스터 플랜 및 행정 규정 통합 플랫폼.
-                </p>
-                
-                <div className="grid grid-cols-2 gap-4 mb-10">
-                  {['12개 진단 모듈', '워크숍 기획 도구', '행정/교리 학습', '전문 멘토링'].map((feature) => (
-                    <div key={feature} className="flex items-center gap-2 text-sm font-bold text-slate-400">
-                      <div className="w-1.5 h-1.5 rounded-full bg-brand-500" />
-                      {feature}
-                    </div>
-                  ))}
+                <div>
+                  <h2 className="text-xl md:text-2xl font-black text-ffwpu-blue mb-1">GAJEONG 미러 허브</h2>
+                  <p className="text-toss-gray-500 text-sm md:text-base font-medium">12가지 진단 및 워크숍 도구</p>
                 </div>
               </div>
-
-              <div className="flex items-center gap-2 premium-btn-primary self-start group-hover:gap-4 transition-all">
-                플랫폼 입장하기 <ArrowRight size={24} />
-              </div>
+              <ChevronRight size={24} className="text-toss-gray-200 group-hover:text-ffwpu-gold group-hover:translate-x-1 transition-all" />
             </Link>
           </motion.div>
 
           {/* MIM35 Card */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
           >
             <Link
               to="/mim35"
-              className="group glass-card h-full flex flex-col justify-between border-emerald-500/10"
+              className="group glass-card flex items-center justify-between !p-6 md:!p-8 hover:bg-white active:scale-[0.98]"
             >
-              <div>
-                <div className="w-20 h-20 bg-emerald-500 text-white rounded-[2rem] flex items-center justify-center mb-10 shadow-2xl shadow-emerald-500/20 group-hover:scale-110 transition-transform duration-500">
-                  <Users size={40} />
+              <div className="flex items-center gap-6">
+                <div className="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-ffwpu-blue rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <Users size={32} />
                 </div>
-                <h2 className="text-4xl font-black mb-6 tracking-tight">목회공직자 유형진단</h2>
-                <p className="text-slate-500 text-lg mb-10 leading-relaxed font-medium">
-                  에니어그램, Big 5, 커리어 앵커, VIA 강점검사를 통합한 
-                  최첨단 소명 아키타입 진단 도구입니다.
-                </p>
-
-                <div className="grid grid-cols-2 gap-4 mb-10">
-                  {['심층 유형 분석', '성격/강점 통합', '커리어 앵커링', '팀 빌더 지원'].map((feature) => (
-                    <div key={feature} className="flex items-center gap-2 text-sm font-bold text-slate-400">
-                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                      {feature}
-                    </div>
-                  ))}
+                <div>
+                  <h2 className="text-xl md:text-2xl font-black text-ffwpu-blue mb-1">목회공직자 유형진단</h2>
+                  <p className="text-toss-gray-500 text-sm md:text-base font-medium">에니어그램 & 강점 통합 분석</p>
                 </div>
               </div>
-
-              <div className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-emerald-500 text-white font-bold hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/20 active:scale-95 self-start group-hover:gap-4 transition-all">
-                진단 시작하기 <ArrowRight size={24} />
-              </div>
+              <ChevronRight size={24} className="text-toss-gray-200 group-hover:text-ffwpu-blue group-hover:translate-x-1 transition-all" />
             </Link>
           </motion.div>
 
           {/* Mirror Insight Card */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
           >
             <Link
               to="/mirror-insight"
-              className="group glass-card h-full flex flex-col justify-between border-indigo-500/10"
+              className="group glass-card flex items-center justify-between !p-6 md:!p-8 hover:bg-white active:scale-[0.98]"
             >
-              <div>
-                <div className="w-20 h-20 bg-indigo-500 text-white rounded-[2rem] flex items-center justify-center mb-10 shadow-2xl shadow-indigo-500/20 group-hover:scale-110 transition-transform duration-500">
-                  <ShieldCheck size={40} />
+              <div className="flex items-center gap-6">
+                <div className="w-14 h-14 md:w-16 md:h-16 bg-amber-50 text-ffwpu-gold rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <ShieldCheck size={32} />
                 </div>
-                <h2 className="text-4xl font-black mb-6 tracking-tight">Mirror Insight</h2>
-                <p className="text-slate-500 text-lg mb-10 leading-relaxed font-medium">
-                  내면의 가치와 윤리적 좌표를 점검하는 정밀 인사이트 시스템.
-                  9가지 전문 거울로 당신의 내면을 비춰보세요.
-                </p>
-
-                <div className="grid grid-cols-2 gap-4 mb-10">
-                  {['소명/가치 진단', '진정성 측정', '세대 공감 분석', '사회적 감수성'].map((feature) => (
-                    <div key={feature} className="flex items-center gap-2 text-sm font-bold text-slate-400">
-                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
-                      {feature}
-                    </div>
-                  ))}
+                <div>
+                  <h2 className="text-xl md:text-2xl font-black text-ffwpu-blue mb-1">Mirror Insight</h2>
+                  <p className="text-toss-gray-500 text-sm md:text-base font-medium">내면 가치 및 진정성 정밀 측정</p>
                 </div>
               </div>
-
-              <div className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-indigo-500 text-white font-bold hover:bg-indigo-600 hover:shadow-lg hover:shadow-indigo-500/20 active:scale-95 self-start group-hover:gap-4 transition-all">
-                인사이트 확인 <ArrowRight size={24} />
-              </div>
+              <ChevronRight size={24} className="text-toss-gray-200 group-hover:text-ffwpu-gold group-hover:translate-x-1 transition-all" />
             </Link>
           </motion.div>
         </div>
 
-        {/* Bottom Stats/Info */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 1 }}
-          className="mt-20 glass-card p-12 border-none bg-brand-900 text-white relative overflow-hidden"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-16 bg-white rounded-[2rem] p-10 space-y-10"
         >
-          <div className="absolute top-0 right-0 p-12 opacity-10 rotate-12 scale-150">
-            <BarChart3 size={200} />
+          <div className="flex items-center justify-between border-b border-toss-gray-100 pb-8">
+            <h3 className="text-lg font-black text-ffwpu-blue">통합 플랫폼 대시보드</h3>
+            <span className="text-xs font-bold text-toss-gray-400 uppercase tracking-widest">Cheon Il Guk Epoch</span>
           </div>
           
-          <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-            <div className="space-y-2">
-              <div className="text-5xl font-black text-brand-500">12+</div>
-              <div className="text-sm font-bold text-slate-400 uppercase tracking-widest">전문 진단 모듈</div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+            <div className="space-y-1">
+              <div className="text-toss-gray-500 text-[10px] font-black uppercase tracking-widest">진단 모듈</div>
+              <div className="text-2xl font-black text-ffwpu-gold">12 Units</div>
             </div>
-            <div className="space-y-2">
-              <div className="text-5xl font-black text-emerald-500">150+</div>
-              <div className="text-sm font-bold text-slate-400 uppercase tracking-widest">정밀 분석 지표</div>
+            <div className="space-y-1">
+              <div className="text-toss-gray-500 text-[10px] font-black uppercase tracking-widest">심정 지표</div>
+              <div className="text-2xl font-black text-ffwpu-blue">150+ Index</div>
             </div>
-            <div className="space-y-2">
-              <div className="text-5xl font-black text-indigo-500">A.I</div>
-              <div className="text-sm font-bold text-slate-400 uppercase tracking-widest">유형 매칭 엔진</div>
+            <div className="space-y-1 col-span-2 md:col-span-1">
+              <div className="text-toss-gray-500 text-[10px] font-black uppercase tracking-widest">분석 엔진</div>
+              <div className="text-2xl font-black text-brand-600">Sacred Matcher</div>
             </div>
           </div>
         </motion.div>
 
-        <footer className="mt-20 text-center text-slate-400 font-bold py-10">
-          <p>© 2026 TONGHAP UNIFIED ECOSYSTEM. All rights reserved.</p>
+        <footer className="mt-16 text-center text-toss-gray-400 font-bold py-10 space-y-6">
+          <div className="flex justify-center items-center gap-2 opacity-50">
+             <img src={logoPath} alt="FFWPU Logo" className="w-6 h-6 grayscale" />
+             <span className="text-[10px] tracking-[0.3em] font-black uppercase">Family Federation for World Peace and Unification</span>
+          </div>
+          <p className="text-xs">© 2026 세계평화통일가정연합 통합 시스템.</p>
         </footer>
       </div>
     </div>

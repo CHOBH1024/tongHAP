@@ -2,11 +2,7 @@
 
 @layer components {
   .mirror-theme {
-    --color-background: #020617; /* slate-950 */
-    --color-foreground: #e2e8f0; /* slate-200 */
-  }
-
-  .mirror-glass-card {
-    @apply bg-slate-900/50 backdrop-blur-md border border-white/10 shadow-xl;
+    --color-background: #f2f4f6;
+    --color-foreground: #191f28; /* brand-900 */
   }
 }

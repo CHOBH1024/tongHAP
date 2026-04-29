@@ -12,8 +12,20 @@ import {
   ChevronRight,
   Flame,
   Star,
-  Quote
+  Quote,
+  Scale,
+  Award,
+  CheckCircle,
+  Zap
 } from 'lucide-react';
+
+const dailyQuotes = [
+  { text: '"참사랑은 주는 것이 기뻐서 또 주고 싶고, 주어도 준 사실을 잊어버리는 무조건적인 사랑입니다. 하늘부모님의 심정은 자녀에게 모든 것을 다 주고도 더 주지 못해 안타까워하시는 부모의 마음입니다."', source: '천성경 제1권 3장 2절' },
+  { text: '"하나님은 참사랑의 본체이시다. 참사랑은 자기를 위해 존재하는 것이 아니라 상대를 위해 존재하는 것이다."', source: '평화경 1편 2장' },
+  { text: '"가정은 사랑의 학교입니다. 부모의 사랑, 부부의 사랑, 자녀의 사랑, 형제의 사랑을 배우는 곳이 가정입니다."', source: '천성경 제3권 1장 1절' },
+  { text: '"참된 평화는 힘의 균형에서 오는 것이 아니라, 참사랑의 실천에서 온다."', source: '평화경 3편 1장' },
+  { text: '"효도하는 자녀, 충성하는 신하, 성인, 성자의 길은 모두 참사랑의 길이다."', source: '천성경 제2권 4장 3절' },
+];
 
 export const Doctrine: React.FC = () => {
   const [activeQuiz, setActiveQuiz] = useState<string | null>(null);
@@ -22,23 +34,40 @@ export const Doctrine: React.FC = () => {
   const [score, setScore] = useState(0);
   const [xp, setXp] = useState(1250);
   const [showResult, setShowResult] = useState(false);
+  const [answerFeedback, setAnswerFeedback] = useState<'correct' | 'wrong' | null>(null);
+  const [streak, setStreak] = useState(0);
+  const [completedModules, setCompletedModules] = useState<string[]>([]);
+
+  const todayQuote = dailyQuotes[new Date().getDate() % dailyQuotes.length];
 
   // Persistence
   useEffect(() => {
     const savedXp = localStorage.getItem('gajeong_xp');
     if (savedXp) setXp(parseInt(savedXp));
+    const savedStreak = localStorage.getItem('gajeong_streak');
+    if (savedStreak) setStreak(parseInt(savedStreak));
+    const savedCompleted = localStorage.getItem('gajeong_completed');
+    if (savedCompleted) setCompletedModules(JSON.parse(savedCompleted));
   }, []);
 
   useEffect(() => {
     localStorage.setItem('gajeong_xp', xp.toString());
   }, [xp]);
 
+  useEffect(() => {
+    localStorage.setItem('gajeong_streak', streak.toString());
+  }, [streak]);
+
+  useEffect(() => {
+    localStorage.setItem('gajeong_completed', JSON.stringify(completedModules));
+  }, [completedModules]);
+
   const modules = [
     { 
       id: 'creation', 
       title: '창조원리', 
-      icon: <Sun size={32} />, 
-      color: 'blue', 
+      icon: <Sun size={32} className="text-amber-500" />, 
+      color: 'amber', 
       desc: '하나님의 창조 목적과 우주 형성의 원리, 이상가정의 비전을 배웁니다.',
       summary: '창조원리는 하나님이 왜 우주와 인간을 만드셨는지를 설명합니다. 핵심은 "참사랑을 통한 기쁨"이며, 모든 존재는 수수작용을 통해 생존하고 번식합니다. 인간은 하나님의 형상을 닮은 실체로서 3대 축복(개성완성, 가정완성, 주관권완성)을 이뤄야 합니다.',
       quiz: [
@@ -48,60 +77,46 @@ export const Doctrine: React.FC = () => {
       ]
     },
     { 
-      id: 'fall', 
-      title: '타락론', 
-      icon: <Cross size={32} />, 
-      color: 'rose', 
-      desc: '인류 역사의 고통과 죄악의 원인, 타락의 진실을 규명합니다.',
-      summary: '타락론은 인류 불행의 기원을 다룹니다. 선악과는 실제 과일이 아닌 사랑의 정조를 상징하며, 천사장 루시엘과 인간 조상의 비원리적 사랑의 관계가 타락의 본질입니다. 이로 인해 인류는 사탄의 혈통을 이어받게 되었으며, 이를 청산하는 것이 복귀의 시작입니다.',
-      quiz: [
-        { q: '성서에 기록된 선악과의 본질적 상징은 무엇입니까?', options: ['문자 그대로의 열매', '천사의 유혹', '에바의 사랑(성적 타락)', '물질적 탐욕'], a: 2 },
-        { q: '인간 타락의 결과로 초래된 가장 큰 비극은 무엇입니까?', options: ['육신의 죽음', '혈통의 더럽힘', '자연 만물의 상실', '과학 기술의 퇴보'], a: 1 },
-        { q: '천사장 루시엘이 타락하게 된 근본적인 동기는?', options: ['권력 탐욕', '하나님 원망', '사랑의 감소감과 질투', '천사 세계 반란'], a: 2 }
-      ]
-    },
-    { 
-      id: 'restoration', 
-      title: '복귀원리', 
-      icon: <Globe size={32} />, 
-      color: 'emerald', 
-      desc: '타락한 인류를 회복시키려는 탕감복귀 노정과 재림의 필연성을 배웁니다.',
-      summary: '복귀원리는 탕감복귀 섭리를 통해 인간을 창조본연의 상태로 되찾아오시는 하나님의 역사 노정입니다. 메시아를 맞이하기 위해서는 "믿음의 기대"와 "실체기대"를 세워야 합니다. 아담 가정부터 시작된 이 노정은 오늘날 재림주님을 통해 완성에 이르게 됩니다.',
-      quiz: [
-        { q: '타락한 인간이 창조본연의 상태로 돌아가기 위해 치러야 하는 원칙은?', options: ['자연 치유', '시간의 경과', '탕감 복귀', '무조건적 은혜'], a: 2 },
-        { q: '메시아를 맞이하기 위해 중심인물이 갖추어야 할 핵심 조건은?', options: ['재물과 권력', '믿음의 기대와 실체기대', '학문적 깨달음', '군사적 정복'], a: 1 },
-        { q: '예수님이 십자가에 돌아가신 역사적 섭리의 의미는?', options: ['하나님의 예정된 뜻', '유대 민족의 불신에 의한 차선책', '로마 제국의 필연적 결과', '인간의 정치적 실패'], a: 1 }
-      ]
-    },
-    { 
       id: 'parents', 
-      title: '참부모론', 
-      icon: <Heart size={32} />, 
-      color: 'amber', 
-      desc: '참부모님의 생애노정과 사상을 연구하고 축복의 가치를 내면화합니다.',
-      summary: '참부모론은 승리하신 참부모님의 생애와 그 가치를 다룹니다. 참부모님은 원죄 없는 독생자, 독생녀로 오시어 성혼을 통해 인류의 참된 부모가 되셨습니다. 축복결혼은 혈통을 전환하여 하나님 중심한 이상가정을 이루는 구원의 완성입니다.',
+      title: '참부모론 (신학적 정립)', 
+      icon: <Heart size={32} className="text-rose-500" />, 
+      color: 'rose', 
+      desc: '독생자·독생녀의 현현과 참부모 성혼의 섭리적 가치를 연구합니다.',
+      summary: '참부모론은 원죄 없는 독생자와 독생녀의 성혼을 통해 인류의 참된 부모가 되심을 핵심으로 합니다. 특히 참어머님의 "독생녀" 선포는 타락한 혈통을 근원적으로 전환하고 신통일한국 시대를 안착시키는 결정적인 섭리적 의미를 지닙니다.',
       quiz: [
-        { q: '참부모가 인류 역사상 가지는 가장 중요한 섭리적 의의는?', options: ['새로운 종교 창시', '접붙임을 통한 원죄 청산과 축복', '세계 경제 평등화', '정치 체제의 통합'], a: 1 },
-        { q: '참부모님께서 선포하신 이상적 평화 세계의 이름은?', options: ['유토피아', '지상천국', '천일국', '에덴동산'], a: 2 },
-        { q: '참사랑(True Love)의 본질적 특징이 아닌 것은?', options: ['위하여 사는 삶', '원수까지도 사랑함', '조건적인 보상 기대', '희생과 투입'], a: 2 }
+        { q: '참어머님께서 선포하신 섭리적 본체로서의 명칭은?', options: ['지혜의 여신', '독생녀', '평화의 어머니', '인류의 스승'], a: 1 },
+        { q: '참부모님의 성혼이 인류 역사에 가져온 가장 큰 변화는?', options: ['종교의 통합', '혈통의 전환과 축복', '민주주의 확산', '과학기술의 비약'], a: 1 },
+        { q: '참부모론에서 강조하는 "위하여 사는 삶"의 근본은?', options: ['사회 정의', '자기 희생적 참사랑', '경제적 평등', '지식의 공유'], a: 1 }
       ]
     },
     { 
-      id: 'eschatology', 
-      title: '종말론/재림론', 
-      icon: <Flame size={32} />, 
-      color: 'orange', 
-      desc: '인류 역사의 종말과 새로운 시대의 개막, 재림의 원리를 학습합니다.',
-      summary: '종말론은 악의 주권이 선의 주권으로 교체되는 시기를 뜻합니다. 재림은 구름을 타고 오는 것이 아니라 지상에 인간의 모습으로 탄생하시는 것이며, 참부모님을 통해 그 예언이 성취되었습니다.',
+      id: 'hyojeong', 
+      title: '효정의 인재상', 
+      icon: <Star size={32} className="text-indigo-600" />, 
+      color: 'indigo', 
+      desc: '효정(孝情)의 성숙과 발달 과정으로 본 가정연합의 핵심 인재상을 탐구합니다.',
+      summary: '효정의 인재상은 하늘부모님을 향한 수직적 효심과 인류를 향한 수평적 참사랑을 겸비한 인재를 뜻합니다. 이는 단순한 지식 습득이 아니라, 심정적 성숙을 통해 참된 부모, 참된 스승, 참된 주인의 자격을 갖추는 과정을 의미합니다.',
       quiz: [
-        { q: '종말의 진정한 의미는 무엇입니까?', options: ['지구의 파멸', '선의 주권으로의 전환', '심판과 형벌', '역사의 중단'], a: 1 },
-        { q: '재림주님이 지상에 강림하시는 방식은?', options: ['구름 위에서', '환상 중에', '여인의 몸을 통해 탄생', '우주선 타고'], a: 2 }
+        { q: '가정연합이 지향하는 효정 인재상의 핵심 가치는?', options: ['경쟁 승리', '심정적 성숙과 효(孝)', '기술적 전문성', '카리스마적 리더십'], a: 1 },
+        { q: '효정의 성숙 단계 중 가장 기초가 되는 마음은?', options: ['주관하는 마음', '위하는 마음(심정)', '개척하는 마음', '분석하는 마음'], a: 1 }
+      ]
+    },
+    { 
+      id: 'law', 
+      title: '천일국 교육기본법', 
+      icon: <Scale size={32} className="text-emerald-600" />, 
+      color: 'emerald', 
+      desc: '천일국 국민으로서 갖춰야 할 법적·윤리적 소양과 교육의 원칙을 배웁니다.',
+      summary: '천일국 교육기본법은 모든 천일국 국민이 하늘부모님의 말씀을 훈독하고 실천하며, 평화 세계의 주인으로서 자질을 함양할 권리와 의무를 명시합니다. 교육의 목적은 홍익인간을 넘어 "천일국 시민으로서의 완성"에 있습니다.',
+      quiz: [
+        { q: '천일국 교육기본법에서 명시한 교육의 궁극적 목적은?', options: ['엘리트 양성', '천일국 시민(국민)으로서의 완성', '직업적 성공', '종교적 교리 주입'], a: 1 },
+        { q: '천일국 국민이 일상에서 실천해야 할 가장 기본적인 교육법은?', options: ['토론회', '훈독회', '웅변대회', '봉사활동'], a: 1 }
       ]
     },
     { 
       id: 'mission', 
       title: '신종족메시아', 
-      icon: <Star size={32} />, 
+      icon: <Zap size={32} className="text-violet-600" />, 
       color: 'violet', 
       desc: '가정연합 식구로서의 정체성과 종족 복귀를 위한 사명을 고취합니다.',
       summary: '신종족메시아는 참부모님을 대신하여 자신의 종족과 이웃을 구원하는 작은 메시아를 뜻합니다. 가정을 천국화하고 주변 430가정을 축복으로 이끄는 것이 목표입니다.',
@@ -123,118 +138,153 @@ export const Doctrine: React.FC = () => {
     const mod = modules.find(m => m.id === activeQuiz);
     if (!mod) return;
     
-    if (selectedIndex === mod.quiz[quizIndex].a) {
+    const isCorrect = selectedIndex === mod.quiz[quizIndex].a;
+    setAnswerFeedback(isCorrect ? 'correct' : 'wrong');
+    
+    if (isCorrect) {
       setScore(prev => prev + 100);
+      setStreak(prev => prev + 1);
+    } else {
+      setStreak(0);
     }
     
-    if (quizIndex < mod.quiz.length - 1) {
-      setQuizIndex(quizIndex + 1);
-    } else {
-      setShowResult(true);
-      const earned = score + (selectedIndex === mod.quiz[quizIndex].a ? 100 : 0);
-      setXp(prev => prev + earned);
-    }
+    setTimeout(() => {
+      setAnswerFeedback(null);
+      if (quizIndex < mod.quiz.length - 1) {
+        setQuizIndex(quizIndex + 1);
+      } else {
+        setShowResult(true);
+        const earned = score + (isCorrect ? 100 : 0);
+        setXp(prev => prev + earned);
+        if (!completedModules.includes(mod.id)) {
+          setCompletedModules(prev => [...prev, mod.id]);
+        }
+      }
+    }, 800);
   };
 
   const level = Math.floor(xp / 1000) + 1;
   const progressInLevel = (xp % 1000) / 10;
 
   return (
-    <motion.div initial={{opacity:0, y:20}} animate={{opacity:1, y:0}} className="max-w-5xl mx-auto space-y-12 pb-20 px-6">
+    <motion.div initial={{opacity:0, y:20}} animate={{opacity:1, y:0}} className="max-w-6xl mx-auto space-y-12 pb-20 px-6">
       
-      {/* Gamification Header */}
-      <div className="toss-card border-none flex flex-col md:flex-row justify-between items-center gap-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-        <div className="flex items-center gap-6">
+      {/* Gamification Header - FFWPU Premium */}
+      <div className="relative p-8 md:p-10 rounded-[2.5rem] bg-indigo-900 overflow-hidden shadow-2xl flex flex-col md:flex-row justify-between items-center gap-8">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500 rounded-full blur-[100px] -mr-32 -mt-32 opacity-20" />
+        <div className="relative z-10 flex items-center gap-8">
           <div className="relative">
-            <div className="w-16 h-16 bg-toss-blue rounded-2xl flex items-center justify-center shadow-lg shadow-toss-blue/20">
-              <Trophy className="text-white" size={32} />
+            <div className="w-20 h-20 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl flex items-center justify-center shadow-2xl">
+              <Trophy className="text-amber-400" size={40} />
             </div>
-            <div className="absolute -bottom-2 -right-2 bg-amber-500 text-white text-[10px] font-black px-2 py-1 rounded-lg border-2 border-white">
+            <div className="absolute -bottom-3 -right-3 bg-ffwpu-gold text-white text-[12px] font-black px-3 py-1.5 rounded-xl border-4 border-indigo-900 shadow-lg">
               LV.{level}
             </div>
           </div>
           <div>
-            <div className="text-[10px] font-black text-toss-blue uppercase tracking-widest mb-1">Faith Quest</div>
-            <h2 className="text-2xl font-black text-toss-gray-900 tracking-tight">신앙의 탐구자</h2>
+            <div className="text-[10px] font-black text-amber-400 uppercase tracking-[0.4em] mb-2">Theological Journey · 🔥 {streak} Streak</div>
+            <h2 className="text-3xl font-black text-white tracking-tight">신앙의 탐구자 <span className="text-lg text-amber-300">({completedModules.length}/{modules.length} 완료)</span></h2>
+            <p className="text-indigo-200/60 text-sm font-medium">말씀을 체득하여 성숙한 인재로 거듭나세요.</p>
           </div>
         </div>
-        <div className="w-full md:w-auto text-center md:text-right space-y-3">
-          <div className="text-3xl font-black text-toss-gray-900 flex items-center gap-2 justify-center md:justify-end">
-            {xp.toLocaleString()} <span className="text-xs font-bold text-toss-gray-400">XP</span>
+        
+        <div className="relative z-10 w-full md:w-80 text-center md:text-right space-y-4">
+          <div className="text-4xl font-black text-white flex items-center gap-2 justify-center md:justify-end tracking-tighter">
+            {xp.toLocaleString()} <span className="text-xs font-black text-amber-400">XP</span>
           </div>
-          <div className="w-full md:w-64 h-2 bg-toss-gray-100 rounded-full overflow-hidden">
-            <motion.div initial={{ width: 0 }} animate={{ width: `${progressInLevel}%` }} className="h-full bg-toss-blue" />
+          <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden backdrop-blur-md">
+            <motion.div initial={{ width: 0 }} animate={{ width: `${progressInLevel}%` }} className="h-full bg-gradient-to-r from-amber-500 to-ffwpu-gold" />
           </div>
-          <div className="text-[10px] font-bold text-toss-gray-400 uppercase tracking-widest">Next Level: {1000 - (xp % 1000)} XP Remaining</div>
+          <div className="text-[10px] font-black text-indigo-300 uppercase tracking-widest opacity-60">Next Level: {1000 - (xp % 1000)} XP Remaining</div>
         </div>
       </div>
 
-      {/* Daily Word Section */}
-      <div className="toss-card border-none bg-toss-gray-900 text-white p-10 relative overflow-hidden">
-        <div className="absolute -right-10 -bottom-10 opacity-10 rotate-12">
-          <Quote size={200} />
+      {/* Daily Word Card */}
+      <div className="glass-card !bg-white relative overflow-hidden border-none shadow-sacred p-10 md:p-14">
+        <div className="absolute top-0 right-0 p-12 opacity-5 text-indigo-900">
+          <Quote size={240} />
         </div>
-        <div className="relative z-10 space-y-6">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-toss-blue rounded-full flex items-center justify-center"><Heart size={16} fill="white"/></div>
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-toss-blue-light">오늘의 훈독 말씀</span>
+        <div className="relative z-10 space-y-8">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 bg-rose-50 text-rose-500 rounded-2xl flex items-center justify-center shadow-sm">
+               <Heart size={20} fill="currentColor" />
+            </div>
+            <span className="text-xs font-black uppercase tracking-[0.3em] text-slate-400">오늘의 훈독 명언</span>
           </div>
-          <blockquote className="text-xl md:text-2xl font-bold leading-relaxed max-w-3xl">
-            "참사랑은 주는 것이 기뻐서 또 주고 싶고, 주어도 준 사실을 잊어버리는 무조건적인 사랑입니다. 하늘부모님의 심정은 자녀에게 모든 것을 다 주고도 더 주지 못해 안타까워하시는 부모의 마음입니다."
+          <blockquote className="text-2xl md:text-3xl font-black leading-tight text-slate-900 max-w-4xl tracking-tight">
+            {todayQuote.text}
           </blockquote>
-          <div className="flex items-center gap-4 text-white/50 text-sm">
-            <span className="font-bold">천성경 제1권 3장 2절</span>
-            <div className="w-1 h-1 bg-white/20 rounded-full"></div>
-            <span>2026.04.27 훈독회</span>
+          <div className="flex items-center gap-6 pt-6 border-t border-slate-50">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                 <BookOpen size={14} className="text-slate-400" />
+              </div>
+              <span className="font-black text-slate-800 text-sm">{todayQuote.source}</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="space-y-4">
-        <h1 className="text-4xl font-black text-toss-gray-900 tracking-tight leading-tight">교리 학습 센터</h1>
-        <p className="text-toss-gray-500 font-medium text-lg">원리를 체계적으로 학습하고 도전 과제를 수행하여<br/>당신의 영적 지능(SQ)을 높여보세요.</p>
-      </div>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Course Grid */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {modules.map(mod => (
-          <div key={mod.id} className="toss-card border-none shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col justify-between hover:scale-[1.02] transition-all">
-            <div className="space-y-6">
-              <div className="flex items-center gap-4">
-                <div className={`w-14 h-14 bg-toss-gray-50 flex items-center justify-center rounded-2xl`}>
+          <motion.div 
+            key={mod.id} 
+            whileHover={{ y: -8 }}
+            className={`glass-card group cursor-pointer border-none bg-white shadow-md hover:shadow-2xl ${completedModules.includes(mod.id) ? 'ring-2 ring-emerald-400 ring-offset-2' : ''}`}
+          >
+            <div className="space-y-8">
+              <div className="flex items-center justify-between">
+                <div className="w-16 h-16 bg-slate-50 rounded-[2rem] flex items-center justify-center group-hover:bg-indigo-50 transition-colors relative">
                   {mod.icon}
+                  {completedModules.includes(mod.id) && (
+                    <div className="absolute -top-1 -right-1 w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-white shadow-lg">
+                      <Award size={14} />
+                    </div>
+                  )}
                 </div>
-                <div>
-                  <h3 className="text-lg font-bold text-toss-gray-900">{mod.title}</h3>
-                  <div className="text-[10px] font-black text-toss-gray-400 uppercase tracking-widest">Standard Course</div>
+                <div className="w-10 h-10 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300 group-hover:text-indigo-600 group-hover:bg-indigo-50 transition-all">
+                  <ChevronRight size={20} />
                 </div>
               </div>
-              <p className="text-sm text-toss-gray-600 leading-relaxed font-medium h-[3em] line-clamp-2">{mod.desc}</p>
+              <div>
+                <h3 className="text-xl font-black text-slate-900 mb-3 group-hover:text-indigo-600 transition-colors">{mod.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed font-medium line-clamp-3">{mod.desc}</p>
+              </div>
             </div>
-            <div className="flex gap-2 mt-8">
-              <button onClick={() => setStudyMode(mod.id)} className="flex-1 toss-button-ghost py-3 text-[11px]">학습하기</button>
-              <button onClick={() => handleStartQuiz(mod.id)} className="flex-1 toss-button-primary py-3 text-[11px] shadow-none">퀘스트</button>
+            <div className="flex gap-3 mt-10">
+              <button onClick={() => setStudyMode(mod.id)} className="flex-1 py-4 bg-slate-50 text-slate-600 rounded-2xl text-xs font-black hover:bg-slate-100 transition-all">학습 모드</button>
+              <button onClick={() => handleStartQuiz(mod.id)} className="flex-1 py-4 bg-indigo-600 text-white rounded-2xl text-xs font-black shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all">퀘스트 도전</button>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
 
       {/* Study Modal */}
       <AnimatePresence>
         {studyMode && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-toss-gray-900/60 backdrop-blur-sm">
-            <motion.div initial={{scale:0.9, y:20}} animate={{scale:1, y:0}} exit={{scale:0.9, y:20}} className="bg-white w-full max-w-2xl p-10 rounded-[32px] shadow-2xl relative">
-              <button onClick={() => setStudyMode(null)} className="absolute top-8 right-8 text-toss-gray-400 hover:text-toss-gray-900"><X size={24}/></button>
-              <div className="space-y-8">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-toss-blue-light text-toss-blue flex items-center justify-center"><BookOpen size={24}/></div>
-                  <h2 className="text-2xl font-black text-toss-gray-900">{modules.find(m => m.id === studyMode)?.title} 요약</h2>
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
+            <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} className="absolute inset-0 bg-slate-950/80 backdrop-blur-md" onClick={() => setStudyMode(null)} />
+            <motion.div 
+              initial={{scale:0.9, y:40, opacity:0}} 
+              animate={{scale:1, y:0, opacity:1}} 
+              exit={{scale:0.9, y:40, opacity:0}} 
+              className="relative bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden"
+            >
+              <div className="p-10 md:p-14 space-y-10">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-5">
+                    <div className="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center"><BookOpen size={28}/></div>
+                    <h2 className="text-2xl font-black text-slate-900">{modules.find(m => m.id === studyMode)?.title}</h2>
+                  </div>
+                  <button onClick={() => setStudyMode(null)} className="p-4 bg-slate-50 rounded-2xl text-slate-400 hover:text-slate-900 transition-all"><X size={24}/></button>
                 </div>
-                <div className="p-8 bg-toss-gray-50 rounded-2xl leading-loose text-toss-gray-700 font-medium max-h-[40vh] overflow-y-auto custom-scrollbar">
+                <div className="p-10 bg-slate-50 rounded-[2.5rem] border border-slate-100 leading-loose text-slate-700 font-bold text-lg max-h-[50vh] overflow-y-auto custom-scrollbar">
                   {modules.find(m => m.id === studyMode)?.summary}
                 </div>
                 <div className="flex gap-4">
-                  <button onClick={() => setStudyMode(null)} className="flex-1 toss-button-ghost">닫기</button>
-                  <button onClick={() => { setStudyMode(null); handleStartQuiz(studyMode); }} className="flex-1 toss-button-primary shadow-none">퀴즈 도전하기</button>
+                  <button onClick={() => setStudyMode(null)} className="flex-1 py-5 bg-white border border-slate-200 text-slate-600 rounded-3xl font-black text-lg hover:bg-slate-50 transition-all">나중에 하기</button>
+                  <button onClick={() => { setStudyMode(null); handleStartQuiz(studyMode); }} className="flex-1 py-5 bg-indigo-600 text-white rounded-3xl font-black text-lg shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all">지금 테스트</button>
                 </div>
               </div>
             </motion.div>
@@ -242,54 +292,101 @@ export const Doctrine: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* Quiz Modal */}
+      {/* Quiz Quest Modal */}
       <AnimatePresence>
         {activeQuiz && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-toss-gray-900/60 backdrop-blur-sm">
-            <motion.div initial={{scale:0.9, y:20}} animate={{scale:1, y:0}} exit={{scale:0.9, y:20}} className="bg-white w-full max-w-lg rounded-[32px] overflow-hidden shadow-2xl">
-              <div className="flex justify-between items-center p-8 border-b border-toss-gray-100">
-                <h3 className="font-bold text-lg flex items-center gap-2">
-                  <ShieldCheck className="text-toss-blue"/> {modules.find(m => m.id === activeQuiz)?.title} 퀘스트
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
+            <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} className="absolute inset-0 bg-indigo-950/90 backdrop-blur-xl" onClick={() => setActiveQuiz(null)} />
+            <motion.div 
+              initial={{scale:0.9, y:40, opacity:0}} 
+              animate={{scale:1, y:0, opacity:1}} 
+              exit={{scale:0.9, y:40, opacity:0}} 
+              className="relative bg-white w-full max-w-xl rounded-[3rem] overflow-hidden shadow-2xl"
+            >
+              <div className="flex justify-between items-center p-10 border-b border-slate-50">
+                <h3 className="font-black text-xl flex items-center gap-3 text-slate-900">
+                  <ShieldCheck className="text-indigo-600" size={24}/> {modules.find(m => m.id === activeQuiz)?.title} Quest
                 </h3>
-                <button onClick={() => setActiveQuiz(null)} className="text-toss-gray-400 hover:text-toss-gray-900"><X size={20}/></button>
+                <button onClick={() => setActiveQuiz(null)} className="p-3 bg-slate-50 rounded-xl text-slate-400 hover:text-slate-900"><X size={20}/></button>
               </div>
 
-              <div className="p-8">
+              <div className="p-10 md:p-14">
                 {showResult ? (
-                  <div className="text-center space-y-8 py-8">
-                    <motion.div initial={{scale:0}} animate={{scale:1}} className="w-24 h-24 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto">
-                      <Trophy size={48} />
+                  <div className="text-center space-y-10">
+                    <motion.div 
+                      initial={{scale:0, rotate:-45}} 
+                      animate={{scale:1, rotate:0}} 
+                      className="w-28 h-28 bg-amber-50 text-amber-500 rounded-[2.5rem] flex items-center justify-center mx-auto shadow-xl"
+                    >
+                      <Trophy size={56} />
                     </motion.div>
-                    <div className="space-y-2">
-                      <h2 className="text-3xl font-black text-toss-gray-900">미션 완료!</h2>
-                      <p className="text-toss-blue font-black text-xl">+{score} XP 획득</p>
+                    <div className="space-y-4">
+                      <h2 className="text-4xl font-black text-slate-900 tracking-tight">미션 클리어!</h2>
+                      <div className="inline-block px-6 py-2 bg-indigo-50 rounded-full">
+                        <p className="text-indigo-600 font-black text-2xl">+{score} <span className="text-sm">XP COLLECTED</span></p>
+                      </div>
                     </div>
-                    <button onClick={() => setActiveQuiz(null)} className="toss-button-primary w-full py-5 text-xl">완료</button>
+                    <button onClick={() => setActiveQuiz(null)} className="w-full py-6 bg-indigo-600 text-white rounded-3xl font-black text-xl shadow-2xl shadow-indigo-100 hover:scale-[1.02] transition-all">결과 저장 및 닫기</button>
                   </div>
                 ) : (
-                  <div className="space-y-8">
-                    <div className="flex justify-between items-end">
-                      <span className="text-[10px] font-black text-toss-gray-400 uppercase tracking-widest">Progress</span>
-                      <span className="text-xs font-black text-toss-blue">{quizIndex + 1} / {modules.find(m => m.id === activeQuiz)?.quiz.length}</span>
+                  <div className="space-y-10">
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-end">
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Current Progress</span>
+                        <span className="text-sm font-black text-indigo-600">{quizIndex + 1} / {modules.find(m => m.id === activeQuiz)?.quiz.length}</span>
+                      </div>
+                      <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                        <motion.div 
+                          initial={{ width: 0 }}
+                          animate={{ width: `${((quizIndex + 1) / (modules.find(m => m.id === activeQuiz)?.quiz.length || 1)) * 100}%` }}
+                          className="h-full bg-indigo-600" 
+                        />
+                      </div>
                     </div>
-                    <div className="h-1.5 w-full bg-toss-gray-100 rounded-full overflow-hidden">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: `${((quizIndex + 1) / (modules.find(m => m.id === activeQuiz)?.quiz.length || 1)) * 100}%` }}
-                        className="h-full bg-toss-blue" 
-                      />
+                    
+                    <div className="min-h-[120px] flex items-center justify-center">
+                      <h2 className="text-2xl font-black text-slate-900 leading-tight text-center">
+                        {modules.find(m => m.id === activeQuiz)?.quiz[quizIndex].q}
+                      </h2>
                     </div>
-                    <h2 className="text-2xl font-black text-toss-gray-900 leading-tight min-h-[4em] flex items-center text-center justify-center">
-                      {modules.find(m => m.id === activeQuiz)?.quiz[quizIndex].q}
-                    </h2>
-                    <div className="space-y-3">
+
+                    <div className="space-y-4">
                       {modules.find(m => m.id === activeQuiz)?.quiz[quizIndex].options.map((opt, i) => (
-                        <button key={i} onClick={() => handleAnswer(i)} className="w-full p-5 bg-toss-gray-50 hover:bg-toss-blue hover:text-white rounded-2xl font-bold transition-all flex justify-between items-center group">
-                          <span>{opt}</span>
-                          <ChevronRight size={18} className="text-toss-gray-200 group-hover:text-white transition-colors" />
+                        <button 
+                          key={i} 
+                          onClick={() => !answerFeedback && handleAnswer(i)} 
+                          disabled={!!answerFeedback}
+                          className={`w-full p-6 border-2 rounded-[2rem] font-black text-lg transition-all flex justify-between items-center group text-left ${
+                            answerFeedback && i === modules.find(m => m.id === activeQuiz)?.quiz[quizIndex].a
+                              ? 'bg-emerald-50 border-emerald-500 scale-[1.02]'
+                              : answerFeedback === 'wrong' && i !== modules.find(m => m.id === activeQuiz)?.quiz[quizIndex].a
+                              ? 'bg-slate-50 border-transparent opacity-50'
+                              : 'bg-slate-50 hover:bg-white hover:shadow-xl hover:border-indigo-600 border-transparent'
+                          }`}
+                        >
+                          <span className={`${
+                            answerFeedback && i === modules.find(m => m.id === activeQuiz)?.quiz[quizIndex].a
+                              ? 'text-emerald-700' : 'text-slate-800 group-hover:text-indigo-600'
+                          }`}>{opt}</span>
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-sm ${
+                            answerFeedback && i === modules.find(m => m.id === activeQuiz)?.quiz[quizIndex].a
+                              ? 'bg-emerald-500 text-white' : 'bg-white text-slate-200 group-hover:bg-indigo-600 group-hover:text-white'
+                          }`}>
+                             <ChevronRight size={18} />
+                          </div>
                         </button>
                       ))}
                     </div>
+                    {answerFeedback && (
+                      <motion.div 
+                        initial={{opacity:0, y:10}} animate={{opacity:1, y:0}}
+                        className={`text-center py-3 rounded-2xl font-black text-lg ${
+                          answerFeedback === 'correct' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'
+                        }`}
+                      >
+                        {answerFeedback === 'correct' ? `✅ 정답! 🔥 ${streak} 연속` : '❌ 아쉬워요! 다음엔 꼭!'}
+                      </motion.div>
+                    )}
                   </div>
                 )}
               </div>
@@ -301,3 +398,5 @@ export const Doctrine: React.FC = () => {
     </motion.div>
   );
 };
+
+export default Doctrine;

@@ -173,7 +173,7 @@ export const MirrorApp: React.FC<MirrorAppProps> = ({
                 <motion.div 
                   initial={{ scale: 0.8 }}
                   animate={{ scale: 1 }}
-                  className="w-24 h-24 bg-white rounded-[32px] shadow-premium flex items-center justify-center mx-auto mb-8 text-brand-500"
+                  className="w-24 h-24 bg-white rounded-[32px] shadow-toss flex items-center justify-center mx-auto mb-8 text-brand-500"
                 >
                   {React.cloneElement(icon as React.ReactElement, { size: 40 })}
                 </motion.div>
@@ -277,7 +277,7 @@ export const MirrorApp: React.FC<MirrorAppProps> = ({
                       <button 
                         key={opt.v} 
                         onClick={() => handleAnswer(opt.v)} 
-                        className={`glass-card !p-6 text-left font-black text-lg transition-all border-2 ${answers[currentIndex] === opt.v ? 'border-brand-500 bg-brand-50 text-brand-500' : 'border-transparent hover:bg-white hover:shadow-premium'}`}
+                        className={`glass-card !p-6 text-left font-black text-lg transition-all border-2 ${answers[currentIndex] === opt.v ? 'border-brand-500 bg-brand-50 text-brand-500' : 'border-transparent hover:bg-white hover:shadow-toss'}`}
                       >
                         {opt.t}
                       </button>
