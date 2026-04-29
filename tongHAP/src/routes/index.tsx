@@ -66,7 +66,7 @@ function UnifiedHub() {
             transition={{ delay: 0.3, duration: 0.5 }}
           >
             <Link
-              to="/mim35"
+              to="/mim25"
               className="group glass-card flex items-center justify-between !p-6 md:!p-8 hover:bg-white active:scale-[0.98]"
             >
               <div className="flex items-center gap-6">
@@ -74,8 +74,8 @@ function UnifiedHub() {
                   <Users size={32} />
                 </div>
                 <div>
-                  <h2 className="text-xl md:text-2xl font-black text-ffwpu-blue mb-1">목회공직자 유형진단</h2>
-                  <p className="text-toss-gray-500 text-sm md:text-base font-medium">에니어그램 & 강점 통합 분석</p>
+                  <h2 className="text-xl md:text-2xl font-black text-ffwpu-blue mb-1">MIM25 Assessment</h2>
+                  <p className="text-toss-gray-500 text-sm md:text-base font-medium">에니어그램 & 빅5 강점 통합 분석</p>
                 </div>
               </div>
               <ChevronRight size={24} className="text-toss-gray-200 group-hover:text-ffwpu-blue group-hover:translate-x-1 transition-all" />

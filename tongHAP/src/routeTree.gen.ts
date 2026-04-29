@@ -10,7 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as MirrorInsightRouteImport } from './routes/mirror-insight'
-import { Route as Mim35RouteImport } from './routes/mim35'
+import { Route as Mim25RouteImport } from './routes/mim25'
 import { Route as GajeongRouteImport } from './routes/gajeong'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -19,9 +19,9 @@ const MirrorInsightRoute = MirrorInsightRouteImport.update({
   path: '/mirror-insight',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Mim35Route = Mim35RouteImport.update({
-  id: '/mim35',
-  path: '/mim35',
+const Mim25Route = Mim25RouteImport.update({
+  id: '/mim25',
+  path: '/mim25',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GajeongRoute = GajeongRouteImport.update({
@@ -38,34 +38,34 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/gajeong': typeof GajeongRoute
-  '/mim35': typeof Mim35Route
+  '/mim25': typeof Mim25Route
   '/mirror-insight': typeof MirrorInsightRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/gajeong': typeof GajeongRoute
-  '/mim35': typeof Mim35Route
+  '/mim25': typeof Mim25Route
   '/mirror-insight': typeof MirrorInsightRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/gajeong': typeof GajeongRoute
-  '/mim35': typeof Mim35Route
+  '/mim25': typeof Mim25Route
   '/mirror-insight': typeof MirrorInsightRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/gajeong' | '/mim35' | '/mirror-insight'
+  fullPaths: '/' | '/gajeong' | '/mim25' | '/mirror-insight'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/gajeong' | '/mim35' | '/mirror-insight'
-  id: '__root__' | '/' | '/gajeong' | '/mim35' | '/mirror-insight'
+  to: '/' | '/gajeong' | '/mim25' | '/mirror-insight'
+  id: '__root__' | '/' | '/gajeong' | '/mim25' | '/mirror-insight'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GajeongRoute: typeof GajeongRoute
-  Mim35Route: typeof Mim35Route
+  Mim25Route: typeof Mim25Route
   MirrorInsightRoute: typeof MirrorInsightRoute
 }
 
@@ -78,11 +78,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MirrorInsightRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/mim35': {
-      id: '/mim35'
-      path: '/mim35'
-      fullPath: '/mim35'
-      preLoaderRoute: typeof Mim35RouteImport
+    '/mim25': {
+      id: '/mim25'
+      path: '/mim25'
+      fullPath: '/mim25'
+      preLoaderRoute: typeof Mim25RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gajeong': {
@@ -105,7 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GajeongRoute: GajeongRoute,
-  Mim35Route: Mim35Route,
+  Mim25Route: Mim25Route,
   MirrorInsightRoute: MirrorInsightRoute,
 }
 export const routeTree = rootRouteImport

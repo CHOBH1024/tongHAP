@@ -12,7 +12,7 @@ import { decodeInputs } from "@/lib/share";
 import type { Inputs, Archetype } from "@/lib/types";
 import { motion, AnimatePresence } from "framer-motion";
 
-export function MIM35App() {
+export function MIM25App() {
   const [activeTab, setActiveTab] = useState<string>("home");
   const [inputs, setInputs] = useState<Inputs>({
     enneagram: "",
@@ -99,7 +99,7 @@ export function MIM35App() {
               </div>
               <div>
                 <h1 className="text-2xl font-black text-brand-900 leading-none tracking-tight">
-                  MIM35
+                  MIM25
                 </h1>
                 <span className="text-[10px] text-brand-500 tracking-[0.3em] uppercase font-black">
                   Pastoral Archetype Engine
@@ -162,7 +162,7 @@ export function MIM35App() {
                 <Icon name="User" size={28} />
               </div>
               <div>
-                <h2 className="text-2xl font-black text-brand-900 tracking-tight">MIM35 Assessment</h2>
+                <h2 className="text-2xl font-black text-brand-900 tracking-tight">MIM25 Assessment</h2>
                 <p className="text-xs font-black text-brand-500 tracking-widest uppercase">Cheon Il Guk Public Official Assessment Tool</p>
               </div>
             </div>
