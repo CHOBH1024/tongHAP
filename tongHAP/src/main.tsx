@@ -6,7 +6,7 @@ import './index.css'
 
 const router = createRouter({ 
   routeTree,
-  basepath: '/',
+  basepath: '/tongHAP/',
 })
 
 declare module '@tanstack/react-router' {
