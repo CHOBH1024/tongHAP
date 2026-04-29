@@ -7,7 +7,8 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { WorkshopDashboard } from './workshop/WorkshopDashboard';
-import { WorkshopSurvey } from './workshop/WorkshopSurvey';
+import { MinistryKPI } from './components/MinistryKPI';
+import { ResourceHub } from './components/ResourceHub';
 import { Regulations } from './components/Regulations';
 import { Doctrine } from './components/Doctrine';
 import { Intro } from './components/Intro';
@@ -16,7 +17,7 @@ import { AdminDashboard } from './components/AdminDashboard';
 import { Mentoring } from './components/Mentoring';
 import { LoadingScreen } from './components/LoadingScreen';
 
-type Tab = 'home'|'workshop-plan'|'workshop-survey'|'regulations'|'doctrine'|'intro'|'methodology'|'admin'|'mentoring';
+type Tab = 'home'|'workshop-plan'|'workshop-survey'|'regulations'|'doctrine'|'intro'|'methodology'|'admin'|'mentoring'|'kpi'|'resources';
 
 const announcements = [
   { date: '2026.04.28', title: '제3차 전국 사무장 워크숍 안내', tag: '공지', color: 'bg-rose-50 text-rose-600' },
@@ -55,7 +56,9 @@ export function GajeongApp() {
 
   const navItems = [
     { id: 'home', label: '홈', icon: <Home size={20}/> },
-    { id: 'workshop-plan', label: '워크숍', icon: <ClipboardList size={20}/> },
+    { id: 'kpi', label: '성과관리', icon: <TrendingUp size={20}/> },
+    { id: 'resources', label: '목회자료', icon: <ClipboardList size={20}/> },
+    { id: 'workshop-plan', label: '워크숍', icon: <Target size={20}/> },
     { id: 'regulations', label: '행정규정', icon: <ShieldCheck size={20}/> },
     { id: 'doctrine', label: '교리퀘스트', icon: <BookOpen size={20}/> },
     { id: 'mentoring', label: '멘토링', icon: <Users size={20}/> },
@@ -150,10 +153,36 @@ export function GajeongApp() {
           
           {/* Feature Cards */}
           <div className="grid md:grid-cols-2 gap-8">
+            <div onClick={()=>setActiveTab('kpi')} className="glass-card cursor-pointer group flex flex-col justify-between h-[380px] hover:bg-emerald-900 hover:text-white transition-all duration-700">
+              <div className="space-y-6">
+                <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-[2rem] flex items-center justify-center group-hover:bg-white/10 group-hover:text-white transition-all">
+                  <TrendingUp size={32}/>
+                </div>
+                <h3 className="text-3xl font-black tracking-tight">사역 성과 관리 (KPI)</h3>
+                <p className="text-slate-500 text-lg font-medium group-hover:text-white/60">주간/월간 달성 지표, 심방 현황, 재정 지수 등<br/>객관적 데이터로 사역을 진단합니다.</p>
+              </div>
+              <div className="text-emerald-600 font-black flex items-center gap-3 text-lg group-hover:text-white group-hover:gap-6 transition-all">
+                대시보드 보기 <ArrowRight size={24}/>
+              </div>
+            </div>
+            
+            <div onClick={()=>setActiveTab('resources')} className="glass-card cursor-pointer group flex flex-col justify-between h-[380px] hover:bg-rose-900 hover:text-white transition-all duration-700">
+              <div className="space-y-6">
+                <div className="w-16 h-16 bg-rose-50 text-rose-600 rounded-[2rem] flex items-center justify-center group-hover:bg-white/10 group-hover:text-white transition-all">
+                  <ClipboardList size={32}/>
+                </div>
+                <h3 className="text-3xl font-black tracking-tight">통합 목회 자료실</h3>
+                <p className="text-slate-500 text-lg font-medium group-hover:text-white/60">공식 기획안, 교육 PPT, 행정 서식 등<br/>사역에 필요한 모든 리소스를 제공합니다.</p>
+              </div>
+              <div className="text-rose-600 font-black flex items-center gap-3 text-lg group-hover:text-white group-hover:gap-6 transition-all">
+                자료 검색 <ArrowRight size={24}/>
+              </div>
+            </div>
+
             <div onClick={()=>setActiveTab('workshop-plan')} className="glass-card cursor-pointer group flex flex-col justify-between h-[380px] hover:bg-brand-900 hover:text-white transition-all duration-700">
               <div className="space-y-6">
                 <div className="w-16 h-16 bg-amber-50 text-ffwpu-gold rounded-[2rem] flex items-center justify-center group-hover:bg-white/10 group-hover:text-white transition-all">
-                  <ClipboardList size={32}/>
+                  <Target size={32}/>
                 </div>
                 <h3 className="text-3xl font-black tracking-tight">워크숍 마스터</h3>
                 <p className="text-slate-500 text-lg font-medium group-hover:text-white/60">혁신 행정, 세대 공감, 심정 치유 등<br/>3가지 시나리오 기반 워크숍을 기획합니다.</p>
@@ -273,6 +302,8 @@ export function GajeongApp() {
           </div>
         </motion.section>
       );
+      case 'kpi': return <MinistryKPI/>;
+      case 'resources': return <ResourceHub/>;
       case 'workshop-plan': return <WorkshopDashboard/>;
       case 'workshop-survey': return <WorkshopSurvey/>;
       case 'regulations': return <Regulations/>;
@@ -373,9 +404,11 @@ export function GajeongApp() {
               <div className="space-y-4">
                 <h5 className="font-black text-xs text-slate-300 uppercase tracking-widest">Platform</h5>
                 <ul className="space-y-2 text-sm font-black text-slate-600">
-                  <li className="cursor-pointer hover:text-brand-500 transition-colors" onClick={()=>setActiveTab('workshop-plan')}>워크숍</li>
-                  <li className="cursor-pointer hover:text-brand-500 transition-colors" onClick={()=>setActiveTab('regulations')}>행정 규정</li>
-                  <li className="cursor-pointer hover:text-brand-500 transition-colors" onClick={()=>setActiveTab('doctrine')}>교리 퀘스트</li>
+                <li className="cursor-pointer hover:text-brand-500 transition-colors" onClick={()=>setActiveTab('kpi')}>사역 성과 관리</li>
+                <li className="cursor-pointer hover:text-brand-500 transition-colors" onClick={()=>setActiveTab('resources')}>목회 자료실</li>
+                <li className="cursor-pointer hover:text-brand-500 transition-colors" onClick={()=>setActiveTab('workshop-plan')}>워크숍 기획</li>
+                <li className="cursor-pointer hover:text-brand-500 transition-colors" onClick={()=>setActiveTab('regulations')}>행정 규정</li>
+                <li className="cursor-pointer hover:text-brand-500 transition-colors" onClick={()=>setActiveTab('doctrine')}>교리 퀘스트</li>
                 </ul>
               </div>
               <div className="space-y-4">
