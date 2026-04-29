@@ -94,3 +94,7 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #cbd5e1;
 }
+
+.gradient-bg {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
+}

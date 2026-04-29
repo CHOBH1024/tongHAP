@@ -4,7 +4,6 @@ import {
   Home, 
   LayoutGrid, 
   BookOpen, 
-  Info, 
   ShieldCheck, 
   ChevronRight, 
   Sparkles, 
@@ -17,11 +16,7 @@ import {
   ArrowLeft, 
   Check, 
   Heart,
-  ArrowRight,
-  Star,
-  Search,
-  Bell,
-  Settings
+  ArrowRight
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MirrorApp } from './components/MirrorApp';
@@ -507,7 +502,7 @@ export function GajeongApp() {
         <div className="max-w-6xl mx-auto flex items-center justify-between bg-white/70 backdrop-blur-2xl border border-white/50 rounded-[28px] px-8 py-3 shadow-sacred">
           <div className="flex items-center gap-3 cursor-pointer group" onClick={() => { setActiveTab('home'); setActiveModuleId(null); }}>
             <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sacred group-hover:rotate-12 transition-transform p-1">
-              <img src="/ffwpu_logo.png" alt="Logo" className="w-full h-full object-contain" />
+              <img src={import.meta.env.BASE_URL + 'ffwpu_logo.png'} alt="Logo" className="w-full h-full object-contain" />
             </div>
             <span className="text-xl font-black tracking-tight text-brand-900">GAJEONG</span>
           </div>
@@ -571,7 +566,7 @@ export function GajeongApp() {
           <div className="space-y-8">
             <div className="flex items-center gap-3 text-2xl font-black text-slate-900">
               <div className="w-10 h-10 bg-brand-500 rounded-xl flex items-center justify-center p-1.5 shadow-lg shadow-brand-500/20">
-                <img src="/ffwpu_logo.png" alt="Logo" className="w-full h-full object-contain brightness-0 invert" />
+                <img src={import.meta.env.BASE_URL + 'ffwpu_logo.png'} alt="Logo" className="w-full h-full object-contain brightness-0 invert" />
               </div>
               GAJEONG
             </div>

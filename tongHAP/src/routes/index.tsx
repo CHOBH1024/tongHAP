@@ -7,7 +7,7 @@ export const Route = createFileRoute('/')({
 });
 
 function UnifiedHub() {
-  const logoPath = "/ffwpu_logo_premium_1777422090820.png"; // Placeholder for the actual logo in the assets/public dir
+  const logoPath = import.meta.env.BASE_URL + "ffwpu_logo.png";
 
   return (
     <div className="relative min-h-screen bg-toss-gray-100 selection:bg-ffwpu-gold/20 selection:text-ffwpu-gold">

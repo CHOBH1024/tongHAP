@@ -388,7 +388,7 @@ export const MirrorApp: React.FC<MirrorAppProps> = ({
                     <div className="glass-card !bg-brand-500 !text-white !p-8 shadow-xl shadow-brand-500/20">
                       <div className="flex items-center gap-3 mb-6">
                         <Trophy size={24} className="text-white/60" />
-                        <h4 className="font-black text-xs uppercase tracking-widest">Spritual Style</h4>
+                        <h4 className="font-black text-xs uppercase tracking-widest">Spiritual Style</h4>
                       </div>
                       <h3 className="text-2xl font-black mb-4 leading-tight">{styleLogic(results.dilAvg).header}</h3>
                       <p className="text-sm text-white/70 font-bold leading-relaxed">{styleLogic(results.dilAvg).body}</p>
