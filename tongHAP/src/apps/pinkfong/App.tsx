@@ -1,54 +1,16 @@
-import { Link } from '@tanstack/react-router';
-import { ArrowLeft, Smile, Pencil, Gamepad2, Users, Construction } from 'lucide-react';
+import { Music, Paintbrush, Gamepad2, Baby } from 'lucide-react';
+import { CharacterStubPage } from '../../components/CharacterStubPage';
 
 export function PinkfongApp() {
-  const features = [
-    { icon: <Smile size={20} />, title: '어린이 교육', desc: '재미있는 교육 콘텐츠' },
-    { icon: <Pencil size={20} />, title: '콘텐츠 제작', desc: '교육 자료 직접 만들기' },
-    { icon: <Gamepad2 size={20} />, title: '게임화 학습', desc: '게임 기반 교육 활동' },
-    { icon: <Users size={20} />, title: '부모 연동', desc: '부모-자녀 학습 연결' },
-  ];
-
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #fdf2f8 0%, #ffffff 50%, #fdf2f8 100%)' }}>
-      <header className="sticky top-0 z-10 px-6 py-4 bg-white/90 backdrop-blur-sm border-b border-pink-100 flex items-center gap-4">
-        <Link to="/" className="flex items-center gap-2 font-bold hover:opacity-70 transition-opacity" style={{ color: '#db2777' }}>
-          <ArrowLeft size={18} />
-          <span>홈으로</span>
-        </Link>
-        <div className="h-5 w-px bg-pink-200" />
-        <span className="font-black text-pink-900 text-sm">🦊 핑크퐁 구역</span>
-        <span className="ml-auto px-3 py-1 text-xs font-black rounded-full" style={{ background: '#fce7f3', color: '#db2777' }}>개발 중</span>
-      </header>
-
-      <main className="max-w-xl mx-auto px-6 py-16 space-y-12">
-        <div className="text-center space-y-5">
-          <div className="text-8xl leading-none">🦊</div>
-          <div>
-            <h1 className="text-5xl font-black text-slate-900 tracking-tight">핑크퐁</h1>
-            <p className="font-bold text-lg mt-1" style={{ color: '#db2777' }}>어린이 & 교육</p>
-            <p className="text-slate-500 font-medium mt-3 leading-relaxed">밝고 재미있는 어린이 사역과<br />교육을 담당하는 구역입니다.</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {features.map((f, i) => (
-            <div key={i} className="bg-white rounded-2xl p-5 border border-pink-100 flex items-start gap-4 opacity-60">
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: '#fce7f3', color: '#db2777' }}>{f.icon}</div>
-              <div>
-                <div className="font-bold text-slate-800 text-sm">{f.title}</div>
-                <div className="text-slate-400 text-xs mt-0.5">{f.desc}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="text-center">
-          <div className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl font-bold text-sm" style={{ background: '#fce7f3', color: '#831843' }}>
-            <Construction size={16} /> 이 구역은 현재 개발 중입니다
-          </div>
-        </div>
-      </main>
-    </div>
+    <CharacterStubPage
+      characterId="pinkfong"
+      features={[
+        { icon: <Music size={18} />, title: '어린이 교육', desc: '찬양·율동 교육 자료' },
+        { icon: <Paintbrush size={18} />, title: '콘텐츠 제작', desc: '어린이 주일학교 자료 제작' },
+        { icon: <Gamepad2 size={18} />, title: '게임화 학습', desc: '포인트 & 배지 학습 시스템' },
+        { icon: <Baby size={18} />, title: '부모 연동', desc: '가정 학습 연계 & 공지' },
+      ]}
+    />
   );
 }

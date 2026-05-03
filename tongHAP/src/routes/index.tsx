@@ -78,15 +78,31 @@ function UnifiedHub() {
               >
                 <Link
                   to={char.route as any}
-                  className="group relative bg-white rounded-3xl p-6 border border-slate-100 hover:border-slate-200 hover:shadow-xl hover:-translate-y-1 active:scale-[0.98] transition-all duration-300 flex flex-col items-center text-center gap-3 block"
+                  className="group relative overflow-hidden bg-white rounded-3xl p-5 border hover:shadow-xl hover:-translate-y-1.5 active:scale-[0.97] transition-all duration-300 flex flex-col items-center text-center gap-2.5 block"
+                  style={{ borderColor: `${char.spinnerColor}22` }}
                 >
+                  {/* Colored gradient fill on hover */}
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl"
+                    style={{ background: `linear-gradient(145deg, ${char.spinnerColor}12 0%, transparent 60%)` }}
+                  />
+                  {/* Top color accent bar */}
+                  <div className="absolute top-0 left-4 right-4 h-0.5 rounded-b-full opacity-60" style={{ background: char.spinnerColor }} />
+
                   {char.status === 'coming-soon' && (
-                    <span className="absolute top-3 right-3 px-2 py-0.5 bg-slate-100 text-slate-400 text-[9px] font-black rounded-lg tracking-wide">준비 중</span>
+                    <span
+                      className="absolute top-3 right-3 px-2 py-0.5 text-[9px] font-black rounded-lg tracking-wide z-10"
+                      style={{ background: `${char.spinnerColor}18`, color: char.spinnerColor }}
+                    >준비 중</span>
                   )}
-                  <div className="text-4xl group-hover:scale-110 transition-transform duration-300">{char.emoji}</div>
-                  <div>
+
+                  <div className="relative z-10 text-4xl group-hover:scale-115 transition-transform duration-300 mt-1">{char.emoji}</div>
+                  <div className="relative z-10">
                     <div className="font-black text-slate-900 text-sm">{char.nameKo}</div>
-                    <div className={`text-[11px] font-bold mt-0.5 ${char.accentClass}`}>{char.role}</div>
+                    <div className="text-[11px] font-bold mt-0.5" style={{ color: char.spinnerColor }}>{char.role}</div>
+                    <div className="text-[10px] text-slate-400 mt-1.5 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-200 max-h-0 group-hover:max-h-10 overflow-hidden">
+                      {char.description}
+                    </div>
                   </div>
                 </Link>
               </motion.div>
