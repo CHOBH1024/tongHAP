@@ -27,7 +27,7 @@ export const CHARACTERS: Character[] = [
     bgClass: 'bg-amber-50',
     borderClass: 'border-amber-200',
     spinnerColor: '#d97706',
-    status: 'coming-soon',
+    status: 'active',
     plannedFeatures: ['리더십 대시보드', '팀 관리', '일정 조율', '행정 보고서'],
   },
   {
@@ -42,7 +42,7 @@ export const CHARACTERS: Character[] = [
     bgClass: 'bg-blue-50',
     borderClass: 'border-blue-200',
     spinnerColor: '#2563eb',
-    status: 'coming-soon',
+    status: 'active',
     plannedFeatures: ['교리 학습', 'Q&A 게시판', '문서 도서관', '퀴즈 시스템'],
   },
   {
