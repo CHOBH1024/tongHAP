@@ -57,7 +57,7 @@ export const CHARACTERS: Character[] = [
     bgClass: 'bg-cyan-50',
     borderClass: 'border-cyan-200',
     spinnerColor: '#0891b2',
-    status: 'coming-soon',
+    status: 'active',
     plannedFeatures: ['도구 모음', '자원 연결', '스마트 검색', 'AI 어시스턴트'],
   },
   {
