@@ -1,12 +1,12 @@
 import { Link } from '@tanstack/react-router';
-import { ArrowLeft, MessageCircle, CalendarDays, Laugh, Group, Construction } from 'lucide-react';
+import { ArrowLeft, MessageCircle, CalendarDays, Smile, Users, Construction } from 'lucide-react';
 
 export function JjanguApp() {
   const features = [
     { icon: <MessageCircle size={20} />, title: '커뮤니티 피드', desc: '공동체 소식 및 나눔 공간' },
     { icon: <CalendarDays size={20} />, title: '문화 행사', desc: '교회 행사 기획 및 참여' },
-    { icon: <Laugh size={20} />, title: '유머 코너', desc: '즐거운 공동체 문화 공간' },
-    { icon: <Group size={20} />, title: '소그룹 관리', desc: '소그룹 모임 운영 지원' },
+    { icon: <Smile size={20} />, title: '유머 코너', desc: '즐거운 공동체 문화 공간' },
+    { icon: <Users size={20} />, title: '소그룹 관리', desc: '소그룹 모임 운영 지원' },
   ];
 
   return (
