@@ -1,4 +1,4 @@
-import { BarChart3, TrendingUp, Users, Target, Activity, Calendar, ArrowUpRight, ArrowDownRight, CheckCircle2 } from 'lucide-react';
+import { BarChart3, TrendingUp, Users, Target, Activity, Calendar, ArrowUpRight, ArrowDownRight, CheckCircle2, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export const MinistryKPI = () => {

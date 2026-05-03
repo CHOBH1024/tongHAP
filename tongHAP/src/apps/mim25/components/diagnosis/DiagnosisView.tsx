@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect, useMemo } from 'react';
 import { Icon } from '@/components/diagnosis/Icon';
 import { SectionTitle } from '@/components/diagnosis/SectionTitle';

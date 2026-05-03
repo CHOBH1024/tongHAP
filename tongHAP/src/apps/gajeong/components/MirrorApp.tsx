@@ -175,7 +175,7 @@ export const MirrorApp: React.FC<MirrorAppProps> = ({
                   animate={{ scale: 1 }}
                   className="w-24 h-24 bg-white rounded-[32px] shadow-toss flex items-center justify-center mx-auto mb-8 text-brand-500"
                 >
-                  {React.cloneElement(icon as React.ReactElement, { size: 40 })}
+                  {React.cloneElement(icon as React.ReactElement<{ size?: number }>, { size: 40 })}
                 </motion.div>
                 <span className="text-brand-500 font-black tracking-[0.3em] text-xs uppercase">{subtitle}</span>
                 <h1 className="text-4xl md:text-5xl font-black tracking-tight text-brand-900 leading-tight">{name} 진단</h1>

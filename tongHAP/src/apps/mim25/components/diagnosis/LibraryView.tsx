@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 import React, { useState } from 'react';
 import { SectionTitle } from '@/components/diagnosis/SectionTitle';

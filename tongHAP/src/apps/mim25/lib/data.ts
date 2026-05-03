@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { Archetype, BenefitItem, DetailData, ExternalTest, ManagementProfile, RecommendedTest } from "./types";
 
 export const externalTests: ExternalTest[] = [

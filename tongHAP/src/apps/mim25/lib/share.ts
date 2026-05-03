@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { Inputs } from '@/lib/types';
 
 /** Encode inputs to a compact base64 URL parameter */

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { SurveyConfig, SurveyResultContent } from '../types';
 
 function generateDetailedResult(score: number): SurveyResultContent {

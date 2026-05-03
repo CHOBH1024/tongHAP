@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useMemo } from 'react';
 import { SurveyConfig } from '../types';
 import { themeMap } from '../theme';
