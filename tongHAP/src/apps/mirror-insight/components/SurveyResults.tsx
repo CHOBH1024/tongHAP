@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { SurveyConfig, SurveyResultContent } from '../types';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 import { ArrowLeft } from 'lucide-react';

@@ -20,7 +20,8 @@ import {
   BarChart3,
   Calendar,
   Star,
-  ArrowUpRight
+  ArrowUpRight,
+  Zap
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { WorkshopDashboard } from './workshop/WorkshopDashboard';

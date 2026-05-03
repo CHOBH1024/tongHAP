@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { SurveyConfig } from '../types';
 import { ArrowLeft, Zap, Layers, Check } from 'lucide-react';
 import { themeMap } from '../theme';

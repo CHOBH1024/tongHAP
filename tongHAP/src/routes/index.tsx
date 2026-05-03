@@ -1,22 +1,21 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
-import { LayoutGrid, Users, Sparkles, ChevronRight, ArrowRight, ShieldCheck, BarChart3 } from 'lucide-react';
+import { LayoutGrid, Users, Sparkles, ChevronRight, ArrowRight, ShieldCheck, BarChart3, Target } from 'lucide-react';
+import { CHARACTERS } from '../characters';
 
-export const Route = createFileRoute('/')({
-  component: UnifiedHub,
-});
+export const Route = createFileRoute('/')({ component: UnifiedHub });
 
 function UnifiedHub() {
-  const logoPath = import.meta.env.BASE_URL + "ffwpu_logo.png";
+  const logoPath = import.meta.env.BASE_URL + 'ffwpu_logo.png';
 
   return (
     <div className="relative min-h-screen bg-[#f8fafc] overflow-hidden selection:bg-brand-500/10 selection:text-brand-500">
-      {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-brand-50/50 to-transparent -z-10" />
       <div className="absolute -top-24 -right-24 w-96 h-96 bg-ffwpu-gold/5 rounded-full blur-[100px] -z-10 animate-pulse" />
       <div className="absolute top-1/2 -left-24 w-80 h-80 bg-brand-500/5 rounded-full blur-[80px] -z-10" />
 
       <div className="max-w-5xl mx-auto px-6 py-12 md:py-24">
+        {/* Header */}
         <header className="mb-16 space-y-8 text-center md:text-left">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -24,14 +23,14 @@ function UnifiedHub() {
             className="flex items-center justify-center md:justify-start gap-3"
           >
             <div className="w-12 h-12 bg-white rounded-2xl p-2 shadow-sacred hover:rotate-12 transition-transform duration-500">
-               <img src={logoPath} alt="FFWPU Logo" className="w-full h-full object-contain" />
+              <img src={logoPath} alt="FFWPU Logo" className="w-full h-full object-contain" />
             </div>
             <div className="flex flex-col items-start">
               <span className="text-ffwpu-gold font-black text-xs tracking-[0.3em] uppercase">Cheon Il Guk</span>
               <span className="text-brand-900 font-bold text-sm tracking-tight">세계평화통일가정연합</span>
             </div>
           </motion.div>
-          
+
           <div className="space-y-4">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -42,24 +41,97 @@ function UnifiedHub() {
               사역의 <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-indigo-600">본질</span>을 잇다,<br />
               지혜를 <span className="italic font-serif text-ffwpu-gold">통합</span>하다
             </motion.h1>
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
               className="text-slate-500 text-lg md:text-xl font-medium max-w-2xl mx-auto md:mx-0 leading-relaxed"
             >
-              현장의 심정과 행정의 효율을 하나로 묶는<br className="hidden md:block"/>
+              현장의 심정과 행정의 효율을 하나로 묶는<br className="hidden md:block" />
               천일국 공직자 전용 통합 사역 지원 플랫폼입니다.
             </motion.p>
           </div>
         </header>
+
+        {/* Characters Section */}
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-20"
+        >
+          <div className="flex items-center justify-between mb-8 px-1">
+            <div>
+              <h2 className="text-2xl font-black text-brand-950 tracking-tight">가족 캐릭터 구역</h2>
+              <p className="text-slate-400 font-bold text-xs uppercase tracking-widest mt-1">Family Character Zones</p>
+            </div>
+            <span className="px-3 py-1.5 bg-slate-100 text-slate-500 text-xs font-black rounded-xl tracking-wide">8 ZONES</span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {CHARACTERS.map((char, i) => (
+              <motion.div
+                key={char.id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1 + i * 0.05 }}
+              >
+                <Link
+                  to={char.route as any}
+                  className="group relative overflow-hidden bg-white rounded-3xl p-5 border hover:shadow-xl hover:-translate-y-1.5 active:scale-[0.97] transition-all duration-300 flex flex-col items-center text-center gap-2.5 block"
+                  style={{
+                    borderColor: char.status === 'active' ? `${char.spinnerColor}55` : `${char.spinnerColor}22`,
+                    background: char.status === 'active' ? `linear-gradient(160deg, ${char.spinnerColor}08 0%, #fff 80%)` : '#fff',
+                  }}
+                >
+                  {/* Hover gradient */}
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl"
+                    style={{ background: `linear-gradient(145deg, ${char.spinnerColor}18 0%, transparent 65%)` }}
+                  />
+                  {/* Top accent bar */}
+                  <div
+                    className="absolute top-0 left-4 right-4 h-0.5 rounded-b-full"
+                    style={{ background: char.spinnerColor, opacity: char.status === 'active' ? 0.8 : 0.3 }}
+                  />
+
+                  {char.status === 'active' ? (
+                    <span className="absolute top-2.5 right-2.5 flex items-center gap-1 px-2 py-0.5 text-[9px] font-black rounded-lg z-10" style={{ background: `${char.spinnerColor}18`, color: char.spinnerColor }}>
+                      <span className="w-1.5 h-1.5 rounded-full animate-pulse inline-block" style={{ background: char.spinnerColor }} />
+                      LIVE
+                    </span>
+                  ) : (
+                    <span className="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-black rounded-lg tracking-wide z-10 bg-slate-100 text-slate-400">
+                      준비 중
+                    </span>
+                  )}
+
+                  <div className="relative z-10 text-4xl group-hover:scale-110 transition-transform duration-300 mt-1">{char.emoji}</div>
+                  <div className="relative z-10">
+                    <div className="font-black text-slate-900 text-sm">{char.nameKo}</div>
+                    <div className="text-[11px] font-bold mt-0.5" style={{ color: char.spinnerColor }}>{char.role}</div>
+                    <div className="text-[10px] text-slate-400 mt-1.5 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-200 line-clamp-2">
+                      {char.description}
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* Platform Apps Section */}
+        <div className="mb-6 px-1">
+          <h2 className="text-2xl font-black text-brand-950 tracking-tight">사역 플랫폼</h2>
+          <p className="text-slate-400 font-bold text-xs uppercase tracking-widest mt-1">Ministry Platforms</p>
+        </div>
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Main Hero Card - GAJEONG */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2 }}
+            transition={{ delay: 0.4 }}
             className="md:col-span-2"
           >
             <Link
@@ -77,7 +149,7 @@ function UnifiedHub() {
                     <span className="w-1.5 h-1.5 bg-brand-500 rounded-full animate-ping" />
                   </div>
                   <h2 className="text-3xl md:text-5xl font-black text-brand-950 tracking-tight">GAJEONG 사역 허브</h2>
-                  <p className="text-slate-500 text-lg font-medium max-w-md">현장 워크숍 기획부터 행정 규정, 교리 퀘스트까지<br/>사무장 업무의 모든 것을 통합 관리합니다.</p>
+                  <p className="text-slate-500 text-lg font-medium max-w-md">현장 워크숍 기획부터 행정 규정, 교리 퀘스트까지<br />사무장 업무의 모든 것을 통합 관리합니다.</p>
                 </div>
               </div>
               <div className="mt-10 md:mt-0 flex items-center gap-4 bg-brand-50 text-brand-600 px-8 py-4 rounded-2xl font-black group-hover:bg-brand-500 group-hover:text-white transition-all shadow-sm group-hover:shadow-brand-500/30">
@@ -86,11 +158,11 @@ function UnifiedHub() {
             </Link>
           </motion.div>
 
-          {/* Secondary Card - MIM25 */}
+          {/* MIM25 */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
+            transition={{ delay: 0.5 }}
           >
             <Link
               to="/mim25"
@@ -102,7 +174,7 @@ function UnifiedHub() {
                 </div>
                 <div className="space-y-3">
                   <h3 className="text-2xl font-black text-brand-950 tracking-tight">목회공직자 유형진단</h3>
-                  <p className="text-slate-500 font-medium">에니어그램과 5대 지표를 활용한<br/>섭리적 아키타입 다면 분석 시스템</p>
+                  <p className="text-slate-500 font-medium">에니어그램과 5대 지표를 활용한<br />섭리적 아키타입 다면 분석 시스템</p>
                 </div>
               </div>
               <div className="mt-10 flex items-center justify-between text-indigo-600 font-black">
@@ -112,11 +184,11 @@ function UnifiedHub() {
             </Link>
           </motion.div>
 
-          {/* Secondary Card - Mirror Insight */}
+          {/* Mirror Insight */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.6 }}
           >
             <Link
               to="/mirror-insight"
@@ -128,7 +200,7 @@ function UnifiedHub() {
                 </div>
                 <div className="space-y-3">
                   <h3 className="text-2xl font-black text-brand-950 tracking-tight">Mirror Insight</h3>
-                  <p className="text-slate-500 font-medium">9가지 전문 진단도구 기반의<br/>심층적 자아 성찰 및 역량 관리 플랫폼</p>
+                  <p className="text-slate-500 font-medium">9가지 전문 진단도구 기반의<br />심층적 자아 성찰 및 역량 관리 플랫폼</p>
                 </div>
               </div>
               <div className="mt-10 flex items-center justify-between text-ffwpu-gold font-black">
@@ -139,7 +211,7 @@ function UnifiedHub() {
           </motion.div>
         </div>
 
-        {/* Status Dashboard Section */}
+        {/* Stats */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -152,17 +224,17 @@ function UnifiedHub() {
               <p className="text-slate-400 font-bold text-sm uppercase tracking-widest mt-1">Real-time Platform Statistics</p>
             </div>
             <div className="flex items-center gap-2 bg-white px-6 py-3 rounded-2xl shadow-sm border border-slate-100">
-               <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-               <span className="text-xs font-black text-slate-600">서버 상태 정상</span>
+              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+              <span className="text-xs font-black text-slate-600">서버 상태 정상</span>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { label: '누적 진단', value: '12,402', icon: <Sparkles size={20}/>, color: 'text-brand-600' },
-              { label: '활성 사무장', value: '842', icon: <Users size={20}/>, color: 'text-indigo-600' },
-              { label: '교육 자료', value: '1,250', icon: <BarChart3 size={20}/>, color: 'text-amber-600' },
-              { label: '매칭 성공률', value: '98.2%', icon: <Target size={20}/>, color: 'text-rose-600' },
+              { label: '누적 진단', value: '12,402', icon: <Sparkles size={20} />, color: 'text-brand-600' },
+              { label: '활성 사무장', value: '842', icon: <Users size={20} />, color: 'text-indigo-600' },
+              { label: '교육 자료', value: '1,250', icon: <BarChart3 size={20} />, color: 'text-amber-600' },
+              { label: '매칭 성공률', value: '98.2%', icon: <Target size={20} />, color: 'text-rose-600' },
             ].map((stat, i) => (
               <div key={i} className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all group">
                 <div className={`w-10 h-10 rounded-xl bg-slate-50 ${stat.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
@@ -177,8 +249,8 @@ function UnifiedHub() {
 
         <footer className="mt-16 text-center text-toss-gray-400 font-bold py-10 space-y-6">
           <div className="flex justify-center items-center gap-2 opacity-50">
-             <img src={logoPath} alt="FFWPU Logo" className="w-6 h-6 grayscale" />
-             <span className="text-[10px] tracking-[0.3em] font-black uppercase">Family Federation for World Peace and Unification</span>
+            <img src={logoPath} alt="FFWPU Logo" className="w-6 h-6 grayscale" />
+            <span className="text-[10px] tracking-[0.3em] font-black uppercase">Family Federation for World Peace and Unification</span>
           </div>
           <p className="text-xs">© 2026 세계평화통일가정연합 통합 시스템.</p>
         </footer>

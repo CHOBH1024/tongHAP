@@ -34,11 +34,6 @@ jobs:
 
       - name: Prepare Deployment Folder
         run: |
-          # The React app is built in tongHAP/dist
-          # We want the static files from the root to be available too
-          # We'll copy everything from the root (excluding subdirectories) to the dist folder
-          # if they don't already exist there.
-          cp *.html tongHAP/dist/ || true
           cp questions_db.json tongHAP/dist/ || true
           cp -r GeneralAffairs_Master tongHAP/dist/ || true
           cp -r organized_result tongHAP/dist/ || true
