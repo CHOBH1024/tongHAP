@@ -18,14 +18,19 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
-          cache-dependency-path: 'tongHAP/package.json'
+          cache-dependency-path: 'tongHAP/package-lock.json'
 
       - name: Install dependencies
         run: |
           cd tongHAP
-          npm install --legacy-peer-deps
+          npm ci
+
+      - name: Type check
+        run: |
+          cd tongHAP
+          npx tsc -p tsconfig.app.json --noEmit
 
       - name: Build
         run: |

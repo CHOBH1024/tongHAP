@@ -87,7 +87,7 @@ export const CHARACTERS: Character[] = [
     bgClass: 'bg-green-50',
     borderClass: 'border-green-200',
     spinnerColor: '#16a34a',
-    status: 'coming-soon',
+    status: 'active',
     plannedFeatures: ['훈련 프로그램', '성장 기록', '멘토링 매칭', '역량 테스트'],
   },
   {
@@ -102,7 +102,7 @@ export const CHARACTERS: Character[] = [
     bgClass: 'bg-pink-50',
     borderClass: 'border-pink-200',
     spinnerColor: '#db2777',
-    status: 'coming-soon',
+    status: 'active',
     plannedFeatures: ['어린이 교육', '콘텐츠 제작', '게임화 학습', '부모 연동'],
   },
   {
@@ -117,7 +117,7 @@ export const CHARACTERS: Character[] = [
     bgClass: 'bg-indigo-50',
     borderClass: 'border-indigo-200',
     spinnerColor: '#4f46e5',
-    status: 'coming-soon',
+    status: 'active',
     plannedFeatures: ['청소년 모임', '새신자 온보딩', '커리큘럼', '활동 기록'],
   },
   {
@@ -132,7 +132,7 @@ export const CHARACTERS: Character[] = [
     bgClass: 'bg-orange-50',
     borderClass: 'border-orange-200',
     spinnerColor: '#ea580c',
-    status: 'coming-soon',
+    status: 'active',
     plannedFeatures: ['커뮤니티 피드', '문화 행사', '유머 코너', '소그룹 관리'],
   },
 ];
