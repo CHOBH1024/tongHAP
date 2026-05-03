@@ -1,0 +1,138 @@
+export interface Character {
+  id: string;
+  nameKo: string;
+  nameEn: string;
+  emoji: string;
+  role: string;
+  description: string;
+  route: string;
+  accentClass: string;
+  bgClass: string;
+  borderClass: string;
+  spinnerColor: string;
+  status: 'active' | 'coming-soon';
+  plannedFeatures: string[];
+}
+
+export const CHARACTERS: Character[] = [
+  {
+    id: 'wooseong',
+    nameKo: '우성',
+    nameEn: 'Wooseong',
+    emoji: '🦁',
+    role: '리더십 & 행정',
+    description: '팀을 이끌고 조직을 세우는 리더십 구역',
+    route: '/wooseong',
+    accentClass: 'text-amber-600',
+    bgClass: 'bg-amber-50',
+    borderClass: 'border-amber-200',
+    spinnerColor: '#d97706',
+    status: 'coming-soon',
+    plannedFeatures: ['리더십 대시보드', '팀 관리', '일정 조율', '행정 보고서'],
+  },
+  {
+    id: 'jiseong',
+    nameKo: '지성',
+    nameEn: 'Jiseong',
+    emoji: '📚',
+    role: '교리 & 지식',
+    description: '말씀을 깊이 탐구하고 지식을 나누는 구역',
+    route: '/jiseong',
+    accentClass: 'text-blue-600',
+    bgClass: 'bg-blue-50',
+    borderClass: 'border-blue-200',
+    spinnerColor: '#2563eb',
+    status: 'coming-soon',
+    plannedFeatures: ['교리 학습', 'Q&A 게시판', '문서 도서관', '퀴즈 시스템'],
+  },
+  {
+    id: 'doraemon',
+    nameKo: '도라에몽',
+    nameEn: 'Doraemon',
+    emoji: '🤖',
+    role: '도구 & 자원',
+    description: '필요한 도구와 자원을 언제나 꺼내주는 창의적 구역',
+    route: '/doraemon',
+    accentClass: 'text-cyan-600',
+    bgClass: 'bg-cyan-50',
+    borderClass: 'border-cyan-200',
+    spinnerColor: '#0891b2',
+    status: 'coming-soon',
+    plannedFeatures: ['도구 모음', '자원 연결', '스마트 검색', 'AI 어시스턴트'],
+  },
+  {
+    id: 'kimchi-warrior',
+    nameKo: '김치워리어',
+    nameEn: 'Kimchi Warrior',
+    emoji: '🥋',
+    role: '전도 & 사명',
+    description: '담대하게 복음을 전하는 전도 전사 구역',
+    route: '/kimchi-warrior',
+    accentClass: 'text-red-600',
+    bgClass: 'bg-red-50',
+    borderClass: 'border-red-200',
+    spinnerColor: '#dc2626',
+    status: 'coming-soon',
+    plannedFeatures: ['전도 계획', '사명 트래커', '전략 지도', '팀 전도 기록'],
+  },
+  {
+    id: 'rex',
+    nameKo: '렉스',
+    nameEn: 'Rex',
+    emoji: '🦖',
+    role: '훈련 & 성장',
+    description: '강인한 훈련과 영적 성장을 이끄는 구역',
+    route: '/rex',
+    accentClass: 'text-green-600',
+    bgClass: 'bg-green-50',
+    borderClass: 'border-green-200',
+    spinnerColor: '#16a34a',
+    status: 'coming-soon',
+    plannedFeatures: ['훈련 프로그램', '성장 기록', '멘토링 매칭', '역량 테스트'],
+  },
+  {
+    id: 'pinkfong',
+    nameKo: '핑크퐁',
+    nameEn: 'Pinkfong',
+    emoji: '🦊',
+    role: '어린이 & 교육',
+    description: '밝고 재미있는 어린이 사역과 교육을 담당하는 구역',
+    route: '/pinkfong',
+    accentClass: 'text-pink-600',
+    bgClass: 'bg-pink-50',
+    borderClass: 'border-pink-200',
+    spinnerColor: '#db2777',
+    status: 'coming-soon',
+    plannedFeatures: ['어린이 교육', '콘텐츠 제작', '게임화 학습', '부모 연동'],
+  },
+  {
+    id: 'baby-shark',
+    nameKo: '아기상어',
+    nameEn: 'Baby Shark',
+    emoji: '🦈',
+    role: '청소년 & 새신자',
+    description: '청소년과 새신자를 위한 활기찬 사역 구역',
+    route: '/baby-shark',
+    accentClass: 'text-indigo-600',
+    bgClass: 'bg-indigo-50',
+    borderClass: 'border-indigo-200',
+    spinnerColor: '#4f46e5',
+    status: 'coming-soon',
+    plannedFeatures: ['청소년 모임', '새신자 온보딩', '커리큘럼', '활동 기록'],
+  },
+  {
+    id: 'jjangu',
+    nameKo: '짱구',
+    nameEn: 'Jjangu',
+    emoji: '😄',
+    role: '커뮤니티 & 문화',
+    description: '유머와 따뜻함으로 공동체를 하나로 묶는 구역',
+    route: '/jjangu',
+    accentClass: 'text-orange-600',
+    bgClass: 'bg-orange-50',
+    borderClass: 'border-orange-200',
+    spinnerColor: '#ea580c',
+    status: 'coming-soon',
+    plannedFeatures: ['커뮤니티 피드', '문화 행사', '유머 코너', '소그룹 관리'],
+  },
+];

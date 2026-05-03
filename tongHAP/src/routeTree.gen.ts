@@ -12,6 +12,14 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as MirrorInsightRouteImport } from './routes/mirror-insight'
 import { Route as Mim25RouteImport } from './routes/mim25'
 import { Route as GajeongRouteImport } from './routes/gajeong'
+import { Route as WooseongRouteImport } from './routes/wooseong'
+import { Route as JiseongRouteImport } from './routes/jiseong'
+import { Route as DoraemonRouteImport } from './routes/doraemon'
+import { Route as KimchiWarriorRouteImport } from './routes/kimchi-warrior'
+import { Route as RexRouteImport } from './routes/rex'
+import { Route as PinkfongRouteImport } from './routes/pinkfong'
+import { Route as BabySharkRouteImport } from './routes/baby-shark'
+import { Route as JjanguRouteImport } from './routes/jjangu'
 import { Route as IndexRouteImport } from './routes/index'
 
 const MirrorInsightRoute = MirrorInsightRouteImport.update({
@@ -29,6 +37,46 @@ const GajeongRoute = GajeongRouteImport.update({
   path: '/gajeong',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WooseongRoute = WooseongRouteImport.update({
+  id: '/wooseong',
+  path: '/wooseong',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JiseongRoute = JiseongRouteImport.update({
+  id: '/jiseong',
+  path: '/jiseong',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoraemonRoute = DoraemonRouteImport.update({
+  id: '/doraemon',
+  path: '/doraemon',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KimchiWarriorRoute = KimchiWarriorRouteImport.update({
+  id: '/kimchi-warrior',
+  path: '/kimchi-warrior',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RexRoute = RexRouteImport.update({
+  id: '/rex',
+  path: '/rex',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PinkfongRoute = PinkfongRouteImport.update({
+  id: '/pinkfong',
+  path: '/pinkfong',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BabySharkRoute = BabySharkRouteImport.update({
+  id: '/baby-shark',
+  path: '/baby-shark',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JjanguRoute = JjanguRouteImport.update({
+  id: '/jjangu',
+  path: '/jjangu',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -40,12 +88,28 @@ export interface FileRoutesByFullPath {
   '/gajeong': typeof GajeongRoute
   '/mim25': typeof Mim25Route
   '/mirror-insight': typeof MirrorInsightRoute
+  '/wooseong': typeof WooseongRoute
+  '/jiseong': typeof JiseongRoute
+  '/doraemon': typeof DoraemonRoute
+  '/kimchi-warrior': typeof KimchiWarriorRoute
+  '/rex': typeof RexRoute
+  '/pinkfong': typeof PinkfongRoute
+  '/baby-shark': typeof BabySharkRoute
+  '/jjangu': typeof JjanguRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/gajeong': typeof GajeongRoute
   '/mim25': typeof Mim25Route
   '/mirror-insight': typeof MirrorInsightRoute
+  '/wooseong': typeof WooseongRoute
+  '/jiseong': typeof JiseongRoute
+  '/doraemon': typeof DoraemonRoute
+  '/kimchi-warrior': typeof KimchiWarriorRoute
+  '/rex': typeof RexRoute
+  '/pinkfong': typeof PinkfongRoute
+  '/baby-shark': typeof BabySharkRoute
+  '/jjangu': typeof JjanguRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +117,58 @@ export interface FileRoutesById {
   '/gajeong': typeof GajeongRoute
   '/mim25': typeof Mim25Route
   '/mirror-insight': typeof MirrorInsightRoute
+  '/wooseong': typeof WooseongRoute
+  '/jiseong': typeof JiseongRoute
+  '/doraemon': typeof DoraemonRoute
+  '/kimchi-warrior': typeof KimchiWarriorRoute
+  '/rex': typeof RexRoute
+  '/pinkfong': typeof PinkfongRoute
+  '/baby-shark': typeof BabySharkRoute
+  '/jjangu': typeof JjanguRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/gajeong' | '/mim25' | '/mirror-insight'
+  fullPaths:
+    | '/'
+    | '/gajeong'
+    | '/mim25'
+    | '/mirror-insight'
+    | '/wooseong'
+    | '/jiseong'
+    | '/doraemon'
+    | '/kimchi-warrior'
+    | '/rex'
+    | '/pinkfong'
+    | '/baby-shark'
+    | '/jjangu'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/gajeong' | '/mim25' | '/mirror-insight'
-  id: '__root__' | '/' | '/gajeong' | '/mim25' | '/mirror-insight'
+  to:
+    | '/'
+    | '/gajeong'
+    | '/mim25'
+    | '/mirror-insight'
+    | '/wooseong'
+    | '/jiseong'
+    | '/doraemon'
+    | '/kimchi-warrior'
+    | '/rex'
+    | '/pinkfong'
+    | '/baby-shark'
+    | '/jjangu'
+  id:
+    | '__root__'
+    | '/'
+    | '/gajeong'
+    | '/mim25'
+    | '/mirror-insight'
+    | '/wooseong'
+    | '/jiseong'
+    | '/doraemon'
+    | '/kimchi-warrior'
+    | '/rex'
+    | '/pinkfong'
+    | '/baby-shark'
+    | '/jjangu'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +176,14 @@ export interface RootRouteChildren {
   GajeongRoute: typeof GajeongRoute
   Mim25Route: typeof Mim25Route
   MirrorInsightRoute: typeof MirrorInsightRoute
+  WooseongRoute: typeof WooseongRoute
+  JiseongRoute: typeof JiseongRoute
+  DoraemonRoute: typeof DoraemonRoute
+  KimchiWarriorRoute: typeof KimchiWarriorRoute
+  RexRoute: typeof RexRoute
+  PinkfongRoute: typeof PinkfongRoute
+  BabySharkRoute: typeof BabySharkRoute
+  JjanguRoute: typeof JjanguRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -92,6 +209,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GajeongRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/wooseong': {
+      id: '/wooseong'
+      path: '/wooseong'
+      fullPath: '/wooseong'
+      preLoaderRoute: typeof WooseongRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jiseong': {
+      id: '/jiseong'
+      path: '/jiseong'
+      fullPath: '/jiseong'
+      preLoaderRoute: typeof JiseongRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/doraemon': {
+      id: '/doraemon'
+      path: '/doraemon'
+      fullPath: '/doraemon'
+      preLoaderRoute: typeof DoraemonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kimchi-warrior': {
+      id: '/kimchi-warrior'
+      path: '/kimchi-warrior'
+      fullPath: '/kimchi-warrior'
+      preLoaderRoute: typeof KimchiWarriorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rex': {
+      id: '/rex'
+      path: '/rex'
+      fullPath: '/rex'
+      preLoaderRoute: typeof RexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pinkfong': {
+      id: '/pinkfong'
+      path: '/pinkfong'
+      fullPath: '/pinkfong'
+      preLoaderRoute: typeof PinkfongRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/baby-shark': {
+      id: '/baby-shark'
+      path: '/baby-shark'
+      fullPath: '/baby-shark'
+      preLoaderRoute: typeof BabySharkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jjangu': {
+      id: '/jjangu'
+      path: '/jjangu'
+      fullPath: '/jjangu'
+      preLoaderRoute: typeof JjanguRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -107,6 +280,14 @@ const rootRouteChildren: RootRouteChildren = {
   GajeongRoute: GajeongRoute,
   Mim25Route: Mim25Route,
   MirrorInsightRoute: MirrorInsightRoute,
+  WooseongRoute: WooseongRoute,
+  JiseongRoute: JiseongRoute,
+  DoraemonRoute: DoraemonRoute,
+  KimchiWarriorRoute: KimchiWarriorRoute,
+  RexRoute: RexRoute,
+  PinkfongRoute: PinkfongRoute,
+  BabySharkRoute: BabySharkRoute,
+  JjanguRoute: JjanguRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
