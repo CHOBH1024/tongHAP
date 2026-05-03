@@ -127,7 +127,7 @@ export function DoraemonApp() {
                 const isCopied = copied === copyId;
                 return (
                   <motion.div key={ii} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: ii * 0.05 }}
-                    className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:opacity-90 transition-opacity cursor-pointer"
+                    className={`flex items-center justify-between px-3 py-2.5 rounded-xl transition-opacity ${!item.link && !item.copyText ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90 cursor-pointer'}`}
                     style={{ background: ha(0.05) }}
                     onClick={() => {
                       if (item.link) window.open(item.link, '_blank');
@@ -136,7 +136,12 @@ export function DoraemonApp() {
                     <div className="flex items-center gap-3">
                       <span className="text-xl">{item.icon}</span>
                       <div>
-                        <div className="text-sm font-bold text-slate-800">{item.name}</div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-sm font-bold text-slate-800">{item.name}</span>
+                          {!item.link && !item.copyText && (
+                            <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-400">준비 중</span>
+                          )}
+                        </div>
                         <div className="text-[11px] text-slate-400">{item.desc}</div>
                       </div>
                     </div>
