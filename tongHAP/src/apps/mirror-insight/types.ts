@@ -6,6 +6,7 @@ export interface SurveyQuestion {
   right?: string; // Dilemma right
   descL?: string; // Dilemma desc left
   descR?: string; // Dilemma desc right
+  opts?: string[]; // Multi-choice options for V type (3-5 items, score mapped 5→1)
 }
 
 export interface SurveyResultContent {
